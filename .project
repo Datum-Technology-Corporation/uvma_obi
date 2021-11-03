@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>digital_design_proj_tmplt</name>
+	<name>uvma_obi</name>
 	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
+		<buildCommand>
+			<name>org.python.pydev.PyDevBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>net.sf.sveditor.core.SVProjectBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.python.pydev.pythonNature</nature>
+		<nature>net.sf.sveditor.core.SVNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>External SV Files</name>
+			<type>2</type>
+			<locationURI>svext://uvma_obi</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
