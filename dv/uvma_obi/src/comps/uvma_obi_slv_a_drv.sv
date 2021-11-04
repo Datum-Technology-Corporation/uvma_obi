@@ -1,7 +1,7 @@
-// Copyright 2021 OpenHW Group
 // Copyright 2021 Datum Technology Corporation
 // Copyright 2021 Silicon Labs
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2021 OpenHW Group
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Licensed under the Solderpad Hardware License v 2.1 (the "License"); you may not use this file except in compliance
 // with the License, or, at your option, the Apache License version 2.0.  You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, any work distributed under the License is distributed on
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations under the License.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 `ifndef __UVMA_OBI_SLV_A_DRV_SV__
@@ -81,13 +81,13 @@ function void uvma_obi_drv_slv_a_c::build_phase(uvm_phase phase);
    super.build_phase(phase);
    
    void'(uvm_config_db#(uvma_obi_cfg_c)::get(this, "", "cfg", cfg));
-   if (!cfg) begin
+   if (cfg == null) begin
       `uvm_fatal("OBI_SLV_A_DRV", "Configuration handle is null")
    end
    uvm_config_db#(uvma_obi_cfg_c)::set(this, "*", "cfg", cfg);
    
    void'(uvm_config_db#(uvma_obi_cntxt_c)::get(this, "", "cntxt", cntxt));
-   if (!cntxt) begin
+   if (cntxt == null) begin
       `uvm_fatal("OBI_SLV_A_DRV", "Context handle is null")
    end
    uvm_config_db#(uvma_obi_cntxt_c)::set(this, "*", "cntxt", cntxt);
@@ -109,6 +109,8 @@ task uvma_obi_drv_slv_a_c::run_phase(uvm_phase phase);
          drv_req                    (req);
          ap.write                   (req);
          
+         @(mp.drv_slv_cb);
+         req.data_transferred = (cntxt.vif.mon_cb.req === 1'b1) && (req.gnt);
          seq_item_port.item_done();
       end
    end
@@ -125,8 +127,6 @@ endfunction : process_req
 
 
 task uvma_obi_drv_slv_a_c::drv_req(ref uvma_obi_seq_item_c req);
-   
-   @(mp.drv_slv_a_cb);
    
    mp.drv_slv_a_cb.gnt    <= req.gnt   ;
    mp.drv_slv_a_cb.gntpar <= req.gntpar;

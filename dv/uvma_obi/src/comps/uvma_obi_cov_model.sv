@@ -1,7 +1,7 @@
-// Copyright 2021 OpenHW Group
 // Copyright 2021 Datum Technology Corporation
 // Copyright 2021 Silicon Labs
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2021 OpenHW Group
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Licensed under the Solderpad Hardware License v 2.1 (the "License"); you may not use this file except in compliance
 // with the License, or, at your option, the Apache License version 2.0.  You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, any work distributed under the License is distributed on
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations under the License.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 `ifndef __UVMA_OBI_COV_MODEL_SV__
@@ -22,48 +22,38 @@
 class uvma_obi_cov_model_c extends uvm_component;
    
    // Objects
-   uvma_obi_cfg_c       cfg     ; ///< 
-   uvma_obi_cntxt_c     cntxt   ; ///< 
-   uvma_obi_mon_trn_c   mon_trn ; ///< 
-   uvma_obi_seq_item_c  seq_item; ///< 
+   uvma_obi_cfg_c       cfg  ; ///< 
+   uvma_obi_cntxt_c     cntxt; ///< 
+   
+   // Covergroup variables
+   uvma_obi_mon_trn_c          mon_trn        ; ///< 
+   uvma_obi_mstr_a_mon_trn_c   mstr_a_mon_trn ; ///< 
+   uvma_obi_mstr_r_mon_trn_c   mstr_r_mon_trn ; ///< 
+   uvma_obi_slv_a_mon_trn_c    slv_a_mon_trn  ; ///< 
+   uvma_obi_slv_r_mon_trn_c    slv_r_mon_trn  ; ///< 
+   uvma_obi_seq_item_c         seq_item       ; ///< 
+   uvma_obi_mstr_a_seq_item_c  mstr_a_seq_item; ///< 
+   uvma_obi_mstr_r_seq_item_c  mstr_r_seq_item; ///< 
+   uvma_obi_slv_a_seq_item_c   slv_a_seq_item ; ///< 
+   uvma_obi_slv_r_seq_item_c   slv_r_seq_item ; ///< 
    
    // TLM
-   uvm_tlm_analysis_fifo#(uvma_obi_mon_trn_c )  mon_trn_fifo ; ///< 
-   uvm_tlm_analysis_fifo#(uvma_obi_seq_item_c)  seq_item_fifo; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_mon_trn_c        )  mon_trn_fifo        ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_mstr_a_mon_trn_c )  mstr_a_mon_trn_fifo ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_mstr_r_mon_trn_c )  mstr_r_mon_trn_fifo ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_slv_a_mon_trn_c  )  slv_a_mon_trn_fifo  ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_slv_r_mon_trn_c  )  slv_r_mon_trn_fifo  ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_seq_item_c       )  seq_item_fifo       ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_mstr_a_seq_item_c)  mstr_a_seq_item_fifo; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_mstr_r_seq_item_c)  mstr_r_seq_item_fifo; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_slv_a_seq_item_c )  slv_a_seq_item_fifo ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_slv_r_seq_item_c )  slv_r_seq_item_fifo ; ///< 
    
    
    `uvm_component_utils_begin(uvma_obi_cov_model_c)
       `uvm_field_object(cfg  , UVM_DEFAULT)
       `uvm_field_object(cntxt, UVM_DEFAULT)
    `uvm_component_utils_end
-   
-   
-   // TODO Add covergroup(s) to uvma_obi_cov_model_c
-   //      Ex: covergroup obi_cfg_cg;
-   //             abc_cpt : coverpoint cfg.abc;
-   //             xyz_cpt : coverpoint cfg.xyz;
-   //          endgroup : obi_cfg_cg
-   //          
-   //          covergroup obi_cntxt_cg;
-   //             abc_cpt : coverpoint cntxt.abc;
-   //             xyz_cpt : coverpoint cntxt.xyz;
-   //          endgroup : obi_cntxt_cg
-   //          
-   //          covergroup obi_mon_trn_cg;
-   //             address : coverpoint mon_trn.address {
-   //                bins low   = {16'h0000_0000, 16'h4FFF_FFFF};
-   //                bins med   = {16'h5000_0000, 16'h9FFF_FFFF};
-   //                bins high  = {16'hA000_0000, 16'hFFFF_FFFF};
-   //             }
-   //          endgroup : obi_mon_trn_cg
-   //          
-   //          covergroup obi_seq_item_cg;
-   //             address : coverpoint seq_item.address {
-   //                bins low   = {16'h0000_0000, 16'h5FFF_FFFF};
-   //                bins med   = {16'h6000_0000, 16'hAFFF_FFFF};
-   //                bins high  = {16'hB000_0000, 16'hFFFF_FFFF};
-   //             }
-   //          endgroup : obi_seq_item_trn_cg
    
    
    /**
@@ -85,22 +75,62 @@ class uvma_obi_cov_model_c extends uvm_component;
    /**
     * TODO Describe uvma_obi_cov_model_c::sample_cfg()
     */
-   extern function void sample_cfg();
+   extern virtual function void sample_cfg();
    
    /**
     * TODO Describe uvma_obi_cov_model_c::sample_cntxt()
     */
-   extern function void sample_cntxt();
+   extern virtual function void sample_cntxt();
    
    /**
     * TODO Describe uvma_obi_cov_model_c::sample_mon_trn()
     */
-   extern function void sample_mon_trn();
+   extern virtual function void sample_mon_trn();
+   
+   /**
+    * TODO Describe uvma_obi_cov_model_c::sample_mstr_mon_a_trn()
+    */
+   extern virtual function void sample_mstr_a_mon_trn();
+   
+   /**
+    * TODO Describe uvma_obi_cov_model_c::sample_mstr_mon_r_trn()
+    */
+   extern virtual function void sample_mstr_r_mon_trn();
+   
+   /**
+    * TODO Describe uvma_obi_cov_model_c::sample_slv_a_mon_trn()
+    */
+   extern virtual function void sample_slv_a_mon_trn();
+   
+   /**
+    * TODO Describe uvma_obi_cov_model_c::sample_slv_r_mon_trn()
+    */
+   extern virtual function void sample_slv_r_mon_trn();
    
    /**
     * TODO Describe uvma_obi_cov_model_c::sample_seq_item()
     */
-   extern function void sample_seq_item();
+   extern virtual function void sample_seq_item();
+   
+   /**
+    * TODO Describe uvma_obi_cov_model_c::sample_mstr_a_seq_item()
+    */
+   extern virtual function void sample_mstr_a_seq_item();
+   
+   /**
+    * TODO Describe uvma_obi_cov_model_c::sample_mstr_r_seq_item()
+    */
+   extern virtual function void sample_mstr_r_seq_item();
+   
+   /**
+    * TODO Describe uvma_obi_cov_model_c::sample_slv_a_seq_item()
+    */
+   extern virtual function void sample_slv_a_seq_item();
+   
+   /**
+    * TODO Describe uvma_obi_cov_model_c::sample_slv_r_seq_item()
+    */
+   extern virtual function void sample_slv_r_seq_item();
    
 endclass : uvma_obi_cov_model_c
 
@@ -117,17 +147,25 @@ function void uvma_obi_cov_model_c::build_phase(uvm_phase phase);
    super.build_phase(phase);
    
    void'(uvm_config_db#(uvma_obi_cfg_c)::get(this, "", "cfg", cfg));
-   if (!cfg) begin
+   if (cfg == null) begin
       `uvm_fatal("CFG", "Configuration handle is null")
    end
    
    void'(uvm_config_db#(uvma_obi_cntxt_c)::get(this, "", "cntxt", cntxt));
-   if (!cntxt) begin
+   if (cntxt == null) begin
       `uvm_fatal("CNTXT", "Context handle is null")
    end
    
-   mon_trn_fifo  = new("mon_trn_fifo" , this);
-   seq_item_fifo = new("seq_item_fifo", this);
+   mon_trn_fifo         = new("mon_trn_fifo"        , this);
+   mstr_a_mon_trn_fifo  = new("mstr_a_mon_trn_fifo" , this);
+   mstr_r_mon_trn_fifo  = new("mstr_r_mon_trn_fifo" , this);
+   slv_a_mon_trn_fifo   = new("slv_a_mon_trn_fifo"  , this);
+   slv_r_mon_trn_fifo   = new("slv_r_mon_trn_fifo"  , this);
+   seq_item_fifo        = new("seq_item_fifo"       , this);
+   mstr_a_seq_item_fifo = new("mstr_a_seq_item_fifo", this);
+   mstr_r_seq_item_fifo = new("mstr_r_seq_item_fifo", this);
+   slv_a_seq_item_fifo  = new("slv_a_seq_item_fifo" , this);
+   slv_r_seq_item_fifo  = new("slv_r_seq_item_fifo" , this);
    
 endfunction : build_phase
 
@@ -156,10 +194,58 @@ task uvma_obi_cov_model_c::run_phase(uvm_phase phase);
             sample_mon_trn();
          end
          
+         // Monitor mstr_a transactions
+         forever begin
+            mstr_a_mon_trn_fifo.get(mstr_a_mon_trn);
+            sample_mstr_a_mon_trn();
+         end
+         
+         // Monitor mstr_r transactions
+         forever begin
+            mstr_r_mon_trn_fifo.get(mstr_r_mon_trn);
+            sample_mstr_r_mon_trn();
+         end
+         
+         // Monitor slv_a transactions
+         forever begin
+            slv_a_mon_trn_fifo.get(slv_a_mon_trn);
+            sample_slv_a_mon_trn();
+         end
+         
+         // Monitor slv_r transactions
+         forever begin
+            slv_r_mon_trn_fifo.get(slv_r_mon_trn);
+            sample_slv_r_mon_trn();
+         end
+         
          // Sequence items
          forever begin
             seq_item_fifo.get(seq_item);
             sample_seq_item();
+         end
+         
+         // Sequence mstr_a items
+         forever begin
+            mstr_a_seq_item_fifo.get(mstr_a_seq_item);
+            sample_a_mstr_seq_item();
+         end
+         
+         // Sequence mstr_r items
+         forever begin
+            mstr_r_seq_item_fifo.get(mstr_r_seq_item);
+            sample_r_mstr_seq_item();
+         end
+         
+         // Sequence slv_a items
+         forever begin
+            slv_a_seq_item_fifo.get(slv_a_seq_item);
+            sample_slv_a_seq_item();
+         end
+         
+         // Sequence slv_r items
+         forever begin
+            slv_r_seq_item_fifo.get(slv_r_seq_item);
+            sample_slv_r_seq_item();
          end
       join_none
    end
@@ -188,11 +274,67 @@ function void uvma_obi_cov_model_c::sample_mon_trn();
 endfunction : sample_mon_trn
 
 
+function void uvma_obi_cov_model_c::sample_mstr_a_mon_trn();
+   
+   // TODO Implement uvma_obi_cov_model_c::sample_mstr_a_mon_trn();
+   
+endfunction : sample_mstr_a_mon_trn
+
+
+function void uvma_obi_cov_model_c::sample_mstr_r_mon_trn();
+   
+   // TODO Implement uvma_obi_cov_model_c::sample_mstr_r_mon_trn();
+   
+endfunction : sample_mstr_r_mon_trn
+
+
+function void uvma_obi_cov_model_c::sample_slv_a_mon_trn();
+   
+   // TODO Implement uvma_obi_cov_model_c::sample_slv_a_mon_trn();
+   
+endfunction : sample_slv_a_mon_trn
+
+
+function void uvma_obi_cov_model_c::sample_slv_r_mon_trn();
+   
+   // TODO Implement uvma_obi_cov_model_c::sample_slv_r_mon_trn();
+   
+endfunction : sample_slv_r_mon_trn
+
+
 function void uvma_obi_cov_model_c::sample_seq_item();
    
    // TODO Implement uvma_obi_cov_model_c::sample_seq_item();
    
 endfunction : sample_seq_item
+
+
+function void uvma_obi_cov_model_c::sample_mstr_a_seq_item();
+   
+   // TODO Implement uvma_obi_cov_model_c::sample_mstr_a_seq_item();
+   
+endfunction : sample_mstr_a_seq_item
+
+
+function void uvma_obi_cov_model_c::sample_mstr_r_seq_item();
+   
+   // TODO Implement uvma_obi_cov_model_c::sample_mstr_r_seq_item();
+   
+endfunction : sample_mstr_r_seq_item
+
+
+function void uvma_obi_cov_model_c::sample_slv_a_seq_item();
+   
+   // TODO Implement uvma_obi_cov_model_c::sample_slv_a_seq_item();
+   
+endfunction : sample_slv_a_seq_item
+
+
+function void uvma_obi_cov_model_c::sample_slv_r_seq_item();
+   
+   // TODO Implement uvma_obi_cov_model_c::sample_slv_r_seq_item();
+   
+endfunction : sample_slv_r_seq_item
 
 
 `endif // __UVMA_OBI_COV_MODEL_SV__

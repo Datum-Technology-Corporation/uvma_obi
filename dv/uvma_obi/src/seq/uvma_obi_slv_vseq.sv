@@ -1,7 +1,7 @@
-// Copyright 2021 OpenHW Group
 // Copyright 2021 Datum Technology Corporation
 // Copyright 2021 Silicon Labs
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2021 OpenHW Group
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Licensed under the Solderpad Hardware License v 2.1 (the "License"); you may not use this file except in compliance
 // with the License, or, at your option, the Apache License version 2.0.  You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, any work distributed under the License is distributed on
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations under the License.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 `ifndef __UVMA_OBI_SLV_VSEQ_SV__
@@ -87,8 +87,8 @@ task uvma_obi_slv_vseq_c::response_loop();
    
    forever begin
       cntxt.mstr_a_req_e.wait_trigger();
-      for (int unsigned ii=0; ii<cntxt.mon_outstanding_operations.size(); ii++) begin
-         trn = cntxt.mon_outstanding_operations[ii];
+      for (int unsigned ii=0; ii<cntxt.mon_outstanding_q.size(); ii++) begin
+         trn = cntxt.mon_outstanding_q[ii];
          handled = 0;
          foreach (cntxt.slv_handlers[jj]) begin
             cntxt.slv_handlers[jj].handle_mstr_req(trn, handled);

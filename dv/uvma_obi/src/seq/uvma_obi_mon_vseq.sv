@@ -1,7 +1,7 @@
-// Copyright 2021 OpenHW Group
 // Copyright 2021 Datum Technology Corporation
 // Copyright 2021 Silicon Labs
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2021 OpenHW Group
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Licensed under the Solderpad Hardware License v 2.1 (the "License"); you may not use this file except in compliance
 // with the License, or, at your option, the Apache License version 2.0.  You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, any work distributed under the License is distributed on
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations under the License.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 `ifndef __UVMA_OBI_MON_VSEQ_SV__
@@ -81,7 +81,7 @@ task uvma_obi_mon_vseq_c::process_chan_a();
          join
       end while ((mstr_a_mon_trn.req !== 1'b1) || (slv_a_mon_trn.gnt !== 1'b1));
       
-      cntxt.mon_outstanding_operations.push_back(mstr_a_mon_trn);
+      cntxt.mon_outstanding_q.push_back(mstr_a_mon_trn);
       `uvml_hrtbt()
    end
    
@@ -103,7 +103,7 @@ task uvma_obi_mon_vseq_c::process_chan_r();
          join
       end while (((slv_r_mon_trn.rvalid !== 1'b1)) || (mstr_r_mon_trn.rready !== 1'b1));
       
-      mstr_a_mon_trn = cntxt.mon_outstanding_operations.pop_front();
+      mstr_a_mon_trn = cntxt.mon_outstanding_q.pop_front();
       mon_trn = uvma_obi_mon_trn_c::type_id::create("mon_trn");
       mon_trn.set_initiator(p_sequencer);
       mon_trn.cfg         = cfg;

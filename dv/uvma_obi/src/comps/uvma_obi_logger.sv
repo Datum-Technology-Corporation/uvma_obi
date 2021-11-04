@@ -1,7 +1,7 @@
-// Copyright 2021 OpenHW Group
 // Copyright 2021 Datum Technology Corporation
 // Copyright 2021 Silicon Labs
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2021 OpenHW Group
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Licensed under the Solderpad Hardware License v 2.1 (the "License"); you may not use this file except in compliance
 // with the License, or, at your option, the Apache License version 2.0.  You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, any work distributed under the License is distributed on
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations under the License.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 `ifndef __UVMA_OBI_LOGGER_SV__
@@ -86,12 +86,13 @@ function void uvma_obi_logger_c::build_phase(uvm_phase phase);
    super.build_phase(phase);
    
    void'(uvm_config_db#(uvma_obi_cfg_c)::get(this, "", "cfg", cfg));
-   if (!cfg) begin
+   if (cfg == null) begin
       `uvm_fatal("CFG", "Configuration handle is null")
    end
-   else begin
-      `uvm_info("CFG", $sformatf("Found configuration handle:\n%s", cfg.sprint()), UVM_DEBUG)
-      uvm_config_db#(uvma_obi_cfg_c)::set(this, "*", "cfg", cfg);
+   
+   void'(uvm_config_db#(uvma_obi_cntxt_c)::get(this, "", "cntxt", cntxt));
+   if (cntxt == null) begin
+      `uvm_fatal("CNTXT", "Context handle is null")
    end
    
    // Create components
@@ -112,6 +113,17 @@ endfunction : build_phase
 function void uvma_obi_logger_c::connect_phase(uvm_phase phase);
    
    super.connect_phase(phase);
+   
+   mon_trn_logger        .set_file_name({get_parent().get_full_name(), ".mon_trn"        });
+   mstr_a_mon_trn_logger .set_file_name({get_parent().get_full_name(), ".mstr_a.mon_trn" });
+   mstr_r_mon_trn_logger .set_file_name({get_parent().get_full_name(), ".mstr_r.mon_trn" });
+   slv_a_mon_trn_logger  .set_file_name({get_parent().get_full_name(), ".slv_a.mon_trn"  });
+   slv_r_mon_trn_logger  .set_file_name({get_parent().get_full_name(), ".slv_r.mon_trn"  });
+   seq_item_logger       .set_file_name({get_parent().get_full_name(), ".seq_item"       });
+   mstr_a_seq_item_logger.set_file_name({get_parent().get_full_name(), ".mstr_a.seq_item"});
+   mstr_r_seq_item_logger.set_file_name({get_parent().get_full_name(), ".mstr_r.seq_item"});
+   slv_a_seq_item_logger .set_file_name({get_parent().get_full_name(), ".slv_a.seq_item" });
+   slv_r_seq_item_logger .set_file_name({get_parent().get_full_name(), ".slv_r.seq_item" });
    
    mon_trn_export        = mon_trn_logger        .analysis_export;
    mstr_a_mon_trn_export = mstr_a_mon_trn_logger .analysis_export;

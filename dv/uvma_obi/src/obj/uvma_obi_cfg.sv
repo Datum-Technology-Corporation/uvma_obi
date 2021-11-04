@@ -1,7 +1,7 @@
-// Copyright 2021 OpenHW Group
 // Copyright 2021 Datum Technology Corporation
 // Copyright 2021 Silicon Labs
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2021 OpenHW Group
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Licensed under the Solderpad Hardware License v 2.1 (the "License"); you may not use this file except in compliance
 // with the License, or, at your option, the Apache License version 2.0.  You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, any work distributed under the License is distributed on
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations under the License.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 `ifndef __UVMA_OBI_CFG_SV__
@@ -19,8 +19,8 @@
 // Default sequences
 typedef class uvma_obi_mon_vseq_c ;
 typedef class uvma_obi_idle_vseq_c;
-typedef class uvma_obi_mstr_vseq_c;
-typedef class uvma_obi_slv_vseq_c ;
+typedef class uvma_obi_mstr_drv_vseq_c;
+typedef class uvma_obi_slv_drv_vseq_c ;
 
 
 /**
@@ -32,7 +32,7 @@ class uvma_obi_cfg_c extends uvm_object;
    // Generic options
    rand bit                      enabled          ; ///< TODO Describe uvma_obi_cfg_c::enabled
    rand uvm_active_passive_enum  is_active        ; ///< TODO Describe uvma_obi_cfg_c::is_active
-   rand uvml_reset_mode_enum     reset_mode       ; ///< TODO Describe uvma_obi_cfg_c::reset_mode
+   rand uvml_reset_type_enum     reset_type       ; ///< TODO Describe uvma_obi_cfg_c::reset_type
    rand uvm_sequencer_arb_mode   sqr_arb_mode     ; ///< TODO Describe uvma_obi_cfg_c::sqr_arb_mode
    rand bit                      cov_model_enabled; ///< TODO Describe uvma_obi_cfg_c::cov_model_enabled
    rand bit                      trn_log_enabled  ; ///< TODO Describe uvma_obi_cfg_c::trn_log_enabled
@@ -51,16 +51,16 @@ class uvma_obi_cfg_c extends uvm_object;
    rand int unsigned            id_width   ; ///< TODO Describe uvma_obi_cfg_c::id_width
    
    // Sequence Types
-   uvm_object_wrapper  monitor_vseq_type; ///< TODO Describe uvma_obi_cfg_c::monitor_vseq_type
-   uvm_object_wrapper  idle_vseq_type   ; ///< TODO Describe uvma_obi_cfg_c::idle_vseq_type
-   uvm_object_wrapper  mstr_vseq_type   ; ///< TODO Describe uvma_obi_cfg_c::mstr_vseq_type
-   uvm_object_wrapper  slv_vseq_type    ; ///< TODO Describe uvma_obi_cfg_c::slv_vseq_type
+   uvm_object_wrapper  mon_vseq_type     ; ///< TODO Describe uvma_obi_cfg_c::mon_vseq_type
+   uvm_object_wrapper  idle_vseq_type    ; ///< TODO Describe uvma_obi_cfg_c::idle_vseq_type
+   uvm_object_wrapper  mstr_drv_vseq_type; ///< TODO Describe uvma_obi_cfg_c::mstr_drv_vseq_type
+   uvm_object_wrapper  slv_drv_vseq_type ; ///< TODO Describe uvma_obi_cfg_c::slv_drv_vseq_type
    
    
    `uvm_object_utils_begin(uvma_obi_cfg_c)
       `uvm_field_int (                         enabled          , UVM_DEFAULT)
       `uvm_field_enum(uvm_active_passive_enum, is_active        , UVM_DEFAULT)
-      `uvm_field_enum(uvml_reset_mode_enum   , reset_mode       , UVM_DEFAULT)
+      `uvm_field_enum(uvml_reset_type_enum   , reset_type       , UVM_DEFAULT)
       `uvm_field_enum(uvm_sequencer_arb_mode , sqr_arb_mode     , UVM_DEFAULT)
       `uvm_field_int (                         cov_model_enabled, UVM_DEFAULT)
       `uvm_field_int (                         trn_log_enabled  , UVM_DEFAULT)
@@ -82,12 +82,12 @@ class uvma_obi_cfg_c extends uvm_object;
    constraint defaults_cons {
       soft enabled           == 1;
       soft is_active         == UVM_PASSIVE;
-      soft reset_mode        == UVML_RESET_MODE_SYNCHRONOUS;
+      soft reset_type        == UVML_RESET_TYPE_SYNCHRONOUS;
       soft sqr_arb_mode      == UVM_SEQ_ARB_FIFO;
       soft cov_model_enabled == 0;
       soft trn_log_enabled   == 1;
       
-      soft version     == UVMA_OBI_VERSION_1P1;
+      soft version     == UVMA_OBI_VERSION_1P2;
       soft drv_idle    == UVMA_OBI_DRV_IDLE_ZEROS;
       soft auser_width == uvma_obi_default_auser_width;
       soft wuser_width == uvma_obi_default_wuser_width;
@@ -100,14 +100,14 @@ class uvma_obi_cfg_c extends uvm_object;
    }
    
    constraint limits_cons {
-      auser_width inside {[1:`UVMA_OBI_AUSER_MAX_WIDTH]};
-      wuser_width inside {[1:`UVMA_OBI_WUSER_MAX_WIDTH]};
-      ruser_width inside {[1:`UVMA_OBI_RUSER_MAX_WIDTH]};
+      auser_width inside {[0:`UVMA_OBI_AUSER_MAX_WIDTH]};
+      wuser_width inside {[0:`UVMA_OBI_WUSER_MAX_WIDTH]};
+      ruser_width inside {[0:`UVMA_OBI_RUSER_MAX_WIDTH]};
       addr_width  inside {[1:`UVMA_OBI_ADDR_MAX_WIDTH ]};
       data_width  inside {[1:`UVMA_OBI_DATA_MAX_WIDTH ]};
-      id_width    inside {[1:`UVMA_OBI_ID_MAX_WIDTH   ]};
-      achk_width  inside {[1:`UVMA_OBI_ACHK_MAX_WIDTH ]};
-      rchk_width  inside {[1:`UVMA_OBI_RCHK_MAX_WIDTH ]};
+      id_width    inside {[0:`UVMA_OBI_ID_MAX_WIDTH   ]};
+      achk_width  inside {[0:`UVMA_OBI_ACHK_MAX_WIDTH ]};
+      rchk_width  inside {[0:`UVMA_OBI_RCHK_MAX_WIDTH ]};
    }
    
    
@@ -122,10 +122,10 @@ endclass : uvma_obi_cfg_c
 function uvma_obi_cfg_c::new(string name="uvma_obi_cfg");
    
    super.new(name);
-   monitor_vseq_type = uvma_obi_mon_vseq_c ::type_id;
-   idle_vseq_type    = uvma_obi_idle_vseq_c::type_id;
-   mstr_vseq_type    = uvma_obi_mstr_vseq_c::type_id;
-   slv_vseq_type     = uvma_obi_slv_vseq_c ::type_id;
+   monitor_vseq_type  = uvma_obi_mon_vseq_c     ::type_id;
+   idle_vseq_type     = uvma_obi_idle_vseq_c    ::type_id;
+   mstr_drv_vseq_type = uvma_obi_mstr_drv_vseq_c::type_id;
+   slv_drv_vseq_type  = uvma_obi_slv_drv_vseq_c ::type_id;
    
 endfunction : new
 

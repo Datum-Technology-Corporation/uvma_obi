@@ -1,0 +1,44 @@
+ip:
+  name: "uvma_mio_cli"
+  version: "1.0.0 Beta 0"
+  full-name: "Moore.io CLI Testing Grounds UVM Agent"
+  type: "DV"
+  sub-type: "UVM Agent"
+  sub-sub-type: "Simplex; Non-Layered"
+  description: >
+    UVM Agent used for development of Moore.io CLI.  NOT meant for use in actual DV work.
+  home-page: "https://datum-technology-corporation.github.io/mio_cli/"
+  repo-uri: "https://github.com/Datum-Technology-Corporation/mio_cli.git"
+  bugs: "https://github.com/Datum-Technology-Corporation/mio_cli/issues"
+  aliases: []
+  logo: ""
+  block-diagram: "docs/agent_block_diagram.svg"
+  languages: ["sv"]
+  simulators-supported:
+    - { name: "vivado", version: "2021.1" }
+  tags: []
+  copyright-holders: ["Datum Technology Corporation"]
+  licenses: ["SHL-2.1"]
+
+structure:
+   scripts-paths : [ "bin"      ]
+   docs-paths    : [ "docs"     ]
+   examples-paths: [ "examples" ]
+   src-paths     : [ "src"      ]
+
+dependencies:
+  - { type: "DV", name: "uvm"      , repo-uri: "https://github.com/Datum-Technology-Corporation/uvm.git"      , repo-branch: "main", repo-path: "dv/uvm"       }
+  - { type: "DV", name: "uvml"     , repo-uri: "https://github.com/Datum-Technology-Corporation/uvml.git"     , repo-branch: "main", repo-path: "dv/uvml"      }
+  - { type: "DV", name: "uvml_logs", repo-uri: "https://github.com/Datum-Technology-Corporation/uvml_logs.git", repo-branch: "main", repo-path: "dv/uvml_logs" }
+
+hdl-src:
+  directories: [".", "comps", "obj", "seq"]
+  tests-name-template: ""
+  flists:
+    metrics : [ "src/uvma_mio_cli_pkg.flist"      ]
+    riviera : [ "src/uvma_mio_cli_pkg.flist"      ]
+    questa  : [ "src/uvma_mio_cli_pkg.flist"      ]
+    vcs     : [ "src/uvma_mio_cli_pkg.flist"      ]
+    vivado  : [ "src/uvma_mio_cli_pkg.flist.xsim" ]
+    xcelium : [ "src/uvma_mio_cli_pkg.flist"      ]
+

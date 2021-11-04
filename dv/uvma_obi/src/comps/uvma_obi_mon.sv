@@ -1,7 +1,7 @@
-// Copyright 2021 OpenHW Group
 // Copyright 2021 Datum Technology Corporation
 // Copyright 2021 Silicon Labs
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2021 OpenHW Group
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Licensed under the Solderpad Hardware License v 2.1 (the "License"); you may not use this file except in compliance
 // with the License, or, at your option, the Apache License version 2.0.  You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, any work distributed under the License is distributed on
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations under the License.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 `ifndef __UVMA_OBI_MON_SV__
@@ -73,6 +73,46 @@ class uvma_obi_mon_c extends uvm_monitor;
    extern virtual task observe_reset_async();
    
    /**
+    * Called by run_phase() while agent is in pre-reset state.
+    */
+   extern virtual task mon_mstr_a_pre_reset();
+   
+   /**
+    * Called by run_phase() while agent is in pre-reset state.
+    */
+   extern virtual task mon_mstr_r_pre_reset();
+   
+   /**
+    * Called by run_phase() while agent is in pre-reset state.
+    */
+   extern virtual task mon_slv_a_pre_reset();
+   
+   /**
+    * Called by run_phase() while agent is in pre-reset state.
+    */
+   extern virtual task mon_slv_r_pre_reset();
+   
+   /**
+    * Called by run_phase() while agent is in reset state.
+    */
+   extern virtual task mon_mstr_a_in_reset();
+   
+   /**
+    * Called by run_phase() while agent is in reset state.
+    */
+   extern virtual task mon_mstr_r_in_reset();
+   
+   /**
+    * Called by run_phase() while agent is in reset state.
+    */
+   extern virtual task mon_slv_a_in_reset();
+   
+   /**
+    * Called by run_phase() while agent is in reset state.
+    */
+   extern virtual task mon_slv_r_in_reset();
+   
+   /**
     * Called by run_phase() while agent is in post-reset state.
     */
    extern virtual task mon_mstr_a_post_reset();
@@ -80,7 +120,7 @@ class uvma_obi_mon_c extends uvm_monitor;
    /**
     * Called by run_phase() while agent is in post-reset state.
     */
-   extern virtual task mon_slv_r_post_reset();
+   extern virtual task mon_mstr_r_post_reset();
    
    /**
     * Called by run_phase() while agent is in post-reset state.
@@ -147,18 +187,21 @@ function void uvma_obi_mon_c::build_phase(uvm_phase phase);
    super.build_phase(phase);
    
    void'(uvm_config_db#(uvma_obi_cfg_c)::get(this, "", "cfg", cfg));
-   if (!cfg) begin
+   if (cfg == null) begin
       `uvm_fatal("CFG", "Configuration handle is null")
    end
    
    void'(uvm_config_db#(uvma_obi_cntxt_c)::get(this, "", "cntxt", cntxt));
-   if (!cntxt) begin
+   if (cntxt == null) begin
       `uvm_fatal("CNTXT", "Context handle is null")
    end
    
-   ap = new("ap", this);
    mp_a = cntxt.vif.mon_a_mp;
    mp_r = cntxt.vif.mon_r_mp;
+   mstr_a_ap = new("mstr_a_ap", this);
+   mstr_r_ap = new("mstr_r_ap", this);
+   slv_a_ap  = new("slv_a_ap" , this);
+   slv_r_ap  = new("slv_r_ap" , this);
   
 endfunction : build_phase
 
@@ -174,8 +217,8 @@ task uvma_obi_mon_c::run_phase(uvm_phase phase);
          begin : mstr_a
             forever begin
                case (cntxt.reset_state)
-                  UVML_RESET_STATE_PRE_RESET : @(mp_a.mon_a_cb);
-                  UVML_RESET_STATE_IN_RESET  : @(mp_a.mon_a_cb);
+                  UVML_RESET_STATE_PRE_RESET : mon_mstr_a_pre_reset ();
+                  UVML_RESET_STATE_IN_RESET  : mon_mstr_a_in_reset  ();
                   UVML_RESET_STATE_POST_RESET: mon_mstr_a_post_reset();
                endcase
             end
@@ -184,8 +227,8 @@ task uvma_obi_mon_c::run_phase(uvm_phase phase);
          begin : mstr_r
             forever begin
                case (cntxt.reset_state)
-                  UVML_RESET_STATE_PRE_RESET : @(mp_r.mon_r_cb);
-                  UVML_RESET_STATE_IN_RESET  : @(mp_r.mon_r_cb);
+                  UVML_RESET_STATE_PRE_RESET : mon_mstr_r_pre_reset ();
+                  UVML_RESET_STATE_IN_RESET  : mon_mstr_r_in_reset  ();
                   UVML_RESET_STATE_POST_RESET: mon_mstr_r_post_reset();
                endcase
             end
@@ -194,8 +237,8 @@ task uvma_obi_mon_c::run_phase(uvm_phase phase);
          begin : slv_a
             forever begin
                case (cntxt.reset_state)
-                  UVML_RESET_STATE_PRE_RESET : @(mp_a.mon_a_cb);
-                  UVML_RESET_STATE_IN_RESET  : @(mp_a.mon_a_cb);
+                  UVML_RESET_STATE_PRE_RESET : mon_slv_a_pre_reset ();
+                  UVML_RESET_STATE_IN_RESET  : mon_slv_a_in_reset  ();
                   UVML_RESET_STATE_POST_RESET: mon_slv_a_post_reset();
                endcase
             end
@@ -204,8 +247,8 @@ task uvma_obi_mon_c::run_phase(uvm_phase phase);
          begin : slv_r
             forever begin
                case (cntxt.reset_state)
-                  UVML_RESET_STATE_PRE_RESET : @(mp_r.mon_r_cb);
-                  UVML_RESET_STATE_IN_RESET  : @(mp_r.mon_r_cb);
+                  UVML_RESET_STATE_PRE_RESET : mon_slv_r_pre_reset ();
+                  UVML_RESET_STATE_IN_RESET  : mon_slv_r_in_reset  ();
                   UVML_RESET_STATE_POST_RESET: mon_slv_r_post_reset();
                endcase
             end
@@ -264,6 +307,62 @@ task uvma_obi_mon_c::observe_reset_async();
    end
    
 endtask : observe_reset_async
+
+
+task uvma_obi_mon_c::mon_mstr_a_pre_reset();
+   
+   @(mp_a.mon_a_cb);
+   
+endtask : mon_mstr_a_pre_reset
+
+
+task uvma_obi_mon_c::mon_mstr_r_pre_reset();
+   
+   @(mp_r.mon_r_cb);
+   
+endtask : mon_mstr_r_pre_reset
+
+
+task uvma_obi_mon_c::mon_slv_a_pre_reset();
+   
+   @(mp_a.mon_a_cb);
+   
+endtask : mon_slv_a_pre_reset
+
+
+task uvma_obi_mon_c::mon_slv_r_pre_reset();
+   
+   @(mp_r.mon_r_cb);
+   
+endtask : mon_slv_r_pre_reset
+
+
+task uvma_obi_mon_c::mon_mstr_a_in_reset();
+   
+   @(mp_a.mon_a_cb);
+   
+endtask : mon_mstr_a_in_reset
+
+
+task uvma_obi_mon_c::mon_mstr_r_in_reset();
+   
+   @(mp_r.mon_r_cb);
+   
+endtask : mon_mstr_r_in_reset
+
+
+task uvma_obi_mon_c::mon_slv_a_in_reset();
+   
+   @(mp_a.mon_a_cb);
+   
+endtask : mon_slv_a_in_reset
+
+
+task uvma_obi_mon_c::mon_slv_r_in_reset();
+   
+   @(mp_r.mon_r_cb);
+   
+endtask : mon_slv_r_in_reset
 
 
 task uvma_obi_mon_c::mon_mstr_a_post_reset();
@@ -343,7 +442,7 @@ task uvma_obi_mon_c::sample_mstr_a_trn(output uvma_obi_mstr_a_mon_trn_c trn);
       trn.achk[ii] = mp_a.mon_a_cb.achk[ii];
    end
    
-   wait (mp_a.clk === 1'b0);
+   trn.data_transferred = (mp_a.mon_a_cb.gnt === 1'b1) && (mp_a.mon_a_cb.req === 1'b1);
    
 endtask : sample_mstr_a_trn
 
@@ -353,10 +452,10 @@ task uvma_obi_mon_c::sample_mstr_r_trn(output uvma_obi_mstr_r_mon_trn_c trn);
    @(mp_r.mon_r_cb);
    `uvm_info("OBI_MON", "Sampling MSTR Channel R transaction", UVM_HIGH)
    trn = uvma_obi_mstr_r_mon_trn_c::type_id::create("trn");
-   trn.req       = mp_a.mon_a_cb.gnt;
+   trn.req       = mp_r.mon_r_cb.gnt;
    trn.rreadypar = mp_r.mon_r_cb.rreadypar;
    
-   wait (mp_r.clk === 1'b0);
+   trn.data_transferred = (mp_r.mon_r_cb.gnt === 1'b1) && (mp_r.mon_r_cb.req === 1'b1);
    
 endtask : sample_mstr_r_trn
 
@@ -369,7 +468,7 @@ task uvma_obi_mon_c::sample_slv_a_trn(output uvma_obi_slv_a_mon_trn_c trn);
    trn.gnt    = mp_a.mon_a_cb.gnt;
    trn.gntpar = mp_a.mon_a_cb.gntpar;
    
-   wait (mp_a.clk === 1'b0);
+   trn.data_transferred = (mp_a.mon_a_cb.gnt === 1'b1) && (mp_a.mon_a_cb.req === 1'b1);
    
 endtask : sample_slv_a_trn
 
@@ -396,7 +495,7 @@ task uvma_obi_mon_c::sample_slv_r_trn(output uvma_obi_slv_r_mon_trn_c trn);
       trn.rchk[ii] = mp_a.mon_a_cb.rchk[ii];
    end
    
-   wait (mp_r.clk === 1'b0);
+   trn.data_transferred = (mp_r.mon_r_cb.rvalid === 1'b1) && (mp_r.mon_r_cb.rready === 1'b1);
    
 endtask : sample_slv_r_trn
 

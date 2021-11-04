@@ -1,7 +1,7 @@
-// Copyright 2021 OpenHW Group
 // Copyright 2021 Datum Technology Corporation
 // Copyright 2021 Silicon Labs
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright 2021 OpenHW Group
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 // Licensed under the Solderpad Hardware License v 2.1 (the "License"); you may not use this file except in compliance
 // with the License, or, at your option, the Apache License version 2.0.  You may obtain a copy of the License at
@@ -9,7 +9,7 @@
 // Unless required by applicable law or agreed to in writing, any work distributed under the License is distributed on
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations under the License.
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 `ifndef __UVMA_OBI_SV__
@@ -20,14 +20,14 @@
  * Encapsulates all signals and clocking of the Open Bus Interface.
  */
 interface uvma_obi_if #(
-   parameter AUSER_WIDTH = `UVMA_OBI_AUSER_DEFAULT_WIDTH, ///< Width of the auser signal. RI5CY, Ibex, CV32E40* do not have the auser signal.
-   parameter WUSER_WIDTH = `UVMA_OBI_WUSER_DEFAULT_WIDTH, ///< Width of the wuser signal. RI5CY, Ibex, CV32E40* do not have the wuser signal.
-   parameter RUSER_WIDTH = `UVMA_OBI_RUSER_DEFAULT_WIDTH, ///< Width of the ruser signal. RI5CY, Ibex, CV32E40* do not have the ruser signal.
-   parameter ADDR_WIDTH  = `UVMA_OBI_ADDR_DEFAULT_WIDTH , ///< Width of the addr signal.
-   parameter DATA_WIDTH  = `UVMA_OBI_DATA_DEFAULT_WIDTH , ///< Width of the rdata and wdata signals. be width is DATA_WIDTH / 8. Valid DATA_WIDTH settings are 32 and 64.
-   parameter ID_WIDTH    = `UVMA_OBI_ID_DEFAULT_WIDTH   , ///< Width of the aid and rid signals.
-   parameter ACHK_WIDTH  = `UVMA_OBI_ACHK_DEFAULT_WIDTH , ///< Width of the achk signal.
-   parameter RCHK_WIDTH  = `UVMA_OBI_RCHK_DEFAULT_WIDTH   ///< Width of the rchk signal.
+   parameter AUSER_WIDTH = `UVMA_OBI_AUSER_MAX_WIDTH, ///< Width of the auser signal. RI5CY, Ibex, CV32E40* do not have the auser signal.
+   parameter WUSER_WIDTH = `UVMA_OBI_WUSER_MAX_WIDTH, ///< Width of the wuser signal. RI5CY, Ibex, CV32E40* do not have the wuser signal.
+   parameter RUSER_WIDTH = `UVMA_OBI_RUSER_MAX_WIDTH, ///< Width of the ruser signal. RI5CY, Ibex, CV32E40* do not have the ruser signal.
+   parameter ADDR_WIDTH  = `UVMA_OBI_ADDR_MAX_WIDTH , ///< Width of the addr signal.
+   parameter DATA_WIDTH  = `UVMA_OBI_DATA_MAX_WIDTH , ///< Width of the rdata and wdata signals. be width is DATA_WIDTH / 8. Valid DATA_WIDTH settings are 32 and 64.
+   parameter ID_WIDTH    = `UVMA_OBI_ID_MAX_WIDTH   , ///< Width of the aid and rid signals.
+   parameter ACHK_WIDTH  = `UVMA_OBI_ACHK_MAX_WIDTH , ///< Width of the achk signal.
+   parameter RCHK_WIDTH  = `UVMA_OBI_RCHK_MAX_WIDTH   ///< Width of the rchk signal.
 )
 (
    input  clk    , ///< The bus clock times all bus transfers. All signal timings are related to the rising edge of clk.
