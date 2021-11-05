@@ -79,7 +79,6 @@ typedef enum {
 
 typedef enum {
    UVMA_OBI_DRV_IDLE_ZEROS ,
-   UVMA_OBI_DRV_IDLE_SAME  ,
    UVMA_OBI_DRV_IDLE_RANDOM
 } uvma_obi_drv_idle_enum;
 

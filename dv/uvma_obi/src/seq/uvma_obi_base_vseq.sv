@@ -45,6 +45,16 @@ class uvma_obi_base_vseq_c extends uvm_sequence #(
    extern virtual task pre_start();
    
    /**
+    * TODO Describe uvma_obi_base_vseq_c::upstream_get_next_item()
+    */
+   extern task upstream_get_next_item(ref uvm_sequence_item req);
+   
+   /**
+    * TODO Describe uvma_obi_base_vseq_c::upstream_item_done()
+    */
+   extern task upstream_item_done(ref uvm_sequence_item req);
+   
+   /**
     * TODO Describe uvma_obi_base_vseq_c::write_mon_trn()
     */
    extern task write_mon_trn(ref uvma_obi_mon_trn_c trn);
@@ -55,19 +65,9 @@ class uvma_obi_base_vseq_c extends uvm_sequence #(
    extern task get_mstr_a_mon_trn(output uvma_obi_mstr_a_mon_trn_c trn);
    
    /**
-    * TODO Describe uvma_obi_base_vseq_c::peek_mstr_a_mon_trn()
-    */
-   extern task peek_mstr_a_mon_trn(output uvma_obi_mstr_a_mon_trn_c trn);
-   
-   /**
     * TODO Describe uvma_obi_base_vseq_c::get_mstr_r_mon_trn()
     */
    extern task get_mstr_r_mon_trn(output uvma_obi_mstr_r_mon_trn_c trn);
-   
-   /**
-    * TODO Describe uvma_obi_base_vseq_c::peek_mstr_r_mon_trn()
-    */
-   extern task peek_mstr_r_mon_trn(output uvma_obi_mstr_r_mon_trn_c trn);
    
    /**
     * TODO Describe uvma_obi_base_vseq_c::get_slv_a_mon_trn()
@@ -97,6 +97,20 @@ task uvma_obi_base_vseq_c::pre_start();
 endtask : pre_start
 
 
+task uvma_obi_base_vseq_c::upstream_get_next_item(ref uvm_sequence_item req);
+   
+   p_sequencer.upstream_sqr_port.get_next_item(req);
+   
+endtask : upstream_get_next_item
+
+
+task uvma_obi_base_vseq_c::upstream_item_done(ref uvm_sequence_item req);
+   
+   p_sequencer.upstream_sqr_port.item_done(req);
+   
+endtask : upstream_item_done
+
+
 task uvma_obi_base_vseq_c::write_mon_trn(ref uvma_obi_mon_trn_c trn);
    
    p_sequencer.mon_trn_ap.write(trn);
@@ -111,25 +125,11 @@ task uvma_obi_base_vseq_c::get_mstr_a_mon_trn(output uvma_obi_mstr_a_mon_trn_c t
 endtask : get_mstr_a_mon_trn
 
 
-task uvma_obi_base_vseq_c::peek_mstr_a_mon_trn(output uvma_obi_mstr_a_mon_trn_c trn);
-   
-   p_sequencer.mstr_a_mon_trn_fifo.peek_next_item(trn);
-   
-endtask : peek_mstr_a_mon_trn
-
-
 task uvma_obi_base_vseq_c::get_mstr_r_mon_trn(output uvma_obi_mstr_r_mon_trn_c trn);
    
    p_sequencer.mstr_r_mon_trn_fifo.get(trn);
    
 endtask : get_mstr_r_mon_trn
-
-
-task uvma_obi_base_vseq_c::peek_mstr_r_mon_trn(output uvma_obi_mstr_r_mon_trn_c trn);
-   
-   p_sequencer.mstr_r_mon_trn_fifo.peek_next_item(trn);
-   
-endtask : peek_mstr_r_mon_trn
 
 
 task uvma_obi_base_vseq_c::get_slv_a_mon_trn(output uvma_obi_slv_a_mon_trn_c trn);

@@ -12,33 +12,42 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-`ifndef __UVMA_OBI_MACROS_SV__
-`define __UVMA_OBI_MACROS_SV__
+`ifndef __UVMA_OBI_MSTR_VSEQ_LIB_SV__
+`define __UVMA_OBI_MSTR_VSEQ_LIB_SV__
 
 
-`define UVMA_OBI_ADDR_MAX_WIDTH       32
-`define UVMA_OBI_DATA_MAX_WIDTH       32
-`define UVMA_OBI_AUSER_MAX_WIDTH      32
-`define UVMA_OBI_WUSER_MAX_WIDTH      32
-`define UVMA_OBI_RUSER_MAX_WIDTH      32
-`define UVMA_OBI_ID_MAX_WIDTH         32
-`define UVMA_OBI_ACHK_MAX_WIDTH       32
-`define UVMA_OBI_RCHK_MAX_WIDTH       32
+`include "uvma_obi_mstr_base_vseq.sv"
+`include "uvma_obi_mstr_drv_vseq.sv"
 
-`define UVMA_OBI_ADDR_DEFAULT_WIDTH   32
-`define UVMA_OBI_DATA_DEFAULT_WIDTH   32
-`define UVMA_OBI_AUSER_DEFAULT_WIDTH   0
-`define UVMA_OBI_WUSER_DEFAULT_WIDTH   0
-`define UVMA_OBI_RUSER_DEFAULT_WIDTH   0
-`define UVMA_OBI_ID_DEFAULT_WIDTH      0
-`define UVMA_OBI_ACHK_DEFAULT_WIDTH    0
-`define UVMA_OBI_RCHK_DEFAULT_WIDTH    0
 
-`define UVMA_OBI_MSTR_DRV_SEQ_ITEM_PRI    100
-`define UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI     100
-`define UVMA_OBI_MSTR_A_IDLE_SEQ_ITEM_PRI   1
-`define UVMA_OBI_MSTR_R_IDLE_SEQ_ITEM_PRI   1
-`define UVMA_OBI_SLV_A_IDLE_SEQ_ITEM_PRI    1
-`define UVMA_OBI_SLV_R_IDLE_SEQ_ITEM_PRI    1
+/**
+ * TODO Describe uvma_obi_mstr_vseq_lib_c
+ */
+class uvma_obi_mstr_vseq_lib_c extends uvm_sequence_library #(
+   .REQ(uvma_obi_seq_item_c),
+   .RSP(uvma_obi_seq_item_c)
+);
+   
+   `uvm_object_utils          (uvma_obi_mstr_vseq_lib_c)
+   `uvm_sequence_library_utils(uvma_obi_mstr_vseq_lib_c)
+   
+   
+   /**
+    * Initializes sequence library
+    */
+   extern function new(string name="uvma_obi_mstr_vseq_lib");
+   
+endclass : uvma_obi_mstr_vseq_lib_c
 
-`endif // __UVMA_OBI_MACROS_SV__
+
+function uvma_obi_mstr_vseq_lib_c::new(string name="uvma_obi_mstr_vseq_lib");
+   
+   super.new(name);
+   init_sequence_library();
+   
+   add_sequence(uvma_obi_mstr_drv_vseq_c ::get_type());
+   
+endfunction : new
+
+
+`endif // __UVMA_OBI_MSTR_VSEQ_LIB_SV__
