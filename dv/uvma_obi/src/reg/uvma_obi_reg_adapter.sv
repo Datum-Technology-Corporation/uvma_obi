@@ -53,10 +53,14 @@ function uvm_sequence_item uvma_obi_reg_adapter_c::reg2bus(const ref uvm_reg_bus
    
    uvma_obi_seq_item_c  uvma_obi_trn = uvma_obi_seq_item_c::type_id::create("uvma_obi_trn");
    
-   // TODO Implement uvma_obi_reg_adapter_c::reg2bus()
-   //      Ex: uvma_obi_trn.access = (rw.kind == UVM_READ) ? UVMA_OBI_ACCESS_READ : UVMA_OBI_ACCESS_WRITE;
-   //          uvma_obi_trn.addr   = rw.addr;
-   //          uvma_obi_trn.data   = rw.data;
+   uvma_obi_trn.access  = (rw.kind == UVM_READ) ? UVMA_OBI_ACCESS_READ : UVMA_OBI_ACCESS_WRITE;
+   uvma_obi_trn.address = rw.addr;
+   uvma_obi_trn.data    = rw.data;
+   uvma_obi_trn.be      = rw.byte_en;
+   
+   if (rw.status == UVM_NOT_OK) begin
+      uvma_obi_trn.err = 1;
+   end
    
    return uvma_obi_trn;
    
@@ -71,11 +75,18 @@ function void uvma_obi_reg_adapter_c::bus2reg(uvm_sequence_item bus_item, ref uv
       `uvm_fatal("APB", $sformatf("Could not cast bus_item (%s) into uvma_obi_trn (%s)", $typename(bus_item), $typename(uvma_obi_trn)))
    end
    
-   // TODO Implement uvma_obi_reg_adapter_c::bus2reg()
-   //      Ex: rw.kind   = (uvma_obi_trn.access == UVMA_OBI_ACCESS_READ) ? UVM_READ : UVM_WRITE;
-   //          rw.addr   = uvma_obi_trn.addr;
-   //          rw.data   = uvma_obi_trn.data;
-   //          rw.status = UVM_IS_OK;
+   rw.kind    = (uvma_obi_trn.access == UVMA_OBI_ACCESS_READ) ? UVM_READ : UVM_WRITE;
+   rw.addr    = uvma_obi_trn.address;
+   rw.data    = uvma_obi_trn.data;
+   rw.byte_en = uvma_obi_trn.be;
+   
+   if (uvma_obi_trn.err !== 1'b0) begin
+      rw.status = UVM_NOT_OK;
+   end
+   else begin
+      rw.status = UVM_IS_OK;
+   end
+   
    
 endfunction : bus2reg
 
