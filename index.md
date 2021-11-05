@@ -7,6 +7,7 @@
 
 ## About
 The [Moore.io](https://www.mooreio.com) UVM Open Bus Interface (OBI) Agent is a pure-UVM, sequence-based implementation of the open standard that can act as either an active Master/Slave or purely passive monitor. All connection widths are configurable in simulation.
+
 This project consists of the agent (`uvma_obi_pkg`), the self-testing UVM environment (`uvme_obi_st_pkg`) and the test bench (`uvmt_obi_st_pkg`) to verify the agent against itself.
 
 
