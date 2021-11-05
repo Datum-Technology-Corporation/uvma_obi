@@ -66,6 +66,11 @@ class uvma_obi_drv_slv_a_c extends uvm_driver #(
     */
    extern virtual task drv_req(ref uvma_obi_slv_a_seq_item_c req);
    
+   /**
+    * TODO Describe uvma_obi_drv_slv_a_c::sample_post_clk()
+    */
+   extern virtual task sample_post_clk(ref uvma_obi_slv_a_seq_item_c req);
+   
 endclass : uvma_obi_drv_slv_a_c
 
 
@@ -110,7 +115,7 @@ task uvma_obi_drv_slv_a_c::run_phase(uvm_phase phase);
          ap.write                   (req);
          
          @(mp.drv_slv_cb);
-         req.data_transferred = (cntxt.vif.mon_cb.req === 1'b1) && (req.gnt);
+         sample_post_clk(req);
          seq_item_port.item_done();
       end
    end
@@ -132,6 +137,14 @@ task uvma_obi_drv_slv_a_c::drv_req(ref uvma_obi_seq_item_c req);
    mp.drv_slv_a_cb.gntpar <= req.gntpar;
    
 endtask : drv_req
+
+
+task uvma_obi_drv_slv_a_c::sample_post_clk(ref uvma_axis_slv_seq_item_c req);
+   
+   req.req    = cntxt.vif.mon_cb.req   ;
+   req.reqpar = cntxt.vif.mon_cb.reqpar;
+   
+endtask : sample_post_clk
 
 
 `endif // __UVMA_OBI_SLV_A_DRV_SV__

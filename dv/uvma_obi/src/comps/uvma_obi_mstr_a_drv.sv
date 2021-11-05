@@ -66,6 +66,11 @@ class uvma_obi_drv_mstr_a_c extends uvm_driver #(
     */
    extern virtual task drv_req(ref uvma_obi_mstr_a_seq_item_c req);
    
+   /**
+    * TODO Describe uvma_obi_drv_mstr_a_c::sample_post_clk()
+    */
+   extern virtual task sample_post_clk(ref uvma_obi_mstr_a_seq_item_c req);
+   
 endclass : uvma_obi_drv_mstr_a_c
 
 
@@ -158,6 +163,14 @@ task uvma_obi_drv_mstr_a_c::drv_req(ref uvma_obi_mstr_a_seq_item_c req);
    end
    
 endtask : drv_req
+
+
+task uvma_obi_drv_mstr_a_c::sample_post_clk(ref uvma_axis_slv_seq_item_c req);
+   
+   req.gnt    = cntxt.vif.mon_cb.gnt   ;
+   req.gntpar = cntxt.vif.mon_cb.gntpar;
+   
+endtask : sample_post_clk
 
 
 `endif // __UVMA_OBI_MSTR_A_DRV_SV__

@@ -72,16 +72,11 @@ class uvma_obi_mon_trn_c extends uvml_mon_trn_c;
     * TODO Describe uvma_obi_mon_trn_c::do_print()
     */
    extern virtual function void do_print(uvm_printer printer);
-
+   
    /**
-    * Fetch mask for printing
+    * TODO Describe uvma_obi_mon_trn_c::get_metadata()
     */
-   extern function uvma_obi_data_l_t get_be_bitmask();
-
-   /**
-    * Print data with -- for non transmitted bytes
-    */
-   extern function string get_data_str();
+   extern function uvml_metadata_t get_metadata();
    
 endclass : uvma_obi_mon_trn_c
 
@@ -134,111 +129,198 @@ endfunction : do_print
 
 function uvml_metadata_t uvma_obi_mon_trn_c::get_metadata();
    
-   logic [7:0]  lower_n_bytes[$];
-   logic [7:0]  upper_n_bytes[$];
-   string       data_str   = "";
-   string       size_str   = $sformatf("%0d", size );
-   string       tid_str    = $sformatf("%h" , tid  );
-   string       tdest_str  = $sformatf("%h" , tdest);
-   string       tuser_str  = $sformatf("%h" , tuser);
+   int unsigned  field_count = 0;
+   string  access_str  = (access == UVMA_OBI_ACCESS_READ) ? "READ" : "WRITE";
+   string  address_str = $sformatf("%h", address);
+   string  data_str    = $sformatf("%h", data   );
+   string  be_str      = $sformatf("%b", be     );
+   string  auser_str   = $sformatf("%h", auser  );
+   string  wuser_str   = $sformatf("%h", wuser  );
+   string  ruser_str   = $sformatf("%h", ruser  );
+   string  aid_str     = $sformatf("%h", aid    );
+   string  rid_str     = $sformatf("%h", rid    );
+   string  err_str     = $sformatf("%h", err    );
+   string  atop_str    = $sformatf("%h", atop   );
+   string  memtype_str = $sformatf("%h", memtype);
+   string  prot_str    = $sformatf("%h", prot   );
+   string  achk_str    = $sformatf("%h", achk   );
+   string  rchk_str    = $sformatf("%h", rchk   );
    
    if (cfg != null) begin
-      tid_str   = tid_str  .substr(tid_str  .len() - (cfg.tid_width  /4), tid_str  .len()-1);
-      tdest_str = tdest_str.substr(tdest_str.len() - (cfg.tdest_width/4), tdest_str.len()-1);
-      tuser_str = tuser_str.substr(tuser_str.len() - (cfg.tuser_width/4), tuser_str.len()-1);
+      get_metadata.push_back('{
+         index     : field_count,
+         value     : access_str,
+         col_name  : "access",
+         col_width : access_str.len(),
+         col_align : UVML_TEXT_ALIGN_RIGHT,
+         data_type : UVML_FIELD_ENUM
+      });
+      field_count++;
       
-      if (size > uvma_axis_logging_num_data_bytes) begin
-         // Log first n bytes and last n bytes
-         for (int unsigned ii=0; ii<uvma_axis_logging_num_data_bytes; ii++) begin
-            lower_n_bytes.push_back(data[ii]);
-         end
-         for (int unsigned ii=0; ii<uvma_axis_logging_num_data_bytes; ii++) begin
-            upper_n_bytes.push_back(data[(size - uvma_axis_logging_num_data_bytes) + ii]);
-         end
-         data_str = {log_bytes(upper_n_bytes), " ... ", log_bytes(lower_n_bytes)};
-      end
-      else begin
-         // Log all data bytes
-         data_str = log_bytes(data);
-      end
-      
-      get_metadata[0] = '{
-         index     : 0,
-         value     : tid_str,
-         col_name  : "tid",
-         col_width : cfg.tid_width/4,
+      address_str = address_str.substr(address_str.len() - (cfg.addr_width/4), address_str.len()-1);
+      get_metadata.push_back('{
+         index     : field_count,
+         value     : address_str,
+         col_name  : "address",
+         col_width : address_str.len(),
          col_align : UVML_TEXT_ALIGN_RIGHT,
          data_type : UVML_FIELD_INT
-      };
+      });
+      field_count++;
       
-      get_metadata[1] = '{
-         index     : 1,
-         value     : tdest_str,
-         col_name  : "tdest",
-         col_width : cfg.tdest_width/4,
-         col_align : UVML_TEXT_ALIGN_RIGHT,
-         data_type : UVML_FIELD_INT
-      };
-      
-      get_metadata[2] = '{
-         index     : 2,
-         value     : tuser_str,
-         col_name  : "tuser",
-         col_width : cfg.tuser_width/4,
-         col_align : UVML_TEXT_ALIGN_RIGHT,
-         data_type : UVML_FIELD_INT
-      };
-      
-      get_metadata[3] = '{
-         index     : 3,
-         value     : size_str,
-         col_name  : "size",
-         col_width : 4,
-         col_align : UVML_TEXT_ALIGN_RIGHT,
-         data_type : UVML_FIELD_INT
-      };
-      
-      get_metadata[4] = '{
-         index     : 4,
+      data_str = data_str.substr(data_str.len() - (cfg.data_width/4), data_str.len()-1);
+      get_metadata.push_back('{
+         index     : field_count,
          value     : data_str,
          col_name  : "data",
-         col_width : (uvma_axis_logging_num_data_bytes*5)+3,
+         col_width : data_str.len(),
          col_align : UVML_TEXT_ALIGN_RIGHT,
-         data_type : UVML_FIELD_QUEUE_INT
-      };
+         data_type : UVML_FIELD_INT
+      });
+      field_count++;
+      
+      be_str = be_str.substr(be_str.len() - cfg.data_width, be_str.len()-1);
+      get_metadata.push_back('{
+         index     : field_count,
+         value     : be_str,
+         col_name  : "be",
+         col_width : be_str.len(),
+         col_align : UVML_TEXT_ALIGN_RIGHT,
+         data_type : UVML_FIELD_INT
+      });
+      field_count++;
+      
+      auser_str = auser_str.substr(auser_str.len() - (cfg.auser_width/4), auser_str.len()-1);
+      if (cfg.auser_width > 0) begin
+         get_metadata.push_back('{
+            index     : field_count,
+            value     : auser_str,
+            col_name  : "auser",
+            col_width : auser_str.len(),
+            col_align : UVML_TEXT_ALIGN_RIGHT,
+            data_type : UVML_FIELD_QUEUE_INT
+         });
+         field_count++;
+      end
+      
+      wuser_str = wuser_str.substr(wuser_str.len() - (cfg.wuser_width/4), wuser_str.len()-1);
+      if (cfg.wuser_width > 0) begin
+         get_metadata.push_back('{
+            index     : field_count,
+            value     : wuser_str,
+            col_name  : "wuser",
+            col_width : wuser_str.len(),
+            col_align : UVML_TEXT_ALIGN_RIGHT,
+            data_type : UVML_FIELD_QUEUE_INT
+         });
+         field_count++;
+      end
+      
+      ruser_str = ruser_str.substr(ruser_str.len() - (cfg.ruser_width/4), ruser_str.len()-1);
+      if (cfg.ruser_width > 0) begin
+         get_metadata.push_back('{
+            index     : field_count,
+            value     : ruser_str,
+            col_name  : "ruser",
+            col_width : ruser_str.len(),
+            col_align : UVML_TEXT_ALIGN_RIGHT,
+            data_type : UVML_FIELD_QUEUE_INT
+         });
+         field_count++;
+      end
+      
+      if (cfg.id_width > 0) begin
+         aid_str = aid_str.substr(aid_str.len() - (cfg.id_width/4), aid_str.len()-1);
+         get_metadata.push_back('{
+            index     : field_count,
+            value     : aid_str,
+            col_name  : "aid",
+            col_width : aid_str.len(),
+            col_align : UVML_TEXT_ALIGN_RIGHT,
+            data_type : UVML_FIELD_QUEUE_INT
+         });
+         field_count++;
+         
+         rid_str = rid_str.substr(rid_str.len() - (cfg.id_width/4), rid_str.len()-1);
+         get_metadata.push_back('{
+            index     : field_count,
+            value     : rid_str,
+            col_name  : "rid",
+            col_width : rid_str.len(),
+            col_align : UVML_TEXT_ALIGN_RIGHT,
+            data_type : UVML_FIELD_QUEUE_INT
+         });
+         field_count++;
+      end
+      
+      get_metadata.push_back('{
+         index     : field_count,
+         value     : err_str,
+         col_name  : "err",
+         col_width : err_str.len(),
+         col_align : UVML_TEXT_ALIGN_RIGHT,
+         data_type : UVML_FIELD_INT
+      });
+      field_count++;
+      
+      get_metadata.push_back('{
+         index     : field_count,
+         value     : exokay_str,
+         col_name  : "exokay",
+         col_width : exokay_str.len(),
+         col_align : UVML_TEXT_ALIGN_RIGHT,
+         data_type : UVML_FIELD_INT
+      });
+      field_count++;
+      
+      get_metadata.push_back('{
+         index     : field_count,
+         value     : atop_str,
+         col_name  : "atop",
+         col_width : atop_str.len(),
+         col_align : UVML_TEXT_ALIGN_RIGHT,
+         data_type : UVML_FIELD_INT
+      });
+      field_count++;
+      
+      get_metadata.push_back('{
+         index     : field_count,
+         value     : prot_str,
+         col_name  : "prot",
+         col_width : prot_str.len(),
+         col_align : UVML_TEXT_ALIGN_RIGHT,
+         data_type : UVML_FIELD_INT
+      });
+      field_count++;
+      
+      achk_str = achk_str.substr(achk_str.len() - (cfg.achk_width/4), achk_str.len()-1);
+      if (cfg.achk_width > 0) begin
+         get_metadata.push_back('{
+            index     : field_count,
+            value     : achk_str,
+            col_name  : "achk",
+            col_width : achk_str.len(),
+            col_align : UVML_TEXT_ALIGN_RIGHT,
+            data_type : UVML_FIELD_QUEUE_INT
+         });
+         field_count++;
+      end
+      
+      rchk_str = rchk_str.substr(rchk_str.len() - (cfg.rchk_width/4), rchk_str.len()-1);
+      if (cfg.rchk_width > 0) begin
+         get_metadata.push_back('{
+            index     : field_count,
+            value     : rchk_str,
+            col_name  : "rchk",
+            col_width : rchk_str.len(),
+            col_align : UVML_TEXT_ALIGN_RIGHT,
+            data_type : UVML_FIELD_QUEUE_INT
+         });
+         field_count++;
+      end
    end
    
 endfunction : get_metadata
-
-
-function uvma_obi_data_l_t uvma_obi_mon_trn_c::get_be_bitmask();
-
-   uvma_obi_data_l_t bitmask = '0;
-
-   for (int i = 0; i < cfg.data_width / 8; i++) begin
-      if (be[i]) bitmask |= 'hff << (i*8);
-   end
-
-   return bitmask;
-
-endfunction : get_be_bitmask
-
-
-function string uvma_obi_mon_trn_c::get_data_str();
-
-   uvma_obi_data_l_t be_bitmask = this.get_be_bitmask();
-   string data_str;
-
-   for (int i = 0; i < cfg.data_width / 8; i++) begin
-      if (be[i])
-         data_str = $sformatf("%02x%s", this.data[i*8+:8], data_str);
-      else
-         data_str = $sformatf("--%s", data_str);
-   end
-
-   return data_str;
-
-endfunction : get_data_str
 
 
 `endif // __UVMA_OBI_MON_TRN_SV__
