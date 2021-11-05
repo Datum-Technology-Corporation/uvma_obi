@@ -23,7 +23,7 @@ This project consists of the agent (`uvma_obi_pkg`), the self-testing UVM enviro
 | Source Code (Coming Soon) | Source Code (Coming Soon) | Source Code (Coming Soon) |
 | Documentation (Coming Soon) | Documentation (Coming Soon) | Documentation (Coming Soon) |
 
-> **[View All Releases](releases.md)**
+> **View All Releases (Coming Soon)**
 
 
 
