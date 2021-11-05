@@ -141,7 +141,6 @@ function uvml_metadata_t uvma_obi_mstr_a_mon_trn_c::get_metadata();
    string  wdata_str   = $sformatf("%h", wdata  );
    string  auser_str   = $sformatf("%h", auser  );
    string  wuser_str   = $sformatf("%h", wuser  );
-   string  ruser_str   = $sformatf("%h", ruser  );
    string  aid_str     = $sformatf("%h", aid    );
    string  atop_str    = $sformatf("%h", atop   );
    string  memtype_str = $sformatf("%h", memtype);
@@ -218,19 +217,6 @@ function uvml_metadata_t uvma_obi_mstr_a_mon_trn_c::get_metadata();
          field_count++;
       end
       
-      if (cfg.ruser_width > 0) begin
-         ruser_str = ruser_str.substr(ruser_str.len() - (cfg.ruser_width/4), ruser_str.len()-1);
-         get_metadata.push_back('{
-            index     : field_count,
-            value     : ruser_str,
-            col_name  : "ruser",
-            col_width : ruser_str.len(),
-            col_align : UVML_TEXT_ALIGN_RIGHT,
-            data_type : UVML_FIELD_ENUM
-         });
-         field_count++;
-      end
-      
       if (cfg.id_width > 0) begin
          aid_str = aid_str.substr(aid_str.len() - (cfg.id_width/4), aid_str.len()-1);
          get_metadata.push_back('{
@@ -289,7 +275,7 @@ function uvml_metadata_t uvma_obi_mstr_a_mon_trn_c::get_metadata();
          get_metadata.push_back('{
             index     : field_count,
             value     : achk_str,
-            col_name  : "aid",
+            col_name  : "achk",
             col_width : achk_str.len(),
             col_align : UVML_TEXT_ALIGN_RIGHT,
             data_type : UVML_FIELD_ENUM

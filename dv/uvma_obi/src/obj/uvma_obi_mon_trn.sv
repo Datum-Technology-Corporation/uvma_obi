@@ -42,6 +42,10 @@ class uvma_obi_mon_trn_c extends uvml_mon_trn_c;
    uvma_obi_rchk_l_t          rchk       ; ///< Response signal checksum
    
    // Metadata
+   int unsigned  req_latency   ; ///< Number of cycles before req is asserted
+   int unsigned  rready_latency; ///< Number of cycles before rready is asserted after rvalid has been asserted
+   int unsigned  rready_hold   ; ///< Number of cycles to keep rready asserted after rvalid has been de-asserted
+   int unsigned  tail_length   ; ///< Number of idle cycles after rready has been de-asserted
    
    
    `uvm_object_utils_begin(uvma_obi_mon_trn_c)
@@ -278,6 +282,16 @@ function uvml_metadata_t uvma_obi_mon_trn_c::get_metadata();
          value     : atop_str,
          col_name  : "atop",
          col_width : atop_str.len(),
+         col_align : UVML_TEXT_ALIGN_RIGHT,
+         data_type : UVML_FIELD_INT
+      });
+      field_count++;
+      
+      get_metadata.push_back('{
+         index     : field_count,
+         value     : memtype_str,
+         col_name  : "memtype",
+         col_width : memtype_str.len(),
          col_align : UVML_TEXT_ALIGN_RIGHT,
          data_type : UVML_FIELD_INT
       });

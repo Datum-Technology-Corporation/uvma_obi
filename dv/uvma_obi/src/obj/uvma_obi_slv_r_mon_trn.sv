@@ -34,6 +34,7 @@ class uvma_obi_slv_r_mon_trn_c extends uvml_mon_trn_c;
    uvma_obi_rchk_l_t       rchk     ; ///< TODO Describe uvma_obi_slv_r_mon_trn_c::rchk
    
    // Metadata
+   uvma_obi_rready_l_t  rready; 
    
    
    `uvm_object_utils_begin(uvma_obi_slv_r_mon_trn_c)
