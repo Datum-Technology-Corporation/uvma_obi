@@ -59,7 +59,7 @@ task uvmt_obi_st_all_access_test_c::main_phase(uvm_phase phase);
    
    phase.raise_objection(this);
    `uvm_info("TEST", $sformatf("Starting rand_access virtual sequence:\n%s", rand_access_vseq.sprint()), UVM_NONE)
-   rand_access_vseq.start(vsequencer);
+   rand_access_vseq.start(vsequencer.mstr_vsequencer);
    `uvm_info("TEST", $sformatf("Finished rand_access virtual sequence:\n%s", rand_access_vseq.sprint()), UVM_NONE)
    phase.drop_objection(this);
    

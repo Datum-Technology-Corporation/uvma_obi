@@ -57,6 +57,9 @@ class uvme_obi_st_cfg_c extends uvm_object;
    }
    
    constraint agents_generic_cfg_cons {
+      mstr_cfg.bypass_mode == 0;
+      slv_cfg .bypass_mode == 0;
+      
       if (enabled) {
          mstr_cfg.enabled == 1;
          slv_cfg .enabled == 1;
@@ -74,6 +77,8 @@ class uvme_obi_st_cfg_c extends uvm_object;
          mstr_cfg.is_active == UVM_PASSIVE;
          slv_cfg .is_active == UVM_PASSIVE;
       }
+      
+      mstr_cfg.reset_type  == slv_cfg.reset_type ;
       
       if (trn_log_enabled) {
          mstr_cfg.trn_log_enabled == 1;

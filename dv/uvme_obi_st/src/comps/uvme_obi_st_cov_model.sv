@@ -17,9 +17,9 @@
 
 
 /**
- * Component encapsulating AMBA Advanced eXtensible Interface Self-Test Environment functional coverage model.
+ * Component encapsulating OBI Agent Self-Test Environment functional coverage model.
  */
-class uvme_obi_st_cov_model_c extends uvm_component;
+class uvme_obi_st_cov_model_c extends uvma_obi_cov_model_c;
    
    `uvm_component_utils(uvme_obi_st_cov_model_c)
    
