@@ -88,14 +88,26 @@ class uvme_obi_st_cfg_c extends uvm_object;
          mstr_cfg.trn_log_enabled == 0;
          slv_cfg .trn_log_enabled == 0;
       }
+      
+      if (cov_model_enabled) {
+         mstr_cfg.cov_model_enabled == 1;
+         slv_cfg .cov_model_enabled == 1;
+      }
+      else {
+         mstr_cfg.cov_model_enabled == 0;
+         slv_cfg .cov_model_enabled == 0;
+      }
    }
    
    constraint agents_protocol_cons {
+      mstr_cfg.version     == slv_cfg.version    ;
       mstr_cfg.addr_width  == slv_cfg.addr_width ;
       mstr_cfg.data_width  == slv_cfg.data_width ;
       mstr_cfg.auser_width == slv_cfg.auser_width;
       mstr_cfg.wuser_width == slv_cfg.wuser_width;
       mstr_cfg.ruser_width == slv_cfg.ruser_width;
+      mstr_cfg.achk_width  == slv_cfg.achk_width ;
+      mstr_cfg.rchk_width  == slv_cfg.rchk_width ;
       mstr_cfg.id_width    == slv_cfg.id_width   ;
       
       mstr_cfg.drv_mode == UVMA_OBI_DRV_MODE_MSTR;

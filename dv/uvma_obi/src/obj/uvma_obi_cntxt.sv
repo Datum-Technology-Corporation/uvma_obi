@@ -24,11 +24,12 @@ typedef class uvma_obi_mstr_a_mon_trn_c;
  */
 class uvma_obi_cntxt_c extends uvm_object;
    
-   virtual uvma_obi_if               vif                 ; ///< Handle to agent interface
-   uvml_reset_state_enum             reset_state         ; ///< TODO Describe uvma_obi_cntxt_c::reset_state
-   uvma_obi_mstr_a_mon_trn_c         mon_outstanding_q[$]; ///< TODO Describe uvma_obi_cntxt_c::mon_outstanding_q
-   uvml_mem_model_c                  memory              ; ///< Handle to memory model for active slaves
-   uvma_obi_slv_handler_base_vseq_c  slv_handlers[$]     ; ///< Queue of sequences that can respond to read/write from mstr
+   virtual uvma_obi_if               vif                     ; ///< Handle to agent interface
+   uvml_reset_state_enum             reset_state             ; ///< TODO Describe uvma_obi_cntxt_c::reset_state
+   uvma_obi_mstr_a_mon_trn_c         mon_outstanding_q[$]    ; ///< TODO Describe uvma_obi_cntxt_c::mon_outstanding_q
+   uvma_obi_mstr_a_mon_trn_c         drv_slv_outstanding_q[$]; ///< TODO Describe uvma_obi_cntxt_c::mon_outstanding_q
+   uvml_mem_model_c                  memory                  ; ///< Handle to memory model for active slaves
+   uvma_obi_slv_handler_base_vseq_c  slv_handlers[$]         ; ///< Queue of sequences that can respond to read/write from mstr
    
    uvm_sequence_base  mon_vseq     ; ///< 
    uvm_sequence_base  idle_vseq    ; ///< 
@@ -80,7 +81,8 @@ endfunction : new
 
 function void uvma_obi_cntxt_c::reset();
    
-   mon_outstanding_q.delete();
+   mon_outstanding_q    .delete();
+   drv_slv_outstanding_q.delete();
    
 endfunction : reset
 

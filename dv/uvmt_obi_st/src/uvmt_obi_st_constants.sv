@@ -17,7 +17,7 @@
 
 
 const int unsigned uvmt_obi_st_default_clk_period          =    10_000; //  10 ns (100 Mhz)
-const int unsigned uvmt_obi_st_default_reset_period        =        00; //  100 ns
+const int unsigned uvmt_obi_st_default_reset_period        =       100; //  100 ns
 const int unsigned uvmt_obi_st_default_startup_timeout     =   200_000; //  .2 us
 const int unsigned uvmt_obi_st_default_heartbeat_period    =    20_000; //  .02 us
 const int unsigned uvmt_obi_st_default_simulation_timeout  = 1_000_000; // 1 ms

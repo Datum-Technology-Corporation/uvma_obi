@@ -41,6 +41,7 @@ package uvme_obi_st_pkg;
    import uvml_logs_pkg::*;
    import uvml_sb_pkg  ::*;
    import uvma_obi_pkg ::*;
+   import uvml_mem_pkg ::*;
    
    // Constants / Structs / Enums
    `include "uvme_obi_st_tdefs.sv"

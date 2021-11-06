@@ -90,8 +90,16 @@ task uvma_obi_mon_vseq_c::monitor_a();
          get_slv_a_mon_trn (slv_a_mon_trn );
       end while ((mstr_a_mon_trn.req !== 1'b1) || (slv_a_mon_trn.gnt !== 1'b1));
       
-      // TODO Check if id already within queue
+      do begin
+         get_mstr_a_mon_trn(mstr_a_mon_trn);
+         get_slv_a_mon_trn (slv_a_mon_trn );
+      end while ((mstr_a_mon_trn.req === 1'b1) && (slv_a_mon_trn.gnt === 1'b1));
+      
       cntxt.mon_outstanding_q.push_back(mstr_a_mon_trn);
+      if (cfg.is_active && (cfg.drv_mode == UVMA_OBI_DRV_MODE_SLV)) begin
+         cntxt.drv_slv_outstanding_q.push_back(mstr_a_mon_trn);
+         cntxt.mstr_a_req_e.trigger();
+      end
       `uvml_hrtbt_owner(p_sequencer)
    end
    

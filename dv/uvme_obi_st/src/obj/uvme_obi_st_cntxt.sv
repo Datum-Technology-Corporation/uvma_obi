@@ -59,6 +59,7 @@ function uvme_obi_st_cntxt_c::new(string name="uvme_obi_st_cntxt");
    
    mstr_cntxt = uvma_obi_cntxt_c::type_id::create("mstr_cntxt");
    slv_cntxt  = uvma_obi_cntxt_c::type_id::create("slv_cntxt" );
+   slv_cntxt.memory.mem_default = UVML_MEM_DEFAULT_VAL_INCR;
    
    sb_e2e_cntxt = uvml_sb_simplex_cntxt_c::type_id::create("sb_e2e_cntxt");
    

@@ -101,7 +101,8 @@ class uvma_obi_cfg_c extends uvm_object;
    }
    
    constraint limits_cons {
-      data_width  inside {[1:`UVMA_OBI_DATA_MAX_WIDTH ]};
+      data_width % 8 == 0;
+      data_width  inside {[8:`UVMA_OBI_DATA_MAX_WIDTH ]};
       id_width    inside {[0:`UVMA_OBI_ID_MAX_WIDTH   ]};
       auser_width inside {[0:`UVMA_OBI_AUSER_MAX_WIDTH]};
       wuser_width inside {[0:`UVMA_OBI_WUSER_MAX_WIDTH]};

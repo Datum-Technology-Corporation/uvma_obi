@@ -277,15 +277,15 @@ task uvma_obi_mon_c::observe_reset_sync();
    
    forever begin
       while (cntxt.vif.reset_n !== 1'b0) begin
-         wait (cntxt.vif.clk === 1);
          wait (cntxt.vif.clk === 0);
+         wait (cntxt.vif.clk === 1);
       end
       cntxt.reset_state = UVML_RESET_STATE_IN_RESET;
       `uvm_info("OBI_MON", "Entered IN_RESET state", UVM_MEDIUM)
       
       while (cntxt.vif.reset_n !== 1'b1) begin
-         wait (cntxt.vif.clk === 1);
          wait (cntxt.vif.clk === 0);
+         wait (cntxt.vif.clk === 1);
       end
       cntxt.reset_state = UVML_RESET_STATE_POST_RESET;
       `uvm_info("OBI_MON", "Entered POST_RESET state", UVM_MEDIUM)
@@ -414,7 +414,7 @@ task uvma_obi_mon_c::sample_mstr_a_trn(output uvma_obi_mstr_a_mon_trn_c trn);
    @(mp_a.mon_a_cb);
    `uvm_info("OBI_MON", "Sampling MSTR Channel A transaction", UVM_DEBUG)
    trn = uvma_obi_mstr_a_mon_trn_c::type_id::create("trn");
-   trn.req       = mp_a.mon_a_cb.gnt    ;
+   trn.req       = mp_a.mon_a_cb.req    ;
    trn.we        = mp_a.mon_a_cb.we     ;
    trn.atop      = mp_a.mon_a_cb.atop   ;
    trn.memtype   = mp_a.mon_a_cb.memtype;

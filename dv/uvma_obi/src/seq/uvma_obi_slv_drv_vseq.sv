@@ -34,14 +34,14 @@ class uvma_obi_slv_drv_vseq_c extends uvma_obi_base_vseq_c;
    extern virtual task body();
    
    /**
+    * TODO Describe uvma_obi_slv_drv_vseq_c::drive_a()
+    */
+   extern virtual task drive_a();
+   
+   /**
     * TODO Describe uvma_obi_slv_drv_vseq_c::response_loop()
     */
    extern virtual task response_loop();
-   
-   /**
-    * TODO Describe uvma_obi_slv_drv_vseq_c::drive()
-    */
-   extern virtual task drive(ref uvma_obi_mstr_a_mon_trn_c mon_a_trn);
    
    /**
     * TODO Describe uvma_obi_slv_base_vseq_c::wait_clk_a()
@@ -65,18 +65,17 @@ endfunction : new
 
 task uvma_obi_slv_drv_vseq_c::body();
    
-   uvma_obi_mstr_a_mon_trn_c  mon_trn;
-   
    forever begin
       fork
-         response_loop();
+         begin
+            wait (cntxt.reset_state == UVML_RESET_STATE_POST_RESET) begin
+               drive_a();
+            end
+         end
          
          begin
             wait (cntxt.reset_state == UVML_RESET_STATE_POST_RESET) begin
-               do begin
-                  get_mstr_a_mon_trn(mon_trn);
-               end while (mon_trn.req !== 1'b1);
-               drive(mon_trn);
+               response_loop();
             end
          end
          
@@ -91,6 +90,26 @@ task uvma_obi_slv_drv_vseq_c::body();
 endtask : body
 
 
+task uvma_obi_slv_drv_vseq_c::drive_a();
+   
+   uvma_obi_slv_a_seq_item_c  slv_a_seq_item;
+   
+   forever begin
+      // TODO Add ton/toff
+      if ($urandom_range(0,1)) begin
+         `uvm_create_on(slv_a_seq_item, p_sequencer.slv_a_sequencer)
+         `uvm_rand_send_pri_with(slv_a_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI, {
+            gnt == 1'b1;
+         })
+      end
+      else begin
+         wait_clk_a();
+      end
+   end
+   
+endtask : drive_a
+
+
 task uvma_obi_slv_drv_vseq_c::response_loop();
    
    uvma_obi_mstr_a_mon_trn_c  trn        ;
@@ -98,8 +117,8 @@ task uvma_obi_slv_drv_vseq_c::response_loop();
    
    forever begin
       cntxt.mstr_a_req_e.wait_trigger();
-      for (int unsigned ii=0; ii<cntxt.mon_outstanding_q.size(); ii++) begin
-         trn = cntxt.mon_outstanding_q[ii];
+      while (cntxt.drv_slv_outstanding_q.size()) begin
+         trn = cntxt.drv_slv_outstanding_q.pop_front();
          handled = 0;
          foreach (cntxt.slv_handlers[jj]) begin
             cntxt.slv_handlers[jj].handle_mstr_req(trn, handled);
@@ -107,31 +126,13 @@ task uvma_obi_slv_drv_vseq_c::response_loop();
                break;
             end
          end
+         if (!handled) begin
+            `uvm_warning("OBI_SLV_DRV_VSEQ", $sformatf("Request from MSTR not handled:\n%s", trn.sprint()))
+         end
       end
-      `uvm_warning("OBI_SLV_DRV_VSEQ", $sformatf("Request from MSTR not handled:\n%s", trn.sprint()))
    end
    
 endtask : response_loop
-
-
-task uvma_obi_slv_drv_vseq_c::drive(ref uvma_obi_mstr_a_mon_trn_c mon_a_trn);
-   
-   uvma_obi_slv_a_seq_item_c  slv_a_seq_item;
-   uvma_obi_slv_r_seq_item_c  slv_r_seq_item;
-   uvma_obi_mstr_r_mon_trn_c  mon_r_trn     ;
-   bit                        read_data[$]  ;
-   
-   // TODO Add gnt latency cycles
-   // TODO Add ton/toff
-   `uvm_create_on(slv_a_seq_item, p_sequencer.slv_a_sequencer)
-   do begin
-      `uvm_rand_send_pri_with(slv_a_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI, {
-         gnt == 1'b1;
-      })
-   end while (slv_a_seq_item.req !== 1'b1);
-   cntxt.mstr_a_req_e.trigger();
-   
-endtask : drive
 
 
 task uvma_obi_slv_drv_vseq_c::wait_clk_a();

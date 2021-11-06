@@ -31,7 +31,7 @@ class uvma_obi_slv_r_drv_c extends uvm_driver #(
    uvma_obi_cntxt_c  cntxt; ///< Agent context handle
    
    // TLM
-   uvm_analysis_port#(uvma_obi_slv_r_seq_item_c)  ap; ///< 
+   uvm_analysis_port #(uvma_obi_slv_r_seq_item_c)  ap; ///< 
    
    
    `uvm_component_utils_begin(uvma_obi_slv_r_drv_c)

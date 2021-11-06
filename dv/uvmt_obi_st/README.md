@@ -1,4 +1,23 @@
-# OBI (Open Bus Interface) UVM Agent Self-Test Test Bench and Tests Library
-This IP contains the OBI (Open Bus Interface) UVM Agent Self-Test Test Bench and Tests Library.
+# Open Bus Interface (OBI) UVM Agent Self-Test Bench and Test Library
 
-A 'makefile', `mio.py`, for simulating with the Xilinx Vivado Simulator can be found under `/bin`. The CLI is defined at the top of the script.
+# About
+This IP contains the Open Bus Interface (OBI) UVM Agent Self-Test Bench and Test Library.
+
+# Block Diagram
+![alt text](./docs/tb_block_diagram.png "Open Bus Interface (OBI) UVM Agent Self-Test Bench Block Diagram")
+
+# Directory Structure
+* `bin` - Scripts, metadata and other miscellaneous files
+* `docs` - Documents describing the Open Bus Interface UVM Agent Self-Test Bench
+* `examples` - Samples for users
+* `src` - Source code for this IP
+
+
+# Dependencies
+It is dependent on the following packages:
+
+* [`uvm_pkg`](https://www.accellera.org/downloads/standards/uvm)
+* [`uvml_pkg`](https://datum-technology-corporation.github.io/uvml/)
+* [`uvml_logs_pkg`](https://datum-technology-corporation.github.io/uvml_logs/)
+* `uvma_obi`
+* `uvme_obi_st`

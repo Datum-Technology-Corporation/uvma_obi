@@ -74,6 +74,7 @@ task uvma_obi_mstr_drv_vseq_c::body();
             wait (cntxt.reset_state == UVML_RESET_STATE_POST_RESET) begin
                `uvm_info("OBI_MSTR_DRV_VSEQ", "Waiting for next item", UVM_DEBUG)
                p_sequencer.get_next_item    (seq_item);
+               `uvm_info("OBI_MSTR_DRV_VSEQ", {"Got next item:\n", seq_item.sprint()}, UVM_DEBUG)
                process_req                  (seq_item);
                drive                        (seq_item);
                p_sequencer.seq_item_ap.write(seq_item);
@@ -123,7 +124,7 @@ task uvma_obi_mstr_drv_vseq_c::drive(ref uvma_obi_seq_item_c seq_item);
          memtype == seq_item.memtype    ;
          prot    == seq_item.prot       ;
       })
-   end while(mstr_a_seq_item.gnt !== 1'b1);
+   end while (mstr_a_seq_item.gnt !== 1'b1);
    
    do begin
       `uvm_create_on(mstr_r_seq_item, p_sequencer.mstr_r_sequencer)
@@ -133,7 +134,7 @@ task uvma_obi_mstr_drv_vseq_c::drive(ref uvma_obi_seq_item_c seq_item);
    end while(mstr_r_seq_item.rvalid !== 1'b1);
    
    if (seq_item.access_type == UVMA_OBI_ACCESS_READ) begin
-      seq_item.data = cntxt.vif.rdata;
+      seq_item.data = mstr_r_seq_item.rdata;
    end
    
 endtask : drive

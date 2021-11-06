@@ -35,17 +35,17 @@ class uvma_obi_vsqr_c extends uvm_sequencer #(
    uvma_obi_slv_r_sqr_c   slv_r_sequencer ; ///< TODO Describe uvma_obi_vsqr_c::slv_r_sequencer 
    
    // TLM
-   uvm_seq_item_pull_port #(uvm_sequence_item       )  upstream_sqr_port  ; ///< TODO Describe uvma_obi_vsqr_c::upstream_sqr_port
-   uvm_analysis_port     #(uvma_obi_mon_trn_c       )  mon_trn_ap           ; ///< TODO Describe uvma_obi_vswr_c::mon_trn_ap           
-   uvm_analysis_port     #(uvma_obi_seq_item_c      )  seq_item_ap          ; ///< TODO Describe uvma_obi_vswr_c::seq_item_ap          
-   uvm_tlm_analysis_fifo #(uvma_obi_mstr_a_mon_trn_c)  mstr_a_mon_trn_fifo  ; ///< TODO Describe uvma_obi_vswr_c::mstr_a_mon_trn_fifo  
-   uvm_tlm_analysis_fifo #(uvma_obi_mstr_r_mon_trn_c)  mstr_r_mon_trn_fifo  ; ///< TODO Describe uvma_obi_vswr_c::mstr_r_mon_trn_fifo  
-   uvm_tlm_analysis_fifo #(uvma_obi_slv_a_mon_trn_c )  slv_a_mon_trn_fifo   ; ///< TODO Describe uvma_obi_vswr_c::slv_a_mon_trn_fifo   
-   uvm_tlm_analysis_fifo #(uvma_obi_slv_r_mon_trn_c )  slv_r_mon_trn_fifo   ; ///< TODO Describe uvma_obi_vswr_c::slv_r_mon_trn_fifo   
-   uvm_analysis_export   #(uvma_obi_mstr_a_mon_trn_c)  mstr_a_mon_trn_export; ///< TODO Describe uvma_obi_vswr_c::mstr_a_mon_trn_export
-   uvm_analysis_export   #(uvma_obi_mstr_r_mon_trn_c)  mstr_r_mon_trn_export; ///< TODO Describe uvma_obi_vswr_c::mstr_r_mon_trn_export
-   uvm_analysis_export   #(uvma_obi_slv_a_mon_trn_c )  slv_a_mon_trn_export ; ///< TODO Describe uvma_obi_vswr_c::slv_a_mon_trn_export 
-   uvm_analysis_export   #(uvma_obi_slv_r_mon_trn_c )  slv_r_mon_trn_export ; ///< TODO Describe uvma_obi_vswr_c::slv_r_mon_trn_export 
+   uvm_seq_item_pull_port #(uvm_sequence_item        )  upstream_sqr_port    ; ///< TODO Describe uvma_obi_vsqr_c::upstream_sqr_port
+   uvm_analysis_port      #(uvma_obi_mon_trn_c       )  mon_trn_ap           ; ///< TODO Describe uvma_obi_vswr_c::mon_trn_ap           
+   uvm_analysis_port      #(uvma_obi_seq_item_c      )  seq_item_ap          ; ///< TODO Describe uvma_obi_vswr_c::seq_item_ap          
+   uvm_tlm_analysis_fifo  #(uvma_obi_mstr_a_mon_trn_c)  mstr_a_mon_trn_fifo  ; ///< TODO Describe uvma_obi_vswr_c::mstr_a_mon_trn_fifo  
+   uvm_tlm_analysis_fifo  #(uvma_obi_mstr_r_mon_trn_c)  mstr_r_mon_trn_fifo  ; ///< TODO Describe uvma_obi_vswr_c::mstr_r_mon_trn_fifo  
+   uvm_tlm_analysis_fifo  #(uvma_obi_slv_a_mon_trn_c )  slv_a_mon_trn_fifo   ; ///< TODO Describe uvma_obi_vswr_c::slv_a_mon_trn_fifo   
+   uvm_tlm_analysis_fifo  #(uvma_obi_slv_r_mon_trn_c )  slv_r_mon_trn_fifo   ; ///< TODO Describe uvma_obi_vswr_c::slv_r_mon_trn_fifo   
+   uvm_analysis_export    #(uvma_obi_mstr_a_mon_trn_c)  mstr_a_mon_trn_export; ///< TODO Describe uvma_obi_vswr_c::mstr_a_mon_trn_export
+   uvm_analysis_export    #(uvma_obi_mstr_r_mon_trn_c)  mstr_r_mon_trn_export; ///< TODO Describe uvma_obi_vswr_c::mstr_r_mon_trn_export
+   uvm_analysis_export    #(uvma_obi_slv_a_mon_trn_c )  slv_a_mon_trn_export ; ///< TODO Describe uvma_obi_vswr_c::slv_a_mon_trn_export 
+   uvm_analysis_export    #(uvma_obi_slv_r_mon_trn_c )  slv_r_mon_trn_export ; ///< TODO Describe uvma_obi_vswr_c::slv_r_mon_trn_export 
    
    
    `uvm_component_utils_begin(uvma_obi_vsqr_c)

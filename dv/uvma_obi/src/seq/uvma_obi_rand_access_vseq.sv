@@ -29,6 +29,7 @@ class uvma_obi_rand_access_vseq_c extends uvma_obi_base_vseq_c;
    
    
    `uvm_object_utils_begin(uvma_obi_rand_access_vseq_c)
+      `uvm_field_int(num_access, UVM_DEFAULT + UVM_DEC)
       `uvm_field_int(pct_reads , UVM_DEFAULT + UVM_DEC)
       `uvm_field_int(pct_writes, UVM_DEFAULT + UVM_DEC)
       `uvm_field_int(min_gap   , UVM_DEFAULT + UVM_DEC)

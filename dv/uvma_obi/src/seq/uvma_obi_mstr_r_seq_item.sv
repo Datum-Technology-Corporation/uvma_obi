@@ -29,6 +29,7 @@ class uvma_obi_mstr_r_seq_item_c extends uvml_seq_item_c;
    
    // Metadata
    uvma_obi_rvalid_l_t  rvalid;
+   uvma_obi_data_l_t    rdata ;
    
    
    `uvm_object_utils_begin(uvma_obi_mstr_r_seq_item_c)
