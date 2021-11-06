@@ -261,12 +261,12 @@ endtask : run_phase
 
 task uvma_obi_mon_c::observe_reset();
    
-   case (cfg.reset_mode)
-      UVML_RESET_MODE_SYNCHRONOUS : observe_reset_sync ();
-      UVML_RESET_MODE_ASYNCHRONOUS: observe_reset_async();
+   case (cfg.reset_type)
+      UVML_RESET_TYPE_SYNCHRONOUS : observe_reset_sync ();
+      UVML_RESET_TYPE_ASYNCHRONOUS: observe_reset_async();
       
       default: begin
-         `uvm_fatal("OBI_MON", $sformatf("Illegal cfg.reset_mode: %s", cfg.reset_mode.name()))
+         `uvm_fatal("OBI_MON", $sformatf("Illegal cfg.reset_type: %s", cfg.reset_type.name()))
       end
    endcase
    

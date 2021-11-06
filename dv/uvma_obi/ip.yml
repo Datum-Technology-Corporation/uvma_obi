@@ -1,15 +1,15 @@
 ip:
-  name: "uvma_mio_cli"
+  name: "uvma_obi"
   version: "1.0.0 Beta 0"
-  full-name: "Moore.io CLI Testing Grounds UVM Agent"
+  full-name: "Moore.io Open Bus Interface (OBI) UVM Agent"
   type: "DV"
   sub-type: "UVM Agent"
   sub-sub-type: "Simplex; Non-Layered"
   description: >
-    UVM Agent used for development of Moore.io CLI.  NOT meant for use in actual DV work.
-  home-page: "https://datum-technology-corporation.github.io/mio_cli/"
-  repo-uri: "https://github.com/Datum-Technology-Corporation/mio_cli.git"
-  bugs: "https://github.com/Datum-Technology-Corporation/mio_cli/issues"
+    
+  home-page: "https://datum-technology-corporation.github.io/uvma_obi/"
+  repo-uri: "https://github.com/Datum-Technology-Corporation/uvma_obi.git"
+  bugs: "https://github.com/Datum-Technology-Corporation/uvma_obi/issues"
   aliases: []
   logo: ""
   block-diagram: "docs/agent_block_diagram.svg"
@@ -35,10 +35,10 @@ hdl-src:
   directories: [".", "comps", "obj", "seq"]
   tests-name-template: ""
   flists:
-    metrics : [ "src/uvma_mio_cli_pkg.flist"      ]
-    riviera : [ "src/uvma_mio_cli_pkg.flist"      ]
-    questa  : [ "src/uvma_mio_cli_pkg.flist"      ]
-    vcs     : [ "src/uvma_mio_cli_pkg.flist"      ]
-    vivado  : [ "src/uvma_mio_cli_pkg.flist.xsim" ]
-    xcelium : [ "src/uvma_mio_cli_pkg.flist"      ]
+    metrics : [ "src/uvma_obi_pkg.flist"      ]
+    riviera : [ "src/uvma_obi_pkg.flist"      ]
+    questa  : [ "src/uvma_obi_pkg.flist"      ]
+    vcs     : [ "src/uvma_obi_pkg.flist"      ]
+    vivado  : [ "src/uvma_obi_pkg.flist.xsim" ]
+    xcelium : [ "src/uvma_obi_pkg.flist"      ]
 

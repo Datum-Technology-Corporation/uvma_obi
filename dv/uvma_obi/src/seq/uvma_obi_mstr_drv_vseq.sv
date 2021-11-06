@@ -41,7 +41,7 @@ class uvma_obi_mstr_drv_vseq_c extends uvma_obi_base_vseq_c;
    /**
     * TODO Describe uvma_obi_mstr_drv_vseq_c::drive()
     */
-   extern virtual drive(ref uvma_obi_seq_item_c seq_item);
+   extern virtual task drive(ref uvma_obi_seq_item_c seq_item);
    
    /**
     * TODO Describe uvma_obi_mstr_drv_vseq_c::wait_clk_a()
@@ -138,14 +138,14 @@ task uvma_obi_mstr_drv_vseq_c::drive(ref uvma_obi_seq_item_c seq_item);
 endtask : drive
 
 
-task uvma_obi_mstr_base_vseq_c::wait_clk_a();
+task uvma_obi_mstr_drv_vseq_c::wait_clk_a();
    
    @(cntxt.vif.drv_mstr_a_cb);
    
 endtask : wait_clk_a
 
 
-task uvma_obi_mstr_base_vseq_c::wait_clk_r();
+task uvma_obi_mstr_drv_vseq_c::wait_clk_r();
    
    @(cntxt.vif.drv_mstr_r_cb);
    

@@ -115,9 +115,9 @@ class uvma_obi_agent_c extends uvm_agent;
    extern function void connect_cov_model();
    
    /**
-    * Connects transaction loggers to monitor and driver's analysis ports.
+    * Connects transaction logger to monitor and driver's analysis ports.
     */
-   extern function void connect_trn_logger();
+   extern function void connect_logger();
    
    /**
     * TODO Describe uvma_obi_agent_c::start_mon_vseq()

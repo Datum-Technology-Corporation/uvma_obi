@@ -19,7 +19,7 @@
 /**
  * Component driving a Open Bus Interface virtual interface (uvma_obi_if).
  */
-class uvma_obi_drv_slv_a_c extends uvm_driver #(
+class uvma_obi_slv_a_drv_c extends uvm_driver #(
    .REQ(uvma_obi_slv_a_seq_item_c),
    .RSP(uvma_obi_slv_a_seq_item_c)
 );
@@ -34,7 +34,7 @@ class uvma_obi_drv_slv_a_c extends uvm_driver #(
    uvm_analysis_port#(uvma_obi_slv_a_seq_item_c)  ap; ///< 
    
    
-   `uvm_component_utils_begin(uvma_obi_drv_slv_a_c)
+   `uvm_component_utils_begin(uvma_obi_slv_a_drv_c)
       `uvm_field_object(cfg  , UVM_DEFAULT)
       `uvm_field_object(cntxt, UVM_DEFAULT)
    `uvm_component_utils_end
@@ -43,7 +43,7 @@ class uvma_obi_drv_slv_a_c extends uvm_driver #(
    /**
     * Default constructor.
     */
-   extern function new(string name="uvma_obi_drv_slv_a", uvm_component parent=null);
+   extern function new(string name="uvma_obi_slv_a_drv", uvm_component parent=null);
    
    /**
     * 1. Ensures cfg & cntxt handles are not null.
@@ -67,21 +67,21 @@ class uvma_obi_drv_slv_a_c extends uvm_driver #(
    extern virtual task drv_req(ref uvma_obi_slv_a_seq_item_c req);
    
    /**
-    * TODO Describe uvma_obi_drv_slv_a_c::sample_post_clk()
+    * TODO Describe uvma_obi_slv_a_drv_c::sample_post_clk()
     */
    extern virtual task sample_post_clk(ref uvma_obi_slv_a_seq_item_c req);
    
-endclass : uvma_obi_drv_slv_a_c
+endclass : uvma_obi_slv_a_drv_c
 
 
-function uvma_obi_drv_slv_a_c::new(string name="uvma_obi_drv_slv_a", uvm_component parent=null);
+function uvma_obi_slv_a_drv_c::new(string name="uvma_obi_slv_a_drv", uvm_component parent=null);
    
    super.new(name, parent);
    
 endfunction : new
 
 
-function void uvma_obi_drv_slv_a_c::build_phase(uvm_phase phase);
+function void uvma_obi_slv_a_drv_c::build_phase(uvm_phase phase);
    
    super.build_phase(phase);
    
@@ -103,11 +103,11 @@ function void uvma_obi_drv_slv_a_c::build_phase(uvm_phase phase);
 endfunction : build_phase
 
 
-task uvma_obi_drv_slv_a_c::run_phase(uvm_phase phase);
+task uvma_obi_slv_a_drv_c::run_phase(uvm_phase phase);
    
    super.run_phase(phase);
    
-   if (cfg.enabled && cfg.is_active && (cfg.mode == UVMA_OBI_MODE_SLV)) begin
+   if (cfg.enabled && cfg.is_active && (cfg.drv_mode == UVMA_OBI_DRV_MODE_SLV)) begin
       forever begin
          seq_item_port.get_next_item(req);
          process_req                (req);
@@ -123,7 +123,7 @@ task uvma_obi_drv_slv_a_c::run_phase(uvm_phase phase);
 endtask : run_phase
 
 
-function void uvma_obi_drv_slv_a_c::process_req(ref uvma_obi_seq_item_c req);
+function void uvma_obi_slv_a_drv_c::process_req(ref uvma_obi_slv_a_seq_item_c req);
    
    req.cfg = cfg;
    `uvm_info("OBI_SLV_A_DRV", $sformatf("Got new req from the sequencer:\n%s", req.sprint()), UVM_HIGH)
@@ -131,7 +131,7 @@ function void uvma_obi_drv_slv_a_c::process_req(ref uvma_obi_seq_item_c req);
 endfunction : process_req
 
 
-task uvma_obi_drv_slv_a_c::drv_req(ref uvma_obi_seq_item_c req);
+task uvma_obi_slv_a_drv_c::drv_req(ref uvma_obi_slv_a_seq_item_c req);
    
    mp.drv_slv_a_cb.gnt    <= req.gnt   ;
    mp.drv_slv_a_cb.gntpar <= req.gntpar;
@@ -139,7 +139,7 @@ task uvma_obi_drv_slv_a_c::drv_req(ref uvma_obi_seq_item_c req);
 endtask : drv_req
 
 
-task uvma_obi_drv_slv_a_c::sample_post_clk(ref uvma_axis_slv_seq_item_c req);
+task uvma_obi_slv_a_drv_c::sample_post_clk(ref uvma_obi_slv_a_seq_item_c req);
    
    req.req    = cntxt.vif.mon_cb.req   ;
    req.reqpar = cntxt.vif.mon_cb.reqpar;

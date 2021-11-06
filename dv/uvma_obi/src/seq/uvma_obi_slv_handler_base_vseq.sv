@@ -36,7 +36,7 @@ class uvma_obi_slv_handler_base_vseq_c extends uvma_obi_base_vseq_c;
    /**
     * TODO Describe uvma_obi_slv_handler_base_vseq_c::handle_mstr_req()
     */
-   extern virtual task handle_mstr_req(ref uvma_obi_mstr_a_mon_trn_c trn, output bit handled=0);
+   extern virtual task handle_mstr_req(ref uvma_obi_mstr_a_mon_trn_c trn, bit handled);
    
    /**
     * TODO Describe uvma_obi_slv_handler_base_vseq_c::mem_read()
@@ -73,17 +73,22 @@ task uvma_obi_slv_handler_base_vseq_c::body();
 endtask : body
 
 
-task uvma_obi_slv_handler_base_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_trn_c trn, output bit handled=0);
+task uvma_obi_slv_handler_base_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_trn_c trn, bit handled);
    
    // Default behavior does nothing
    
-endtask : task handle_mstr_req
+endtask : handle_mstr_req
 
 
 function uvma_obi_data_b_t uvma_obi_slv_handler_base_vseq_c::mem_read(uvma_obi_addr_b_t address);
    
+   bit [7:0]  current_byte;
+   
    for (int unsigned ii=0; ii<(cfg.data_width/8); ii++) begin
-      mem_read[ii*8:8] = cntxt.memory.read(address+ii);
+      current_byte = cntxt.memory.read(address+ii);
+      for (int unsigned jj=0; jj<8; jj++) begin
+         mem_read[jj] = current_byte[jj];
+      end
    end
    
 endfunction : mem_read
@@ -91,8 +96,14 @@ endfunction : mem_read
 
 function void uvma_obi_slv_handler_base_vseq_c::mem_write(uvma_obi_addr_b_t address, uvma_obi_data_b_t data);
    
+   bit [7:0]  current_byte;
+   
    for (int unsigned ii=0; ii<(cfg.data_width/8); ii++) begin
-      cntxt.memory.write(address+ii, data[ii*8+:8]);
+      current_byte = 0;
+      for (int unsigned jj=0; jj<8; jj++) begin
+         current_byte[jj] = data[jj];
+      end
+      cntxt.memory.write(address+ii, current_byte);
    end
    
 endfunction : mem_write

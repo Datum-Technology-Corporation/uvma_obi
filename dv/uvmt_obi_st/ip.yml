@@ -1,15 +1,15 @@
 ip:
-  name: "uvmt_mio_cli_st"
+  name: "uvmt_obi_st"
   version: "1.0.0 Beta 0"
-  full-name: "Moore.io CLI Testing Grounds UVM Test Bench"
+  full-name: "Moore.io OBI Agent Self-Test Bench"
   type: "DV"
   sub-type: "UVM Test Bench"
   sub-sub-type: "Agent Self-Testing"
   description: >
-    UVM Test Bench used for development of Moore.io CLI.  NOT meant for use in actual DV work.
-  home-page: "https://datum-technology-corporation.github.io/mio_cli/"
-  repo-uri: "https://github.com/Datum-Technology-Corporation/mio_cli.git"
-  bugs: "https://github.com/Datum-Technology-Corporation/mio_cli/issues"
+    
+  home-page: "https://datum-technology-corporation.github.io/uvma_obi/"
+  repo-uri: "https://github.com/Datum-Technology-Corporation/uvma_obi.git"
+  bugs: "https://github.com/Datum-Technology-Corporation/uvma_obi/issues"
   aliases: []
   logo: ""
   block-diagram: "docs/tb_block_diagram.svg"
@@ -33,15 +33,15 @@ dependencies:
   - { type: "DV", name: "uvml_sb"  , repo-uri: "https://github.com/Datum-Technology-Corporation/uvml_sb.git"  , repo-branch: "main", repo-path: "dv/uvml_sb"   }
 
 hdl-src:
-  top-constructs: ["uvmt_mio_cli_st_tb", "uvml_logs_summary"]
+  top-constructs: ["uvmt_obi_st_tb", "uvml_logs_summary"]
   directories: [".", "tb", "tests"]
   test-paths: ["tests"]
-  test-name-template: "uvmt_mio_cli_st_{{ name }}_test_c"
+  test-name-template: "uvmt_obi_st_{{ name }}_test_c"
   flists:
-    metrics : [ "src/uvmt_mio_cli_st_pkg.flist"      ]
-    riviera : [ "src/uvmt_mio_cli_st_pkg.flist"      ]
-    questa  : [ "src/uvmt_mio_cli_st_pkg.flist"      ]
-    vcs     : [ "src/uvmt_mio_cli_st_pkg.flist"      ]
-    vivado  : [ "src/uvmt_mio_cli_st_pkg.flist.xsim" ]
-    xcelium : [ "src/uvmt_mio_cli_st_pkg.flist"      ]
+    metrics : [ "src/uvmt_obi_st_pkg.flist"      ]
+    riviera : [ "src/uvmt_obi_st_pkg.flist"      ]
+    questa  : [ "src/uvmt_obi_st_pkg.flist"      ]
+    vcs     : [ "src/uvmt_obi_st_pkg.flist"      ]
+    vivado  : [ "src/uvmt_obi_st_pkg.flist.xsim" ]
+    xcelium : [ "src/uvmt_obi_st_pkg.flist"      ]
 

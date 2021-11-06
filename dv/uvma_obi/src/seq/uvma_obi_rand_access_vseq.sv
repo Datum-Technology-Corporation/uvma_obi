@@ -72,12 +72,12 @@ task uvma_obi_rand_access_vseq_c::body();
       `uvm_create_on(req, p_sequencer)
       
       if ($urandom_range(0,100) > pct_reads) begin
-         `uvm_send_with(req, {
+         `uvm_rand_send_with(req, {
             access_type == UVMA_OBI_ACCESS_WRITE;
          })
       end
       else begin
-         `uvm_send_with(req, {
+         `uvm_rand_send_with(req, {
             access_type == UVMA_OBI_ACCESS_READ;
          })
       end

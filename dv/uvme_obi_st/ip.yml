@@ -1,15 +1,15 @@
 ip:
-  name: "uvme_mio_cli_st"
+  name: "uvme_obi_st"
   version: "1.0.0 Beta 0"
-  full-name: "Moore.io CLI Testing Grounds UVM Environment"
+  full-name: "Moore.io OBI Aget Self-Test UVM Environment"
   type: "DV"
   sub-type: "UVM Environment"
   sub-sub-type: "Agent Self-Testing"
   description: >
-    UVM Environment used for development of Moore.io CLI.  NOT meant for use in actual DV work.
-  home-page: "https://datum-technology-corporation.github.io/mio_cli/"
-  repo-uri: "https://github.com/Datum-Technology-Corporation/mio_cli.git"
-  bugs: "https://github.com/Datum-Technology-Corporation/mio_cli/issues"
+    
+  home-page: "https://datum-technology-corporation.github.io/uvma_obi/"
+  repo-uri: "https://github.com/Datum-Technology-Corporation/uvma_obi.git"
+  bugs: "https://github.com/Datum-Technology-Corporation/uvma_obi/issues"
   aliases: []
   logo: ""
   block-diagram: "docs/env_block_diagram.svg"
@@ -35,10 +35,10 @@ dependencies:
 hdl-src:
   directories: [".", "comps", "obj", "seq"]
   flists:
-    metrics : [ "src/uvme_mio_cli_st_pkg.flist"      ]
-    riviera : [ "src/uvme_mio_cli_st_pkg.flist"      ]
-    questa  : [ "src/uvme_mio_cli_st_pkg.flist"      ]
-    vcs     : [ "src/uvme_mio_cli_st_pkg.flist"      ]
-    vivado  : [ "src/uvme_mio_cli_st_pkg.flist.xsim" ]
-    xcelium : [ "src/uvme_mio_cli_st_pkg.flist"      ]
+    metrics : [ "src/uvme_obi_st_pkg.flist"      ]
+    riviera : [ "src/uvme_obi_st_pkg.flist"      ]
+    questa  : [ "src/uvme_obi_st_pkg.flist"      ]
+    vcs     : [ "src/uvme_obi_st_pkg.flist"      ]
+    vivado  : [ "src/uvme_obi_st_pkg.flist.xsim" ]
+    xcelium : [ "src/uvme_obi_st_pkg.flist"      ]
 

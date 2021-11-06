@@ -82,13 +82,13 @@ function uvma_obi_slv_r_mon_trn_c::new(string name="uvma_obi_slv_r_mon_trn");
 endfunction : new
 
 
-function void uvma_obi_mstr_a_mon_trn_c::do_print(uvm_printer printer);
+function void uvma_obi_slv_r_mon_trn_c::do_print(uvm_printer printer);
    
    super.do_print(printer);
    
    if (cfg != null) begin
-      printer.print_field("rdata", addr, cfg.data_width);
-      printer.print_field("err"  , err , $bits(err)    );
+      printer.print_field("rdata", rdata, cfg.data_width);
+      printer.print_field("err"  , err  , $bits(err)    );
       
       if (cfg.ruser_width > 0) begin
          printer.print_field("ruser", ruser, cfg.ruser_width);
@@ -109,7 +109,7 @@ function void uvma_obi_mstr_a_mon_trn_c::do_print(uvm_printer printer);
 endfunction : do_print
 
 
-function uvml_metadata_t uvma_obi_mstr_a_mon_trn_c::get_metadata();
+function uvml_metadata_t uvma_obi_slv_r_mon_trn_c::get_metadata();
    
    int unsigned  field_count = 0;
    string  rdata_str     = $sformatf("%h", rdata    );

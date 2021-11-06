@@ -36,7 +36,7 @@ class uvma_obi_slv_handler_mem_vseq_c extends uvma_obi_slv_handler_base_vseq_c;
    /**
     * TODO Describe uvma_obi_slv_handler_mem_vseq_c::body()
     */
-   extern virtual task handle_mstr_req(ref uvma_obi_mstr_a_mon_trn_c trn, output bit handled=0);
+   extern virtual task handle_mstr_req(ref uvma_obi_mstr_a_mon_trn_c trn, bit handled);
    
 endclass : uvma_obi_slv_handler_mem_vseq_c
 
@@ -58,9 +58,10 @@ task uvma_obi_slv_handler_mem_vseq_c::body();
 endtask : body
 
 
-task uvma_obi_slv_handler_mem_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_trn_c trn, output bit handled=0);
+task uvma_obi_slv_handler_mem_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_trn_c trn, bit handled);
    
-   uvma_obi_data_b_t  readback_data;
+   uvma_obi_data_b_t          readback_data ;
+   uvma_obi_slv_r_seq_item_c  slv_r_seq_item;
    
    // TODO Add response latency cycles
    
@@ -94,7 +95,7 @@ task uvma_obi_slv_handler_mem_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_tr
    
    handled = 1;
    
-endtask : body
+endtask : handle_mstr_req
 
 
 `endif // __UVMA_OBI_SLV_HANDLER_MEM_VSEQ_SV__

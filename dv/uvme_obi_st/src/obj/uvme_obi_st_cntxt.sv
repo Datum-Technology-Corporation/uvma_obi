@@ -27,7 +27,7 @@ class uvme_obi_st_cntxt_c extends uvm_object;
    uvma_obi_cntxt_c  slv_cntxt ; ///< 
    
    // Scoreboard context handle
-   uvml_sb_cntxt_c  sb_e2e_cntxt; ///< 
+   uvml_sb_simplex_cntxt_c  sb_e2e_cntxt; ///< 
    
    // Events
    uvm_event  sample_cfg_e  ; ///< 
@@ -60,7 +60,7 @@ function uvme_obi_st_cntxt_c::new(string name="uvme_obi_st_cntxt");
    mstr_cntxt = uvma_obi_cntxt_c::type_id::create("mstr_cntxt");
    slv_cntxt  = uvma_obi_cntxt_c::type_id::create("slv_cntxt" );
    
-   sb_e2e_cntxt = uvml_sb_cntxt_c::type_id::create("sb_e2e_cntxt");
+   sb_e2e_cntxt = uvml_sb_simplex_cntxt_c::type_id::create("sb_e2e_cntxt");
    
    sample_cfg_e   = new("sample_cfg_e"  );
    sample_cntxt_e = new("sample_cntxt_e");

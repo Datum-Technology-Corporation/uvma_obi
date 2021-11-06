@@ -34,7 +34,7 @@ class uvme_obi_st_cov_model_c extends uvm_component;
    
    covergroup obi_st_mon_trn_cg;
       // TODO Implement obi_st_mon_trn_cg
-   endgroup : obi_st_a_mon_trn_cg
+   endgroup : obi_st_mon_trn_cg
    
    covergroup obi_st_mstr_a_mon_trn_cg;
       // TODO Implement obi_st_mstr_a_mon_trn_cg
@@ -170,7 +170,7 @@ endfunction : sample_cfg
 
 function void uvme_obi_st_cov_model_c::sample_cntxt();
    
-   obi_st_cntxt_cg.sample()
+   obi_st_cntxt_cg.sample();
    
 endfunction : sample_cntxt
 

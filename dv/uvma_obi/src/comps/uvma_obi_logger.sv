@@ -26,28 +26,28 @@ class uvma_obi_logger_c extends uvm_component;
    uvma_obi_cntxt_c  cntxt; ///< Agent context handle
    
    // Components
-   uvma_obi_mon_trn_logger_c          mon_trn_logger        ; ///< 
-   uvma_obi_mstr_a_mon_trn_logger_c   mstr_a_mon_trn_logger ; ///< 
-   uvma_obi_mstr_r_mon_trn_logger_c   mstr_r_mon_trn_logger ; ///< 
-   uvma_obi_slv_a_mon_trn_logger_c    slv_a_mon_trn_logger  ; ///< 
-   uvma_obi_slv_r_mon_trn_logger_c    slv_r_mon_trn_logger  ; ///< 
-   uvma_obi_seq_item_logger_c         seq_item_logger       ; ///< 
-   uvma_obi_mstr_a_seq_item_logger_c  mstr_a_seq_item_logger; ///< 
-   uvma_obi_mstr_r_seq_item_logger_c  mstr_r_seq_item_logger; ///< 
-   uvma_obi_slv_a_seq_item_logger_c   slv_a_seq_item_logger ; ///< 
-   uvma_obi_slv_r_seq_item_logger_c   slv_r_seq_item_logger ; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_mon_trn_c        )  mon_trn_logger        ; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_mstr_a_mon_trn_c )  mstr_a_mon_trn_logger ; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_mstr_r_mon_trn_c )  mstr_r_mon_trn_logger ; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_slv_a_mon_trn_c  )  slv_a_mon_trn_logger  ; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_slv_r_mon_trn_c  )  slv_r_mon_trn_logger  ; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_seq_item_c       )  seq_item_logger       ; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_mstr_a_seq_item_c)  mstr_a_seq_item_logger; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_mstr_r_seq_item_c)  mstr_r_seq_item_logger; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_slv_a_seq_item_c )  slv_a_seq_item_logger ; ///< 
+   uvml_logs_metadata_logger_c #(uvma_obi_slv_r_seq_item_c )  slv_r_seq_item_logger ; ///< 
    
    // TLM
-   uvm_analysis_export#(uvma_obi_mon_trn_c        )  mon_trn_export        ; ///< 
-   uvm_analysis_export#(uvma_obi_mstr_a_mon_trn_c )  mstr_a_mon_trn_export ; ///< 
-   uvm_analysis_export#(uvma_obi_mstr_r_mon_trn_c )  mstr_r_mon_trn_export ; ///< 
-   uvm_analysis_export#(uvma_obi_slv_a_mon_trn_c  )  slv_a_mon_trn_export  ; ///< 
-   uvm_analysis_export#(uvma_obi_slv_r_mon_trn_c  )  slv_r_mon_trn_export  ; ///< 
-   uvm_analysis_export#(uvma_obi_seq_item_c       )  seq_item_export       ; ///< 
-   uvm_analysis_export#(uvma_obi_mstr_a_seq_item_c)  mstr_a_seq_item_export; ///< 
-   uvm_analysis_export#(uvma_obi_mstr_r_seq_item_c)  mstr_r_seq_item_export; ///< 
-   uvm_analysis_export#(uvma_obi_slv_a_seq_item_c )  slv_a_seq_item_export ; ///< 
-   uvm_analysis_export#(uvma_obi_slv_r_seq_item_c )  slv_r_seq_item_export ; ///< 
+   uvm_analysis_export #(uvma_obi_mon_trn_c        )  mon_trn_export        ; ///< 
+   uvm_analysis_export #(uvma_obi_mstr_a_mon_trn_c )  mstr_a_mon_trn_export ; ///< 
+   uvm_analysis_export #(uvma_obi_mstr_r_mon_trn_c )  mstr_r_mon_trn_export ; ///< 
+   uvm_analysis_export #(uvma_obi_slv_a_mon_trn_c  )  slv_a_mon_trn_export  ; ///< 
+   uvm_analysis_export #(uvma_obi_slv_r_mon_trn_c  )  slv_r_mon_trn_export  ; ///< 
+   uvm_analysis_export #(uvma_obi_seq_item_c       )  seq_item_export       ; ///< 
+   uvm_analysis_export #(uvma_obi_mstr_a_seq_item_c)  mstr_a_seq_item_export; ///< 
+   uvm_analysis_export #(uvma_obi_mstr_r_seq_item_c)  mstr_r_seq_item_export; ///< 
+   uvm_analysis_export #(uvma_obi_slv_a_seq_item_c )  slv_a_seq_item_export ; ///< 
+   uvm_analysis_export #(uvma_obi_slv_r_seq_item_c )  slv_r_seq_item_export ; ///< 
    
    
    `uvm_component_utils_begin(uvma_obi_logger_c)
@@ -96,16 +96,16 @@ function void uvma_obi_logger_c::build_phase(uvm_phase phase);
    end
    
    // Create components
-   mon_trn_logger         = uvma_obi_mon_trn_logger_c        ::type_id::create("mon_trn_logger"        , this);
-   mstr_a_mon_trn_logger  = uvma_obi_mstr_a_mon_trn_logger_c ::type_id::create("mstr_a_mon_trn_logger" , this);
-   mstr_r_mon_trn_logger  = uvma_obi_mstr_r_mon_trn_logger_c ::type_id::create("mstr_r_mon_trn_logger" , this);
-   slv_a_mon_trn_logger   = uvma_obi_slv_a_mon_trn_logger_c  ::type_id::create("slv_a_mon_trn_logger"  , this);
-   slv_r_mon_trn_logger   = uvma_obi_slv_r_mon_trn_logger_c  ::type_id::create("slv_r_mon_trn_logger"  , this);
-   seq_item_logger        = uvma_obi_seq_item_logger_c       ::type_id::create("seq_item_logger"       , this);
-   mstr_a_seq_item_logger = uvma_obi_mstr_a_seq_item_logger_c::type_id::create("mstr_a_seq_item_logger", this);
-   mstr_r_seq_item_logger = uvma_obi_mstr_r_seq_item_logger_c::type_id::create("mstr_r_seq_item_logger", this);
-   slv_a_seq_item_logger  = uvma_obi_slv_a_seq_item_logger_c ::type_id::create("slv_a_seq_item_logger" , this);
-   slv_r_seq_item_logger  = uvma_obi_slv_r_seq_item_logger_c ::type_id::create("slv_r_seq_item_logger" , this);
+   mon_trn_logger         = uvml_logs_metadata_logger_c #(uvma_obi_mon_trn_c        )::type_id::create("mon_trn_logger"        , this);
+   mstr_a_mon_trn_logger  = uvml_logs_metadata_logger_c #(uvma_obi_mstr_a_mon_trn_c )::type_id::create("mstr_a_mon_trn_logger" , this);
+   mstr_r_mon_trn_logger  = uvml_logs_metadata_logger_c #(uvma_obi_mstr_r_mon_trn_c )::type_id::create("mstr_r_mon_trn_logger" , this);
+   slv_a_mon_trn_logger   = uvml_logs_metadata_logger_c #(uvma_obi_slv_a_mon_trn_c  )::type_id::create("slv_a_mon_trn_logger"  , this);
+   slv_r_mon_trn_logger   = uvml_logs_metadata_logger_c #(uvma_obi_slv_r_mon_trn_c  )::type_id::create("slv_r_mon_trn_logger"  , this);
+   seq_item_logger        = uvml_logs_metadata_logger_c #(uvma_obi_seq_item_c       )::type_id::create("seq_item_logger"       , this);
+   mstr_a_seq_item_logger = uvml_logs_metadata_logger_c #(uvma_obi_mstr_a_seq_item_c)::type_id::create("mstr_a_seq_item_logger", this);
+   mstr_r_seq_item_logger = uvml_logs_metadata_logger_c #(uvma_obi_mstr_r_seq_item_c)::type_id::create("mstr_r_seq_item_logger", this);
+   slv_a_seq_item_logger  = uvml_logs_metadata_logger_c #(uvma_obi_slv_a_seq_item_c )::type_id::create("slv_a_seq_item_logger" , this);
+   slv_r_seq_item_logger  = uvml_logs_metadata_logger_c #(uvma_obi_slv_r_seq_item_c )::type_id::create("slv_r_seq_item_logger" , this);
    
 endfunction : build_phase
 

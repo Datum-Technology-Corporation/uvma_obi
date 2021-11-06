@@ -34,6 +34,7 @@ class uvma_obi_slv_r_seq_item_c extends uvml_seq_item_c;
    rand uvma_obi_rchk_b_t       rchk     ; ///< TODO Describe uvma_obi_slv_r_seq_item_c::rchk
    
    // Metadata
+   uvma_obi_rready_l_t  rready;
    
    
    `uvm_object_utils_begin(uvma_obi_slv_r_seq_item_c)
@@ -83,8 +84,8 @@ function void uvma_obi_slv_r_seq_item_c::do_print(uvm_printer printer);
    super.do_print(printer);
    
    if (cfg != null) begin
-      printer.print_field("rdata", addr, cfg.data_width);
-      printer.print_field("err"  , err , $bits(err)    );
+      printer.print_field("rdata", rdata, cfg.data_width);
+      printer.print_field("err"  , err  , $bits(err)    );
       
       if (cfg.ruser_width > 0) begin
          printer.print_field("ruser", ruser, cfg.ruser_width);

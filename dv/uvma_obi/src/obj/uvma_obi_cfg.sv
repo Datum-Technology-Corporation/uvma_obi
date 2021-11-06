@@ -123,10 +123,10 @@ endclass : uvma_obi_cfg_c
 function uvma_obi_cfg_c::new(string name="uvma_obi_cfg");
    
    super.new(name);
-   monitor_vseq_type  = uvma_obi_mon_vseq_c     ::type_id;
-   idle_vseq_type     = uvma_obi_idle_vseq_c    ::type_id;
-   mstr_drv_vseq_type = uvma_obi_mstr_drv_vseq_c::type_id;
-   slv_drv_vseq_type  = uvma_obi_slv_drv_vseq_c ::type_id;
+   mon_vseq_type      = uvma_obi_mon_vseq_c     ::get_type();
+   idle_vseq_type     = uvma_obi_idle_vseq_c    ::get_type();
+   mstr_drv_vseq_type = uvma_obi_mstr_drv_vseq_c::get_type();
+   slv_drv_vseq_type  = uvma_obi_slv_drv_vseq_c ::get_type();
    
 endfunction : new
 

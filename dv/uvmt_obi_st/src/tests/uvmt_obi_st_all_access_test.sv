@@ -21,7 +21,7 @@
  */
 class uvmt_obi_st_all_access_test_c extends uvmt_obi_st_base_test_c;
    
-   rand uvme_obi_st_all_access_vseq_c  all_access_vseq;
+   rand uvma_obi_rand_access_vseq_c  rand_access_vseq;
    
    
    `uvm_component_utils(uvmt_obi_st_all_access_test_c)
@@ -48,7 +48,7 @@ function uvmt_obi_st_all_access_test_c::new(string name="uvmt_obi_st_all_access_
    
    super.new(name, parent);
    
-   all_access_vseq = uvme_obi_st_all_access_vseq_c::type_id::create("all_access_vseq");
+   rand_access_vseq = uvma_obi_rand_access_vseq_c::type_id::create("rand_access_vseq");
    
 endfunction : new
 
@@ -58,9 +58,9 @@ task uvmt_obi_st_all_access_test_c::main_phase(uvm_phase phase);
    super.main_phase(phase);
    
    phase.raise_objection(this);
-   `uvm_info("TEST", $sformatf("Starting all_access virtual sequence:\n%s", all_access_vseq.sprint()), UVM_NONE)
-   all_access_vseq.start(vsequencer);
-   `uvm_info("TEST", $sformatf("Finished all_access virtual sequence:\n%s", all_access_vseq.sprint()), UVM_NONE)
+   `uvm_info("TEST", $sformatf("Starting rand_access virtual sequence:\n%s", rand_access_vseq.sprint()), UVM_NONE)
+   rand_access_vseq.start(vsequencer);
+   `uvm_info("TEST", $sformatf("Finished rand_access virtual sequence:\n%s", rand_access_vseq.sprint()), UVM_NONE)
    phase.drop_objection(this);
    
 endtask : main_phase
@@ -70,8 +70,8 @@ function void uvmt_obi_st_all_access_test_c::check_phase(uvm_phase phase);
    
    super.check_phase(phase);
    
-   if (env_cntxt.sb_cntxt.match_count != all_access_vseq.num_all_access) begin
-      `uvm_error("TEST", $sformatf("Number of scoreboard matches (%0d) does not equal number of accesses (%0d)", env_cntxt.sb_cntxt.match_count, all_access_vseq.num_all_access))
+   if (env_cntxt.sb_cntxt.match_count != rand_access_vseq.num_access) begin
+      `uvm_error("TEST", $sformatf("Number of scoreboard matches (%0d) does not equal number of accesses (%0d)", env_cntxt.sb_cntxt.match_count, rand_access_vseq.num_access))
    end
    
 endfunction : check_phase

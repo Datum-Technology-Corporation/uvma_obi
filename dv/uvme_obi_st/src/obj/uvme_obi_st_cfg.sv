@@ -93,10 +93,10 @@ class uvme_obi_st_cfg_c extends uvm_object;
       mstr_cfg.ruser_width == slv_cfg.ruser_width;
       mstr_cfg.id_width    == slv_cfg.id_width   ;
       
-      mstr_cfg.drv_mode == UVMA_OBI_MODE_MSTR;
-      mstr_cfg.drv_idle == UVMA_OBI_DRV_ZEROS;
-      slv_cfg .drv_mode == UVMA_OBI_MODE_SLV ;
-      slv_cfg .drv_idle == UVMA_OBI_DRV_ZEROS;
+      mstr_cfg.drv_mode == UVMA_OBI_DRV_MODE_MSTR;
+      mstr_cfg.drv_idle == UVMA_OBI_DRV_IDLE_ZEROS;
+      slv_cfg .drv_mode == UVMA_OBI_DRV_MODE_SLV ;
+      slv_cfg .drv_idle == UVMA_OBI_DRV_IDLE_ZEROS;
    }
    
    constraint sb_e2e_cfg_cons {

@@ -77,8 +77,8 @@ task uvma_obi_idle_vseq_c::body();
    
    `uvm_info("OBI_IDLE_VSEQ", "Idle virtual sequence has started", UVM_HIGH)
    case (cfg.mode)
-      UVMA_OBI_MODE_MSTR: do_idle_mstr();
-      UVMA_OBI_MODE_SLV : do_idle_slv ();
+      UVMA_OBI_DRV_MODE_MSTR: do_idle_mstr();
+      UVMA_OBI_DRV_MODE_SLV : do_idle_slv ();
    endcase
    
 endtask : body
@@ -89,7 +89,7 @@ task uvma_obi_idle_vseq_c::do_idle_mstr();
    fork
       begin : chan_a
          forever begin
-            do_idle_mstr_a()
+            do_idle_mstr_a();
          end
       end
       

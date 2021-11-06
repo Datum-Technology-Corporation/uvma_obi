@@ -134,7 +134,7 @@ endfunction : do_print
 function uvml_metadata_t uvma_obi_mon_trn_c::get_metadata();
    
    int unsigned  field_count = 0;
-   string  access_str  = (access == UVMA_OBI_ACCESS_READ) ? "READ" : "WRITE";
+   string  access_str  = (access_type == UVMA_OBI_ACCESS_READ) ? "READ" : "WRITE";
    string  address_str = $sformatf("%h", address);
    string  data_str    = $sformatf("%h", data   );
    string  be_str      = $sformatf("%b", be     );
@@ -144,6 +144,7 @@ function uvml_metadata_t uvma_obi_mon_trn_c::get_metadata();
    string  aid_str     = $sformatf("%h", aid    );
    string  rid_str     = $sformatf("%h", rid    );
    string  err_str     = $sformatf("%h", err    );
+   string  exokay_str  = $sformatf("%h", exokay );
    string  atop_str    = $sformatf("%h", atop   );
    string  memtype_str = $sformatf("%h", memtype);
    string  prot_str    = $sformatf("%h", prot   );

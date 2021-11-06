@@ -29,7 +29,7 @@ class uvma_obi_slv_a_sqr_c extends uvm_sequencer#(
    uvma_obi_cntxt_c  cntxt; ///< Agent context handle
    
    
-   `uvm_component_utils_begin(uvma_obi_sqr_c)
+   `uvm_component_utils_begin(uvma_obi_slv_a_sqr_c)
       `uvm_field_object(cfg  , UVM_DEFAULT)
       `uvm_field_object(cntxt, UVM_DEFAULT)
    `uvm_component_utils_end

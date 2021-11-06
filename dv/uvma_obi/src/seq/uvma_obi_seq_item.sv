@@ -45,16 +45,16 @@ class uvma_obi_seq_item_c extends uvml_seq_item_c;
    
    `uvm_object_utils_begin(uvma_obi_seq_item_c)
       `uvm_field_enum(uvma_obi_access_type_enum, access_type, UVM_DEFAULT               )
-      `uvm_field_int (                           address    , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           data       , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           be         , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           auser      , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           wuser      , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           ruser      , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           id         , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           atop       , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           memtype    , UVM_DEFAULTT + UVM_NOPRINT)
-      `uvm_field_int (                           prot       , UVM_DEFAULTT + UVM_NOPRINT)
+      `uvm_field_int (                           address    , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           data       , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           be         , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           auser      , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           wuser      , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           ruser      , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           id         , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           atop       , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           memtype    , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_int (                           prot       , UVM_DEFAULT + UVM_NOPRINT)
       
       `uvm_field_int(req_latency   , UVM_DEFAULT + UVM_DEC + UVM_NOCOMPARE)
       `uvm_field_int(rready_latency, UVM_DEFAULT + UVM_DEC + UVM_NOCOMPARE)
@@ -117,8 +117,6 @@ function void uvma_obi_seq_item_c::do_print(uvm_printer printer);
       if (cfg.id_width != 0) begin
          printer.print_field("id", id, cfg.id_width);
       end
-      printer.print_field("err"    , err    , $bits(err    ));
-      printer.print_field("exokay" , exokay , $bits(exokay ));
       printer.print_field("atop"   , atop   , $bits(atop   ));
       printer.print_field("memtype", memtype, $bits(memtype));
       printer.print_field("prot"   , prot   , $bits(prot   ));
@@ -130,7 +128,7 @@ endfunction : do_print
 function uvml_metadata_t uvma_obi_seq_item_c::get_metadata();
    
    int unsigned  field_count = 0;
-   string  access_str  = (access == UVMA_OBI_ACCESS_READ) ? "READ" : "WRITE";
+   string  access_str  = (access_type == UVMA_OBI_ACCESS_READ) ? "READ" : "WRITE";
    string  address_str = $sformatf("%h", address);
    string  data_str    = $sformatf("%h", data   );
    string  be_str      = $sformatf("%b", be     );

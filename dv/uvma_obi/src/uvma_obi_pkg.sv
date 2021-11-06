@@ -84,6 +84,7 @@ package uvma_obi_pkg;
    `include "uvma_obi_slv_drv_vseq.sv"
    `include "uvma_obi_idle_vseq.sv"
    `include "uvma_obi_vseq_lib.sv"
+   `include "uvma_obi_slv_handler_vseq_lib.sv"
    
 endpackage : uvma_obi_pkg
 

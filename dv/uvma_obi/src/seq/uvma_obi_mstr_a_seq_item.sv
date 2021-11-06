@@ -60,7 +60,7 @@ class uvma_obi_mstr_a_seq_item_c extends uvml_seq_item_c;
    
    
    constraint default_cons {
-      soft req !== reqpar;
+      soft req != reqpar;
    }
    
    
@@ -104,9 +104,6 @@ function void uvma_obi_mstr_a_seq_item_c::do_print(uvm_printer printer);
       end
       if (cfg.wuser_width > 0) begin
          printer.print_field("wuser", auser, cfg.wuser_width);
-      end
-      if (cfg.ruser_width > 0) begin
-         printer.print_field("ruser", ruser, cfg.ruser_width);
       end
       if (cfg.id_width > 0) begin
          printer.print_field("aid", aid, cfg.id_width);
@@ -256,7 +253,7 @@ function uvml_metadata_t uvma_obi_mstr_a_seq_item_c::get_metadata();
          index     : field_count,
          value     : reqpar_str,
          col_name  : "reqpar",
-         col_width : reqpar.len(),
+         col_width : reqpar_str.len(),
          col_align : UVML_TEXT_ALIGN_RIGHT,
          data_type : UVML_FIELD_ENUM
       });
