@@ -30,9 +30,9 @@ class uvme_obi_st_cfg_c extends uvm_object;
    rand bit                      trn_log_enabled      ; ///< 
    
    // Objects
-   rand uvma_obi_cfg_c  mstr_cfg; ///< 
-   rand uvma_obi_cfg_c  slv_cfg ; ///< 
-   rand uvml_sb_cfg_c   sb_cfg  ; ///< 
+   rand uvma_obi_cfg_c         mstr_cfg  ; ///< 
+   rand uvma_obi_cfg_c         slv_cfg   ; ///< 
+   rand uvml_sb_simplex_cfg_c  sb_e2e_cfg; ///< 
    
    
    `uvm_object_utils_begin(uvme_obi_st_cfg_c)
@@ -42,9 +42,9 @@ class uvme_obi_st_cfg_c extends uvm_object;
       `uvm_field_int (                         cov_model_enabled    , UVM_DEFAULT)
       `uvm_field_int (                         trn_log_enabled      , UVM_DEFAULT)
       
-      `uvm_field_object(mstr_cfg, UVM_DEFAULT)
-      `uvm_field_object(slv_cfg , UVM_DEFAULT)
-      `uvm_field_object(sb_cfg  , UVM_DEFAULT)
+      `uvm_field_object(mstr_cfg  , UVM_DEFAULT)
+      `uvm_field_object(slv_cfg   , UVM_DEFAULT)
+      `uvm_field_object(sb_e2e_cfg, UVM_DEFAULT)
    `uvm_object_utils_end
    
    
@@ -76,21 +76,21 @@ class uvme_obi_st_cfg_c extends uvm_object;
       }
       
       if (trn_log_enabled) {
-         /*soft*/ mstr_cfg.trn_log_enabled == 1;
-         /*soft*/ slv_cfg .trn_log_enabled == 1;
+         mstr_cfg.trn_log_enabled == 1;
+         slv_cfg .trn_log_enabled == 1;
       }
       else {
-         /*soft*/ mstr_cfg.trn_log_enabled == 0;
-         /*soft*/ slv_cfg .trn_log_enabled == 0;
+         mstr_cfg.trn_log_enabled == 0;
+         slv_cfg .trn_log_enabled == 0;
       }
    }
    
    constraint agents_protocol_cons {
+      mstr_cfg.addr_width  == slv_cfg.addr_width ;
+      mstr_cfg.data_width  == slv_cfg.data_width ;
       mstr_cfg.auser_width == slv_cfg.auser_width;
       mstr_cfg.wuser_width == slv_cfg.wuser_width;
       mstr_cfg.ruser_width == slv_cfg.ruser_width;
-      mstr_cfg.addr_width  == slv_cfg.addr_width ;
-      mstr_cfg.data_width  == slv_cfg.data_width ;
       mstr_cfg.id_width    == slv_cfg.id_width   ;
       
       mstr_cfg.drv_mode == UVMA_OBI_MODE_MSTR;
@@ -99,13 +99,13 @@ class uvme_obi_st_cfg_c extends uvm_object;
       slv_cfg .drv_idle == UVMA_OBI_DRV_ZEROS;
    }
    
-   constraint sb_cfg_cons {
+   constraint sb_e2e_cfg_cons {
+      sb_e2e_cfg.mode == UVML_SB_MODE_IN_ORDER;
       if (scoreboarding_enabled) {
-         /*soft*/ sb_cfg.enabled == 1;
-         sb_cfg.mode == UVML_SB_MODE_IN_ORDER;
+         sb_e2e_cfg.enabled == 1;
       }
       else {
-         sb_cfg.enabled == 0;
+         sb_e2e_cfg.enabled == 0;
       }
    }
    
@@ -121,9 +121,9 @@ endclass : uvme_obi_st_cfg_c
 function uvme_obi_st_cfg_c::new(string name="uvme_obi_st_cfg");
    
    super.new(name);
-   mstr_cfg = uvma_obi_cfg_c::type_id::create("mstr_cfg");
-   slv_cfg  = uvma_obi_cfg_c::type_id::create("slv_cfg" );
-   sb_cfg   = uvml_sb_cfg_c ::type_id::create("sb_cfg"  );
+   mstr_cfg    = uvma_obi_cfg_c       ::type_id::create("mstr_cfg"  );
+   slv_cfg     = uvma_obi_cfg_c       ::type_id::create("slv_cfg"   );
+   sb_e2e_cfg  = uvml_sb_simplex_cfg_c::type_id::create("sb_e2e_cfg");
    
 endfunction : new
 

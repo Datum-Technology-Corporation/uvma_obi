@@ -12,8 +12,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-`ifndef __UVME_OBI_ST_SEQ_LIB_SV__
-`define __UVME_OBI_ST_SEQ_LIB_SV__
+`ifndef __UVME_OBI_ST_VSEQ_LIB_SV__
+`define __UVME_OBI_ST_VSEQ_LIB_SV__
 
 
 `include "uvme_obi_st_base_vseq.sv"
@@ -25,24 +25,24 @@
 /**
  * Sequence library for Open Bus Interface environment.
  */
-class uvme_obi_st_seq_lib_c extends uvm_sequence_library#(
+class uvme_obi_st_vseq_lib_c extends uvm_sequence_library #(
    .REQ(uvm_sequence_item),
    .RSP(uvm_sequence_item)
 );
    
-   `uvm_object_utils          (uvme_obi_st_seq_lib_c)
-   `uvm_sequence_library_utils(uvme_obi_st_seq_lib_c)
+   `uvm_object_utils          (uvme_obi_st_vseq_lib_c)
+   `uvm_sequence_library_utils(uvme_obi_st_vseq_lib_c)
    
    
    /**
     * Initializes sequence library.
     */
-   extern function new(string name="uvme_obi_st_seq_lib");
+   extern function new(string name="uvme_obi_st_vseq_lib");
    
-endclass : uvme_obi_st_seq_lib_c
+endclass : uvme_obi_st_vseq_lib_c
 
 
-function uvme_obi_st_seq_lib_c::new(string name="uvme_obi_st_seq_lib");
+function uvme_obi_st_vseq_lib_c::new(string name="uvme_obi_st_vseq_lib");
    
    super.new(name);
    init_sequence_library();
@@ -53,4 +53,4 @@ function uvme_obi_st_seq_lib_c::new(string name="uvme_obi_st_seq_lib");
 endfunction : new
 
 
-`endif // __UVME_OBI_ST_SEQ_LIB_SV__
+`endif // __UVME_OBI_ST_VSEQ_LIB_SV__

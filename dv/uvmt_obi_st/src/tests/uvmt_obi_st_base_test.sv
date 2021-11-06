@@ -176,7 +176,6 @@ function void uvmt_obi_st_base_test_c::build_phase(uvm_phase phase);
    create_cfg              ();
    randomize_test          ();
    cfg_hrtbt_monitor       ();
-   cfg_watchdog_timeout    ();
    assign_cfg              ();
    create_cntxt            ();
    assign_cntxt            ();
@@ -198,7 +197,6 @@ task uvmt_obi_st_base_test_c::run_phase(uvm_phase phase);
    
    super.run_phase(phase);
    start_clk();
-   simulation_timeout();
    
 endtask : run_phase
 
@@ -270,15 +268,9 @@ function void uvmt_obi_st_base_test_c::cfg_hrtbt_monitor();
    
    `uvml_hrtbt_set_cfg(startup_timeout , test_cfg.startup_timeout )
    `uvml_hrtbt_set_cfg(heartbeat_period, test_cfg.heartbeat_period)
-   
-endfunction : cfg_hrtbt_monitor
-
-
-function void uvmt_obi_st_base_test_c::cfg_watchdog_timeout();
-   
    `uvml_watchdog_set_cfg(watchdog_timeout, test_cfg.simulation_timeout)
    
-endfunction : cfg_watchdog_timeout
+endfunction : cfg_hrtbt_monitor
 
 
 function void uvmt_obi_st_base_test_c::assign_cfg();

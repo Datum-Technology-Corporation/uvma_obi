@@ -22,13 +22,13 @@
 class uvme_obi_st_prd_c extends uvm_component;
    
    // Objects
-   uvme_obi_st_cfg_c    cfg;
-   uvme_obi_st_cntxt_c  cntxt;
+   uvme_obi_st_cfg_c    cfg  ; ///< 
+   uvme_obi_st_cntxt_c  cntxt; ///< 
    
    // TLM
-   uvm_analysis_export  #(uvma_obi_mon_trn_c)  in_export;
-   uvm_tlm_analysis_fifo#(uvma_obi_mon_trn_c)  in_fifo  ;
-   uvm_analysis_port    #(uvma_obi_mon_trn_c)  out_ap   ;
+   uvm_analysis_export  #(uvma_obi_mon_trn_c)  e2e_in_export ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_mon_trn_c)  e2e_in_fifo  ; ///< 
+   uvm_analysis_port    #(uvma_obi_mon_trn_c)  e2e_out_ap   ; ///< 
    
    
    `uvm_component_utils_begin(uvme_obi_st_prd_c)
@@ -82,9 +82,9 @@ function void uvme_obi_st_prd_c::build_phase(uvm_phase phase);
    end
    
    // Build TLM objects
-   in_export  = new("in_export", this);
-   in_fifo    = new("in_fifo"  , this);
-   out_ap     = new("out_ap"   , this);
+   e2e_in_export  = new("e2e_in_export", this);
+   e2e_in_fifo    = new("e2e_in_fifo"  , this);
+   e2e_out_ap     = new("e2e_out_ap"   , this);
    
 endfunction : build_phase
 
@@ -94,7 +94,7 @@ function void uvme_obi_st_prd_c::connect_phase(uvm_phase phase);
    super.connect_phase(phase);
    
    // Connect TLM objects
-   in_export.connect(in_fifo.analysis_export);
+   e2e_in_export.connect(e2e_in_fifo.analysis_export);
    
 endfunction: connect_phase
 
@@ -105,19 +105,24 @@ task uvme_obi_st_prd_c::run_phase(uvm_phase phase);
    
    super.run_phase(phase);
    
-   forever begin
-      // Get next transaction and copy it
-      in_fifo.get(in_trn);
-      out_trn = uvma_obi_mon_trn_c::type_id::create("out_trn");
-      out_trn.copy(in_trn);
-      
-      if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
-         out_trn.set_may_drop(1);
+   fork
+      begin : e2e
+         forever begin
+            // Get next transaction and copy it
+            e2e_in_fifo.get(in_trn);
+            out_trn = uvma_obi_mon_trn_c::type_id::create("out_trn");
+            out_trn.copy(in_trn);
+            
+            if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
+               out_trn.set_may_drop(1);
+            end
+            
+            // Send transaction to analysis port
+            e2e_out_ap.write(out_trn);
+         end
       end
-      
-      // Send transaction to analysis port
-      out_ap.write(out_trn);
-   end
+   join_none
+   
    
 endtask: run_phase
 

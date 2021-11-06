@@ -51,14 +51,13 @@ package uvme_obi_st_pkg;
    `include "uvme_obi_st_cntxt.sv"
    
    // Environment components
-   //`include "uvme_obi_st_cov_model.sv"
+   `include "uvme_obi_st_cov_model.sv"
    `include "uvme_obi_st_prd.sv"
    `include "uvme_obi_st_vsqr.sv"
-   `include "uvme_obi_st_slv_sb_delay.sv"
    `include "uvme_obi_st_env.sv"
    
-   // Virtual sequences
-   `include "uvme_obi_st_seq_lib.sv"
+   // Virtual Sequences
+   `include "uvme_obi_st_vseq_lib.sv"
    
 endpackage : uvme_obi_st_pkg
 

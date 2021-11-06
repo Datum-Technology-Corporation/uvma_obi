@@ -23,22 +23,22 @@
 class uvme_obi_st_cntxt_c extends uvm_object;
    
    // Agent context handles
-   uvma_obi_cntxt_c  mstr_cntxt;
-   uvma_obi_cntxt_c  slv_cntxt;
+   uvma_obi_cntxt_c  mstr_cntxt; ///< 
+   uvma_obi_cntxt_c  slv_cntxt ; ///< 
    
    // Scoreboard context handle
-   uvml_sb_cntxt_c  sb_cntxt;
+   uvml_sb_cntxt_c  sb_e2e_cntxt; ///< 
    
    // Events
-   uvm_event  sample_cfg_e  ;
-   uvm_event  sample_cntxt_e;
+   uvm_event  sample_cfg_e  ; ///< 
+   uvm_event  sample_cntxt_e; ///< 
    
    
    `uvm_object_utils_begin(uvme_obi_st_cntxt_c)
       `uvm_field_object(mstr_cntxt, UVM_DEFAULT)
-      `uvm_field_object(slv_cntxt, UVM_DEFAULT)
+      `uvm_field_object(slv_cntxt , UVM_DEFAULT)
       
-      `uvm_field_object(sb_cntxt, UVM_DEFAULT)
+      `uvm_field_object(sb_e2e_cntxt, UVM_DEFAULT)
       
       `uvm_field_event(sample_cfg_e  , UVM_DEFAULT)
       `uvm_field_event(sample_cntxt_e, UVM_DEFAULT)
@@ -59,7 +59,8 @@ function uvme_obi_st_cntxt_c::new(string name="uvme_obi_st_cntxt");
    
    mstr_cntxt = uvma_obi_cntxt_c::type_id::create("mstr_cntxt");
    slv_cntxt  = uvma_obi_cntxt_c::type_id::create("slv_cntxt" );
-   sb_cntxt   = uvml_sb_cntxt_c ::type_id::create("sb_cntxt"  );
+   
+   sb_e2e_cntxt = uvml_sb_cntxt_c::type_id::create("sb_e2e_cntxt");
    
    sample_cfg_e   = new("sample_cfg_e"  );
    sample_cntxt_e = new("sample_cntxt_e");
