@@ -167,7 +167,7 @@ endtask : drv_req
 
 task uvma_obi_mstr_a_drv_c::sample_post_clk(ref uvma_obi_mstr_a_seq_item_c req);
    
-   req.gnt = cntxt.vif.mon_a_cb.gnt;
+   req.gnt = mp.drv_mstr_a_cb.gnt;
    
 endtask : sample_post_clk
 

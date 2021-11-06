@@ -141,9 +141,9 @@ endtask : drv_req
 
 task uvma_obi_mstr_r_drv_c::sample_post_clk(ref uvma_obi_mstr_r_seq_item_c req);
    
-   req.rvalid = cntxt.vif.mon_r_cb.rvalid;
+   req.rvalid = mp.drv_mstr_r_cb.rvalid;
    for (int unsigned ii=0; ii<cfg.data_width; ii++) begin
-      req.rdata[ii] = cntxt.vif.mon_r_cb.rdata[ii];
+      req.rdata[ii] = mp.drv_mstr_r_cb.rdata[ii];
    end
    
 endtask : sample_post_clk

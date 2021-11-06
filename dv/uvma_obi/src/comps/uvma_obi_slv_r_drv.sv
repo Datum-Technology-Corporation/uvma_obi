@@ -156,7 +156,7 @@ endtask : drv_req
 
 task uvma_obi_slv_r_drv_c::sample_post_clk(ref uvma_obi_slv_r_seq_item_c req);
    
-   req.rready = cntxt.vif.mon_r_cb.rready;
+   req.rready = mp.drv_slv_r_cb.rready;
    
 endtask : sample_post_clk
 

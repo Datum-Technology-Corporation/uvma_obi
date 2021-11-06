@@ -141,7 +141,7 @@ endtask : drv_req
 
 task uvma_obi_slv_a_drv_c::sample_post_clk(ref uvma_obi_slv_a_seq_item_c req);
    
-   req.req = cntxt.vif.mon_a_cb.req;
+   req.req = mp.drv_slv_a_cb.req;
    
 endtask : sample_post_clk
 
