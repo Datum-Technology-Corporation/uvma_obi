@@ -12,43 +12,53 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-`ifndef __UVMA_OBI_SLV_VSEQ_SV__
-`define __UVMA_OBI_SLV_VSEQ_SV__
+`ifndef __UVMA_OBI_SLV_DRV_VSEQ_SV__
+`define __UVMA_OBI_SLV_DRV_VSEQ_SV__
 
 
 /**
- * TODO Describe uvma_obi_slv_vseq_c
+ * TODO Describe uvma_obi_slv_drv_vseq_c
  */
-class uvma_obi_slv_vseq_c extends uvma_obi_slv_base_vseq_c;
+class uvma_obi_slv_drv_vseq_c extends uvma_obi_base_vseq_c;
    
-   `uvm_object_utils(uvma_obi_slv_vseq_c)
+   `uvm_object_utils(uvma_obi_slv_drv_vseq_c)
    
    /**
     * Default constructor.
     */
-   extern function new(string name="uvma_obi_slv_vseq");
+   extern function new(string name="uvma_obi_slv_drv_vseq");
    
    /**
-    * TODO Describe uvma_obi_slv_vseq_c::body()
+    * TODO Describe uvma_obi_slv_drv_vseq_c::body()
     */
    extern virtual task body();
    
    /**
-    * TODO Describe uvma_obi_slv_vseq_c::req_gnt()
+    * TODO Describe uvma_obi_slv_drv_vseq_c::drive()
     */
-   extern virtual task req_gnt(ref uvma_obi_mstr_a_mon_trn_c mon_a_trn);
+   extern virtual task drive(ref uvma_obi_mstr_a_mon_trn_c mon_a_trn);
    
-endclass : uvma_obi_slv_vseq_c
+   /**
+    * TODO Describe uvma_obi_slv_base_vseq_c::wait_clk_a()
+    */
+   extern task wait_clk_a();
+   
+   /**
+    * TODO Describe uvma_obi_slv_base_vseq_c::wait_clk_r()
+    */
+   extern task wait_clk_r();
+   
+endclass : uvma_obi_slv_drv_vseq_c
 
 
-function uvma_obi_slv_vseq_c::new(string name="uvma_obi_slv_vseq");
+function uvma_obi_slv_drv_vseq_c::new(string name="uvma_obi_slv_drv_vseq");
    
    super.new(name);
    
 endfunction : new
 
 
-task uvma_obi_slv_vseq_c::body();
+task uvma_obi_slv_drv_vseq_c::body();
    
    uvma_obi_mstr_a_mon_trn_c  mon_trn;
    
@@ -59,13 +69,9 @@ task uvma_obi_slv_vseq_c::body();
          begin
             wait (cntxt.reset_state == UVML_RESET_STATE_POST_RESET) begin
                do begin
-                  do begin
-                     wait (cntxt.vif.clk == 1'b0);
-                     wait (cntxt.vif.clk == 1'b1);
-                  end while (cntxt.vif.req !== 1'b1);
-                  peek_mstr_a_mon_trn(mon_trn);
+                  get_mstr_a_mon_trn(mon_trn);
                end while (mon_trn.req !== 1'b1);
-               req_gnt(mon_trn);
+               drive(mon_trn);
             end
          end
          
@@ -80,7 +86,7 @@ task uvma_obi_slv_vseq_c::body();
 endtask : body
 
 
-task uvma_obi_slv_vseq_c::response_loop();
+task uvma_obi_slv_drv_vseq_c::response_loop();
    
    uvma_obi_mstr_a_mon_trn_c  trn        ;
    bit                        handled = 0;
@@ -97,13 +103,13 @@ task uvma_obi_slv_vseq_c::response_loop();
             end
          end
       end
-      `uvm_warning("OBI_SLV_VSEQ", $sformatf("Request from MSTR not handled:\n%s", trn.sprint()))
+      `uvm_warning("OBI_SLV_DRV_VSEQ", $sformatf("Request from MSTR not handled:\n%s", trn.sprint()))
    end
    
 endtask : response_loop
 
 
-task uvma_obi_slv_vseq_c::req_gnt(ref uvma_obi_mstr_a_mon_trn_c mon_a_trn);
+task uvma_obi_slv_drv_vseq_c::drive(ref uvma_obi_mstr_a_mon_trn_c mon_a_trn);
    
    uvma_obi_slv_a_seq_item_c  slv_a_seq_item;
    uvma_obi_slv_r_seq_item_c  slv_r_seq_item;
@@ -112,12 +118,26 @@ task uvma_obi_slv_vseq_c::req_gnt(ref uvma_obi_mstr_a_mon_trn_c mon_a_trn);
    
    // TODO Add gnt latency cycles
    `uvm_create_on(slv_a_seq_item, p_sequencer.slv_a_sequencer)
-   `uvm_rand_send_with(slv_a_seq_item, {
+   `uvm_rand_send_pri_with(slv_a_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI, {
       gnt == 1'b1;
    })
    cntxt.mstr_a_req_e.trigger(mon_a_trn);
    
-endtask : req_gnt
+endtask : drive
+
+
+task uvma_obi_slv_base_vseq_c::wait_clk_a();
+   
+   @(cntxt.vif.drv_slv_a_cb);
+   
+endtask : wait_clk_a
+
+
+task uvma_obi_slv_base_vseq_c::wait_clk_r();
+   
+   @(cntxt.vif.drv_slv_r_cb);
+   
+endtask : wait_clk_r
 
 
 `endif // __UVMA_OBI_BASE_SEQ_SV__

@@ -51,7 +51,6 @@ package uvma_obi_pkg;
    `include "uvma_obi_mstr_r_mon_trn.sv"
    `include "uvma_obi_slv_a_mon_trn.sv"
    `include "uvma_obi_slv_r_mon_trn.sv"
-   typedef class uvma_obi_base_vseq_c;
    `include "uvma_obi_seq_item.sv"
    `include "uvma_obi_mstr_a_seq_item.sv"
    `include "uvma_obi_mstr_r_seq_item.sv"
@@ -70,7 +69,7 @@ package uvma_obi_pkg;
    `include "uvma_obi_slv_a_sqr.sv"
    `include "uvma_obi_slv_r_sqr.sv"
    
-   // Agent Components
+   // Agent-Level Components
    `include "uvma_obi_mon.sv"
    `include "uvma_obi_drv.sv"
    `include "uvma_obi_vsqr.sv"
@@ -79,9 +78,12 @@ package uvma_obi_pkg;
    `include "uvma_obi_agent.sv"
    
    // Sequences
+   `include "uvma_obi_base_vseq.sv"
+   `include "uvma_obi_mon_vseq.sv"
+   `include "uvma_obi_mstr_drv_vseq.sv"
+   `include "uvma_obi_slv_drv_vseq.sv"
+   `include "uvma_obi_idle_vseq.sv"
    `include "uvma_obi_vseq_lib.sv"
-   `include "uvma_obi_mstr_vseq_lib.sv"
-   `include "uvma_obi_slv_vseq_lib.sv"
    
 endpackage : uvma_obi_pkg
 

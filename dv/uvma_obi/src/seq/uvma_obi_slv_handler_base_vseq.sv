@@ -19,7 +19,7 @@
 /**
  * TODO Describe uvma_obi_slv_handler_base_vseq_c
  */
-class uvma_obi_slv_handler_base_vseq_c extends uvma_obi_slv_vseq_c;
+class uvma_obi_slv_handler_base_vseq_c extends uvma_obi_base_vseq_c;
    
    `uvm_object_utils(uvma_obi_slv_handler_base_vseq_c)
    
@@ -48,6 +48,11 @@ class uvma_obi_slv_handler_base_vseq_c extends uvma_obi_slv_vseq_c;
     */
    extern function void mem_write(uvma_obi_addr_b_t address, uvma_obi_data_b_t data);
    
+   /**
+    * TODO Describe uvma_obi_slv_handler_base_vseq_c::wait_clk()
+    */
+   extern task wait_clk();
+   
 endclass : uvma_obi_slv_handler_base_vseq_c
 
 
@@ -62,7 +67,7 @@ task uvma_obi_slv_handler_base_vseq_c::body();
    
    p_sequencer.cntxt.slv_handlers.push_front(this);
    forever begin
-      wait (cntxt.vif.clk === 1'b1);
+      wait_clk();
    end
    
 endtask : body
@@ -75,7 +80,7 @@ task uvma_obi_slv_handler_base_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_t
 endtask : task handle_mstr_req
 
 
-function uvma_obi_data_b_t mem_read(uvma_obi_addr_b_t address);
+function uvma_obi_data_b_t uvma_obi_slv_handler_base_vseq_c::mem_read(uvma_obi_addr_b_t address);
    
    for (int unsigned ii=0; ii<(cfg.data_width/8); ii++) begin
       mem_read[ii*8:8] = cntxt.memory.read(address+ii);
@@ -84,13 +89,20 @@ function uvma_obi_data_b_t mem_read(uvma_obi_addr_b_t address);
 endfunction : mem_read
 
 
-function void mem_write(uvma_obi_addr_b_t address, uvma_obi_data_b_t data);
+function void uvma_obi_slv_handler_base_vseq_c::mem_write(uvma_obi_addr_b_t address, uvma_obi_data_b_t data);
    
    for (int unsigned ii=0; ii<(cfg.data_width/8); ii++) begin
       cntxt.memory.write(address+ii, data[ii*8+:8]);
    end
    
 endfunction : mem_write
+
+
+task uvma_obi_slv_handler_base_vseq_c::wait_clk();
+   
+   @(cntxt.vif.drv_slv_r_cb);
+   
+endtask : wait_clk
 
 
 `endif // __UVMA_OBI_SLV_HANDLER_BASE_VSEQ_SV__

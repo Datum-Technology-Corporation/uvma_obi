@@ -16,9 +16,6 @@
 `define __UVMA_OBI_VSEQ_LIB_SV__
 
 
-`include "uvma_obi_base_vseq.sv"
-`include "uvma_obi_mon_vseq.sv"
-`include "uvma_obi_idle_vseq.sv"
 `include "uvma_obi_transport_base_vseq.sv"
 `include "uvma_obi_rand_access_vseq.sv"
 
@@ -48,8 +45,8 @@ function uvma_obi_vseq_lib_c::new(string name="uvma_obi_vseq_lib");
    super.new(name);
    init_sequence_library();
    
-   add_sequence(uvma_obi_idle_vseq_c       ::get_type());
-   add_sequence(uvma_obi_rand_access_vseq_c::get_type());
+   add_sequence(uvma_obi_transport_base_vseq_c::get_type());
+   add_sequence(uvma_obi_rand_access_vseq_c   ::get_type());
    
 endfunction : new
 

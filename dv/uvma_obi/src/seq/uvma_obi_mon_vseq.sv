@@ -111,7 +111,7 @@ task uvma_obi_mon_vseq_c::monitor_r();
          get_mstr_r_mon_trn(mstr_r_mon_trn);
       end while (((slv_r_mon_trn.rvalid !== 1'b1)) || (mstr_r_mon_trn.rready !== 1'b1));
       
-      mstr_a_mon_trn = cntxt.mon_outstanding_q.find_first() with (item.aid == slv_r_mon_trn.rid);
+      mstr_a_mon_trn = cntxt.mon_outstanding_q.pop_front();
       if (mstr_a_mon_trn != null) begin
          mon_trn = uvma_obi_mon_trn_c::type_id::create("mon_trn");
          mon_trn.set_initiator(p_sequencer);
@@ -133,6 +133,8 @@ task uvma_obi_mon_vseq_c::monitor_r();
          mon_trn.prot        = mstr_a_mon_trn.prot   ;
          mon_trn.achk        = mstr_a_mon_trn.achk   ;
          mon_trn.rchk        = mstr_a_mon_trn.rchk   ;
+         // TODO Do more protocol checks!
+         
          if (mstr_a_mon_trn.we) begin
             mon_trn.data = mstr_a_mon_trn.wdata;
          end
@@ -142,8 +144,8 @@ task uvma_obi_mon_vseq_c::monitor_r();
          // TODO Implement latency stats collection
       end
       else begin
-         `uvm_error("OBI_MON_VSEQ", $sformatf("Cannot find rid %h in cntxt.outstanding_q", slv_r_mon_trn.rid))
-         // TODO Handle with missing ID error
+         `uvm_error("OBI_MON_VSEQ", $sformatf("No outstanding mstr_a transaction to account for this slv_r transaction:\n%s", slv_r_mon_trn.sprint()))
+         // TODO Handle errors
       end
       
       `uvml_hrtbt_owner(p_sequencer)
