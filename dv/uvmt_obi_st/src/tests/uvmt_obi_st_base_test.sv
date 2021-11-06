@@ -268,7 +268,7 @@ function void uvmt_obi_st_base_test_c::cfg_hrtbt_monitor();
    
    `uvml_hrtbt_set_cfg(startup_timeout , test_cfg.startup_timeout )
    `uvml_hrtbt_set_cfg(heartbeat_period, test_cfg.heartbeat_period)
-   `uvml_watchdog_set_cfg(watchdog_timeout, test_cfg.simulation_timeout)
+   `uvml_watchdog_set_cfg(timeout, test_cfg.simulation_timeout)
    
 endfunction : cfg_hrtbt_monitor
 

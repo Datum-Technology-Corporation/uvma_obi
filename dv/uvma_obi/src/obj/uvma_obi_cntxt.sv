@@ -30,10 +30,15 @@ class uvma_obi_cntxt_c extends uvm_object;
    uvml_mem_model_c                  memory              ; ///< Handle to memory model for active slaves
    uvma_obi_slv_handler_base_vseq_c  slv_handlers[$]     ; ///< Queue of sequences that can respond to read/write from mstr
    
+   uvm_sequence_base  mon_vseq     ; ///< 
+   uvm_sequence_base  idle_vseq    ; ///< 
+   uvm_sequence_base  mstr_drv_vseq; ///< 
+   uvm_sequence_base  slv_drv_vseq ; ///< 
+   
    // Events
-   uvm_event#(uvma_obi_mstr_a_mon_trn_c)  mstr_a_req_e  ; ///< 
-   uvm_event                              sample_cfg_e  ; ///< 
-   uvm_event                              sample_cntxt_e; ///< 
+   uvm_event  mstr_a_req_e  ; ///< 
+   uvm_event  sample_cfg_e  ; ///< 
+   uvm_event  sample_cntxt_e; ///< 
    
    
    `uvm_object_utils_begin(uvma_obi_cntxt_c)

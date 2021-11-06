@@ -114,7 +114,7 @@ task uvma_obi_slv_a_drv_c::run_phase(uvm_phase phase);
          drv_req                    (req);
          ap.write                   (req);
          
-         @(mp.drv_slv_cb);
+         @(mp.drv_slv_a_cb);
          sample_post_clk(req);
          seq_item_port.item_done();
       end
@@ -141,8 +141,7 @@ endtask : drv_req
 
 task uvma_obi_slv_a_drv_c::sample_post_clk(ref uvma_obi_slv_a_seq_item_c req);
    
-   req.req    = cntxt.vif.mon_cb.req   ;
-   req.reqpar = cntxt.vif.mon_cb.reqpar;
+   req.req = cntxt.vif.mon_a_cb.req;
    
 endtask : sample_post_clk
 

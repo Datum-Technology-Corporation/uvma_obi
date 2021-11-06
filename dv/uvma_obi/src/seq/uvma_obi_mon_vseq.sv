@@ -132,7 +132,7 @@ task uvma_obi_mon_vseq_c::monitor_r();
          mon_trn.memtype     = mstr_a_mon_trn.memtype;
          mon_trn.prot        = mstr_a_mon_trn.prot   ;
          mon_trn.achk        = mstr_a_mon_trn.achk   ;
-         mon_trn.rchk        = mstr_a_mon_trn.rchk   ;
+         mon_trn.rchk        = slv_r_mon_trn.rchk    ;
          // TODO Do more protocol checks!
          
          if (mstr_a_mon_trn.we) begin

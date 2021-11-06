@@ -212,7 +212,7 @@ endfunction : sample_slv_r_mon_trn
 
 function void uvme_obi_st_cov_model_c::sample_seq_item();
    
-   obi_st_seq_item_cg.smple();
+   obi_st_seq_item_cg.sample();
    
 endfunction : sample_seq_item
 

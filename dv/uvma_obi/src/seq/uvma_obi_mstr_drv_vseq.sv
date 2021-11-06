@@ -107,6 +107,7 @@ task uvma_obi_mstr_drv_vseq_c::drive(ref uvma_obi_seq_item_c seq_item);
    uvma_obi_mstr_r_seq_item_c  mstr_r_seq_item;
    
    // TODO Implement latencies
+   // TODO Add ton/toff
    do begin
       `uvm_create_on(mstr_a_seq_item, p_sequencer.mstr_a_sequencer)
       `uvm_rand_send_pri_with(mstr_a_seq_item, `UVMA_OBI_MSTR_DRV_SEQ_ITEM_PRI, {

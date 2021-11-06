@@ -70,8 +70,8 @@ function void uvmt_obi_st_reads_test_c::check_phase(uvm_phase phase);
    
    super.check_phase(phase);
    
-   if (env_cntxt.sb_cntxt.match_count != reads_vseq.num_reads) begin
-      `uvm_error("TEST", $sformatf("Number of scoreboard matches (%0d) does not equal number of reads (%0d)", env_cntxt.sb_cntxt.match_count, reads_vseq.num_reads))
+   if (env_cntxt.sb_e2e_cntxt.match_count != reads_vseq.num_reads) begin
+      `uvm_error("TEST", $sformatf("Number of scoreboard matches (%0d) does not equal number of reads (%0d)", env_cntxt.sb_e2e_cntxt.match_count, reads_vseq.num_reads))
    end
    
 endfunction : check_phase

@@ -70,8 +70,8 @@ function void uvmt_obi_st_all_access_test_c::check_phase(uvm_phase phase);
    
    super.check_phase(phase);
    
-   if (env_cntxt.sb_cntxt.match_count != rand_access_vseq.num_access) begin
-      `uvm_error("TEST", $sformatf("Number of scoreboard matches (%0d) does not equal number of accesses (%0d)", env_cntxt.sb_cntxt.match_count, rand_access_vseq.num_access))
+   if (env_cntxt.sb_e2e_cntxt.match_count != rand_access_vseq.num_access) begin
+      `uvm_error("TEST", $sformatf("Number of scoreboard matches (%0d) does not equal number of accesses (%0d)", env_cntxt.sb_e2e_cntxt.match_count, rand_access_vseq.num_access))
    end
    
 endfunction : check_phase

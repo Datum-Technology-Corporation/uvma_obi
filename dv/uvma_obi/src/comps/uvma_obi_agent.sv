@@ -173,7 +173,7 @@ function void uvma_obi_agent_c::connect_phase(uvm_phase phase);
       connect_cov_model();
    end
    if (cfg.trn_log_enabled) begin
-      connect_trn_logger();
+      connect_logger();
    end
    
 endfunction: connect_phase
@@ -281,10 +281,10 @@ function void uvma_obi_agent_c::connect_sequencer();
       driver.mstr_r_driver.seq_item_port.connect(vsequencer.mstr_r_sequencer.seq_item_export);
       driver.slv_a_driver .seq_item_port.connect(vsequencer.slv_a_sequencer .seq_item_export);
       driver.slv_r_driver .seq_item_port.connect(vsequencer.slv_r_sequencer .seq_item_export);
-      monitor.mon_mstr_a_ap.connect(vsequencer.mstr_a_mon_trn_export);
-      monitor.mon_mstr_r_ap.connect(vsequencer.mstr_r_mon_trn_export);
-      monitor.mon_slv_a_ap .connect(vsequencer.slv_a_mon_trn_export );
-      monitor.mon_slv_r_ap .connect(vsequencer.slv_r_mon_trn_export );
+      monitor.mstr_a_ap.connect(vsequencer.mstr_a_mon_trn_export);
+      monitor.mstr_r_ap.connect(vsequencer.mstr_r_mon_trn_export);
+      monitor.slv_a_ap .connect(vsequencer.slv_a_mon_trn_export );
+      monitor.slv_r_ap .connect(vsequencer.slv_r_mon_trn_export );
    end
    
 endfunction : connect_sequencer
@@ -298,10 +298,10 @@ function void uvma_obi_agent_c::connect_analysis_ports();
    drv_mstr_r_ap = driver.mstr_r_driver.ap;
    drv_slv_a_ap  = driver.slv_a_driver .ap;
    drv_slv_r_ap  = driver.slv_r_driver .ap;
-   mon_mstr_a_ap = monitor.mon_mstr_a_ap  ;
-   mon_mstr_r_ap = monitor.mon_mstr_r_ap  ;
-   mon_slv_a_ap  = monitor.mon_slv_a_ap   ;
-   mon_slv_r_ap  = monitor.mon_slv_r_ap   ;
+   mon_mstr_a_ap = monitor.mstr_a_ap      ;
+   mon_mstr_r_ap = monitor.mstr_r_ap      ;
+   mon_slv_a_ap  = monitor.slv_a_ap       ;
+   mon_slv_r_ap  = monitor.slv_r_ap       ;
    
 endfunction : connect_analysis_ports
 
@@ -324,16 +324,16 @@ endfunction : connect_cov_model
 
 function void uvma_obi_agent_c::connect_logger();
    
-   seq_item_ap  .connect(logger.seq_item_logger_export       );
-   mon_trn_ap   .connect(logger.mon_trn_logger_export        );
-   drv_mstr_a_ap.connect(logger.mstr_a_seq_item_logger_export);
-   drv_mstr_r_ap.connect(logger.mstr_r_seq_item_logger_export);
-   drv_slv_a_ap .connect(logger.slv_a_seq_item_logger_export );
-   drv_slv_r_ap .connect(logger.slv_r_seq_item_logger_export );
-   mon_mstr_a_ap.connect(logger.mstr_a_mon_trn_logger_export );
-   mon_mstr_r_ap.connect(logger.mstr_r_mon_trn_logger_export );
-   mon_slv_a_ap .connect(logger.slv_a_mon_trn_logger_export  );
-   mon_slv_r_ap .connect(logger.slv_r_mon_trn_logger_export  );
+   seq_item_ap  .connect(logger.seq_item_export       );
+   mon_trn_ap   .connect(logger.mon_trn_export        );
+   drv_mstr_a_ap.connect(logger.mstr_a_seq_item_export);
+   drv_mstr_r_ap.connect(logger.mstr_r_seq_item_export);
+   drv_slv_a_ap .connect(logger.slv_a_seq_item_export );
+   drv_slv_r_ap .connect(logger.slv_r_seq_item_export );
+   mon_mstr_a_ap.connect(logger.mstr_a_mon_trn_export );
+   mon_mstr_r_ap.connect(logger.mstr_r_mon_trn_export );
+   mon_slv_a_ap .connect(logger.slv_a_mon_trn_export  );
+   mon_slv_r_ap .connect(logger.slv_r_mon_trn_export  );
    
 endfunction : connect_logger
 
@@ -389,16 +389,16 @@ task uvma_obi_agent_c::start_mstr_drv_vseq();
    uvm_object        temp_obj;
    
    temp_obj = f.create_object_by_type(cfg.mstr_drv_vseq_type, get_full_name(), cfg.mstr_drv_vseq_type.get_type_name());
-   if (!$cast(cntxt.mstr_vseq, temp_obj)) begin
-      `uvm_fatal("OBI_AGENT", $sformatf("Could not cast 'temp_obj' (%s) to 'cntxt.mstr_vseq' (%s)", $typename(temp_obj), $typename(cntxt.mstr_vseq)))
+   if (!$cast(cntxt.mstr_drv_vseq, temp_obj)) begin
+      `uvm_fatal("OBI_AGENT", $sformatf("Could not cast 'temp_obj' (%s) to 'cntxt.mstr_drv_vseq' (%s)", $typename(temp_obj), $typename(cntxt.mstr_drv_vseq)))
    end
    
-   if (!cntxt.mstr_vseq.randomize()) begin
-      `uvm_fatal("OBI_AGENT", "Failed to randomize cntxt.mstr_vseq")
+   if (!cntxt.mstr_drv_vseq.randomize()) begin
+      `uvm_fatal("OBI_AGENT", "Failed to randomize cntxt.mstr_drv_vseq")
    end
    
    fork
-      cntxt.mstr_vseq.start(vsequencer);
+      cntxt.mstr_drv_vseq.start(vsequencer);
    join_none
    
 endtask : start_mstr_drv_vseq
@@ -411,16 +411,16 @@ task uvma_obi_agent_c::start_slv_drv_vseq();
    uvm_object        temp_obj;
    
    temp_obj = f.create_object_by_type(cfg.slv_drv_vseq_type, get_full_name(), cfg.slv_drv_vseq_type.get_type_name());
-   if (!$cast(cntxt.slv_vseq, temp_obj)) begin
-      `uvm_fatal("OBI_AGENT", $sformatf("Could not cast 'temp_obj' (%s) to 'cntxt.slv_vseq' (%s)", $typename(temp_obj), $typename(cntxt.slv_vseq)))
+   if (!$cast(cntxt.slv_drv_vseq, temp_obj)) begin
+      `uvm_fatal("OBI_AGENT", $sformatf("Could not cast 'temp_obj' (%s) to 'cntxt.slv_drv_vseq' (%s)", $typename(temp_obj), $typename(cntxt.slv_drv_vseq)))
    end
    
-   if (!cntxt.slv_vseq.randomize()) begin
-      `uvm_fatal("OBI_AGENT", "Failed to randomize cntxt.slv_vseq")
+   if (!cntxt.slv_drv_vseq.randomize()) begin
+      `uvm_fatal("OBI_AGENT", "Failed to randomize cntxt.slv_drv_vseq")
    end
    
    fork
-      cntxt.slv_vseq.start(vsequencer);
+      cntxt.slv_drv_vseq.start(vsequencer);
    join_none
    
 endtask : start_slv_drv_vseq

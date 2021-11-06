@@ -83,7 +83,7 @@ task uvma_obi_rand_access_vseq_c::body();
       end
       
       repeat ($urandom_range(min_gap, max_gap)) begin
-         @(cntxt.vif.mon_cb);
+         @(cntxt.vif.mon_a_cb);
       end
    end
    

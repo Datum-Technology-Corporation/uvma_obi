@@ -114,7 +114,7 @@ task uvma_obi_slv_r_drv_c::run_phase(uvm_phase phase);
          drv_req                    (req);
          ap.write                   (req);
          
-         @(mp.drv_mstr_a_cb);
+         @(mp.drv_slv_r_cb);
          sample_post_clk(req);
          seq_item_port.item_done();
       end
@@ -133,22 +133,22 @@ endfunction : process_req
 
 task uvma_obi_slv_r_drv_c::drv_req(ref uvma_obi_slv_r_seq_item_c req);
    
-   mp.drv_mstr_a_cb.rvalid    <= req.rvalid   ;
-   mp.drv_mstr_a_cb.rvalidpar <= req.rvalidpar;
-   mp.drv_mstr_a_cb.err       <= req.err      ;
-   mp.drv_mstr_a_cb.exokay    <= req.exokay   ;
+   mp.drv_slv_r_cb.rvalid    <= req.rvalid   ;
+   mp.drv_slv_r_cb.rvalidpar <= req.rvalidpar;
+   mp.drv_slv_r_cb.err       <= req.err      ;
+   mp.drv_slv_r_cb.exokay    <= req.exokay   ;
    
    for (int unsigned ii=0; ii<cfg.data_width; ii++) begin
-      mp.drv_mstr_a_cb.rdata[ii] <= req.rdata[ii];
+      mp.drv_slv_r_cb.rdata[ii] <= req.rdata[ii];
    end
    for (int unsigned ii=0; ii<cfg.ruser_width; ii++) begin
-      mp.drv_mstr_a_cb.ruser[ii] <= req.ruser[ii];
+      mp.drv_slv_r_cb.ruser[ii] <= req.ruser[ii];
    end
    for (int unsigned ii=0; ii<cfg.id_width; ii++) begin
-      mp.drv_mstr_a_cb.rid[ii] <= req.rid[ii];
+      mp.drv_slv_r_cb.rid[ii] <= req.rid[ii];
    end
    for (int unsigned ii=0; ii<cfg.rchk_width; ii++) begin
-      mp.drv_mstr_a_cb.rchk[ii] <= req.rchk[ii];
+      mp.drv_slv_r_cb.rchk[ii] <= req.rchk[ii];
    end
    
 endtask : drv_req
@@ -156,8 +156,7 @@ endtask : drv_req
 
 task uvma_obi_slv_r_drv_c::sample_post_clk(ref uvma_obi_slv_r_seq_item_c req);
    
-   req.rready    = cntxt.vif.mon_cb.rready   ;
-   req.rreadypar = cntxt.vif.mon_cb.rreadypar;
+   req.rready = cntxt.vif.mon_r_cb.rready;
    
 endtask : sample_post_clk
 

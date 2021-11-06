@@ -442,7 +442,7 @@ task uvma_obi_mon_c::sample_mstr_a_trn(output uvma_obi_mstr_a_mon_trn_c trn);
       trn.achk[ii] = mp_a.mon_a_cb.achk[ii];
    end
    
-   trn.data_transferred = (mp_a.mon_a_cb.gnt === 1'b1) && (mp_a.mon_a_cb.req === 1'b1);
+   trn.gnt = mp_a.mon_a_cb.gnt;
    
 endtask : sample_mstr_a_trn
 
@@ -452,10 +452,10 @@ task uvma_obi_mon_c::sample_mstr_r_trn(output uvma_obi_mstr_r_mon_trn_c trn);
    @(mp_r.mon_r_cb);
    `uvm_info("OBI_MON", "Sampling MSTR Channel R transaction", UVM_HIGH)
    trn = uvma_obi_mstr_r_mon_trn_c::type_id::create("trn");
-   trn.req       = mp_r.mon_r_cb.gnt;
+   trn.rready    = mp_r.mon_r_cb.rready   ;
    trn.rreadypar = mp_r.mon_r_cb.rreadypar;
    
-   trn.data_transferred = (mp_r.mon_r_cb.gnt === 1'b1) && (mp_r.mon_r_cb.req === 1'b1);
+   trn.rvalid = mp_r.mon_r_cb.rvalid;
    
 endtask : sample_mstr_r_trn
 
@@ -468,7 +468,7 @@ task uvma_obi_mon_c::sample_slv_a_trn(output uvma_obi_slv_a_mon_trn_c trn);
    trn.gnt    = mp_a.mon_a_cb.gnt;
    trn.gntpar = mp_a.mon_a_cb.gntpar;
    
-   trn.data_transferred = (mp_a.mon_a_cb.gnt === 1'b1) && (mp_a.mon_a_cb.req === 1'b1);
+   trn.req = mp_a.mon_a_cb.req;
    
 endtask : sample_slv_a_trn
 
@@ -486,16 +486,16 @@ task uvma_obi_mon_c::sample_slv_r_trn(output uvma_obi_slv_r_mon_trn_c trn);
       trn.rdata[ii] = mp_r.mon_r_cb.rdata[ii];
    end
    for (int unsigned ii=0; ii<cfg.ruser_width; ii++) begin
-      trn.ruser[ii] = mp_a.mon_a_cb.ruser[ii];
+      trn.ruser[ii] = mp_r.mon_r_cb.ruser[ii];
    end
    for (int unsigned ii=0; ii<cfg.id_width; ii++) begin
-      trn.rid[ii] = mp_a.mon_a_cb.rid[ii];
+      trn.rid[ii] = mp_r.mon_r_cb.rid[ii];
    end
    for (int unsigned ii=0; ii<cfg.rchk_width; ii++) begin
-      trn.rchk[ii] = mp_a.mon_a_cb.rchk[ii];
+      trn.rchk[ii] = mp_r.mon_r_cb.rchk[ii];
    end
    
-   trn.data_transferred = (mp_r.mon_r_cb.rvalid === 1'b1) && (mp_r.mon_r_cb.rready === 1'b1);
+   trn.rready = mp_r.mon_r_cb.rready;
    
 endtask : sample_slv_r_trn
 

@@ -76,7 +76,7 @@ endfunction : new
 task uvma_obi_idle_vseq_c::body();
    
    `uvm_info("OBI_IDLE_VSEQ", "Idle virtual sequence has started", UVM_HIGH)
-   case (cfg.mode)
+   case (cfg.drv_mode)
       UVMA_OBI_DRV_MODE_MSTR: do_idle_mstr();
       UVMA_OBI_DRV_MODE_SLV : do_idle_slv ();
    endcase
@@ -127,7 +127,7 @@ task uvma_obi_idle_vseq_c::do_idle_mstr_a();
    uvma_obi_mstr_a_seq_item_c  mstr_a_seq_item;
    
    `uvm_create_on(mstr_a_seq_item, p_sequencer.slv_a_sequencer)
-   case (cfg.drv_mode)
+   case (cfg.drv_idle)
       UVMA_OBI_DRV_IDLE_ZEROS: begin
          `uvm_rand_send_pri_with(mstr_a_seq_item, `UVMA_OBI_MSTR_A_IDLE_SEQ_ITEM_PRI, {
             req     == 0;
@@ -184,7 +184,7 @@ task uvma_obi_idle_vseq_c::do_idle_slv_r();
    uvma_obi_slv_r_seq_item_c  slv_r_seq_item;
    
    `uvm_create_on(slv_r_seq_item, p_sequencer.slv_r_sequencer)
-   case (cfg.drv_mode)
+   case (cfg.drv_idle)
       UVMA_OBI_DRV_IDLE_ZEROS: begin
          `uvm_rand_send_pri_with(slv_r_seq_item, `UVMA_OBI_SLV_R_IDLE_SEQ_ITEM_PRI, {
             rvalid    == 0;

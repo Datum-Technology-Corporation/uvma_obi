@@ -122,11 +122,14 @@ task uvma_obi_slv_drv_vseq_c::drive(ref uvma_obi_mstr_a_mon_trn_c mon_a_trn);
    bit                        read_data[$]  ;
    
    // TODO Add gnt latency cycles
+   // TODO Add ton/toff
    `uvm_create_on(slv_a_seq_item, p_sequencer.slv_a_sequencer)
-   `uvm_rand_send_pri_with(slv_a_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI, {
-      gnt == 1'b1;
-   })
-   cntxt.mstr_a_req_e.trigger(mon_a_trn);
+   do begin
+      `uvm_rand_send_pri_with(slv_a_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI, {
+         gnt == 1'b1;
+      })
+   end while (slv_a_seq_item.req !== 1'b1);
+   cntxt.mstr_a_req_e.trigger();
    
 endtask : drive
 

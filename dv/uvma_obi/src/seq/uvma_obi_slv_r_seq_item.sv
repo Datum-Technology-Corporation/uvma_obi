@@ -158,7 +158,7 @@ function uvml_metadata_t uvma_obi_slv_r_seq_item_c::get_metadata();
             index     : field_count,
             value     : rid_str,
             col_name  : "rid",
-            col_width : aid_str.len(),
+            col_width : rid_str.len(),
             col_align : UVML_TEXT_ALIGN_RIGHT,
             data_type : UVML_FIELD_ENUM
          });

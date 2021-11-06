@@ -59,7 +59,7 @@ task uvme_obi_st_all_access_vseq_c::body();
    uvma_obi_seq_item_c  _req;
    
    repeat (num_all_access) begin
-      `uvm_do_on(_req, p_sequencer.mstr_sequencer)
+      `uvm_do_on(_req, p_sequencer.mstr_vsequencer)
    end
    
 endtask : body

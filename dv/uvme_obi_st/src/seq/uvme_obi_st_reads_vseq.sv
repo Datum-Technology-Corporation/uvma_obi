@@ -59,7 +59,7 @@ task uvme_obi_st_reads_vseq_c::body();
    uvma_obi_seq_item_c  _req;
    
    repeat (num_reads) begin
-      `uvm_do_on_with(_req, p_sequencer.mstr_sequencer, {
+      `uvm_do_on_with(_req, p_sequencer.mstr_vsequencer, {
          access_type == UVMA_OBI_ACCESS_READ;
       })
    end

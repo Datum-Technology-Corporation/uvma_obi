@@ -70,8 +70,8 @@ function void uvmt_obi_st_writes_test_c::check_phase(uvm_phase phase);
    
    super.check_phase(phase);
    
-   if (env_cntxt.sb_cntxt.match_count != writes_vseq.num_writes) begin
-      `uvm_error("TEST", $sformatf("Number of scoreboard matches (%0d) does not equal number of writes (%0d)", env_cntxt.sb_cntxt.match_count, writes_vseq.num_writes))
+   if (env_cntxt.sb_e2e_cntxt.match_count != writes_vseq.num_writes) begin
+      `uvm_error("TEST", $sformatf("Number of scoreboard matches (%0d) does not equal number of writes (%0d)", env_cntxt.sb_e2e_cntxt.match_count, writes_vseq.num_writes))
    end
    
 endfunction : check_phase

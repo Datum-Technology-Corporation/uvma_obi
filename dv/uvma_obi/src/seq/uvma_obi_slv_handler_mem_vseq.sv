@@ -68,13 +68,13 @@ task uvma_obi_slv_handler_mem_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_tr
    do begin
       `uvm_create_on(slv_r_seq_item, p_sequencer.slv_r_sequencer)
       
-      if (mon_trn.we === 1'b1) begin
-         mem_write(trn.addr, trn.data);
+      if (trn.we === 1'b1) begin
+         mem_write(trn.addr, trn.wdata);
          `uvm_rand_send_pri_with(slv_r_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI, {
             rvalid == 1'b1;
             err    == 1'b0;
-            ruser  == mon_trn.auser;
-            rid    == mon_trn.aid  ;
+            ruser  == trn.auser;
+            rid    == trn.aid  ;
             // TODO Implement exokay
             // TODO Implement rchk
          })
@@ -85,8 +85,8 @@ task uvma_obi_slv_handler_mem_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_tr
             rvalid == 1'b1;
             rdata  == readback_data;
             err    == 1'b0;
-            ruser  == mon_trn.auser;
-            rid    == mon_trn.aid  ;
+            ruser  == trn.auser;
+            rid    == trn.aid  ;
             // TODO Implement exokay
             // TODO Implement rchk
          })

@@ -115,7 +115,7 @@ task uvma_obi_mstr_a_drv_c::run_phase(uvm_phase phase);
          ap.write                   (req);
          
          @(mp.drv_mstr_a_cb);
-         req.data_transferred = (req.req === 1'b1) && (cntxt.vif.mon_cb.gnt === 1'b1);
+         sample_post_clk(req);
          seq_item_port.item_done();
       end
    end
@@ -167,8 +167,7 @@ endtask : drv_req
 
 task uvma_obi_mstr_a_drv_c::sample_post_clk(ref uvma_obi_mstr_a_seq_item_c req);
    
-   req.gnt    = cntxt.vif.mon_cb.gnt   ;
-   req.gntpar = cntxt.vif.mon_cb.gntpar;
+   req.gnt = cntxt.vif.mon_a_cb.gnt;
    
 endtask : sample_post_clk
 

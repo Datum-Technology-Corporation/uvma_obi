@@ -227,13 +227,13 @@ task uvma_obi_cov_model_c::run_phase(uvm_phase phase);
          // Sequence mstr_a items
          forever begin
             mstr_a_seq_item_fifo.get(mstr_a_seq_item);
-            sample_a_mstr_seq_item();
+            sample_mstr_a_seq_item();
          end
          
          // Sequence mstr_r items
          forever begin
             mstr_r_seq_item_fifo.get(mstr_r_seq_item);
-            sample_r_mstr_seq_item();
+            sample_mstr_r_seq_item();
          end
          
          // Sequence slv_a items
