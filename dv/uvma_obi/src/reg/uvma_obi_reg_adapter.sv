@@ -45,6 +45,7 @@ endclass : uvma_obi_reg_adapter_c
 function uvma_obi_reg_adapter_c::new(string name="uvma_obi_reg_adapter");
    
    super.new(name);
+   supports_byte_enable = 1;
    
 endfunction : new
 
