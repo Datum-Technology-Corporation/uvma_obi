@@ -27,7 +27,9 @@ class uvme_obi_st_cntxt_c extends uvm_object;
    uvma_obi_cntxt_c  slv_cntxt ; ///< 
    
    // Scoreboard context handle
-   uvml_sb_simplex_cntxt_c  sb_e2e_cntxt; ///< 
+   uvml_sb_simplex_cntxt_c  sb_e2e_cntxt ; ///< 
+   uvml_sb_simplex_cntxt_c  sb_mstr_cntxt; ///< 
+   uvml_sb_simplex_cntxt_c  sb_slv_cntxt ; ///< 
    
    // Events
    uvm_event  sample_cfg_e  ; ///< 
@@ -38,7 +40,9 @@ class uvme_obi_st_cntxt_c extends uvm_object;
       `uvm_field_object(mstr_cntxt, UVM_DEFAULT)
       `uvm_field_object(slv_cntxt , UVM_DEFAULT)
       
-      `uvm_field_object(sb_e2e_cntxt, UVM_DEFAULT)
+      `uvm_field_object(sb_e2e_cntxt , UVM_DEFAULT)
+      `uvm_field_object(sb_mstr_cntxt, UVM_DEFAULT)
+      `uvm_field_object(sb_slv_cntxt , UVM_DEFAULT)
       
       `uvm_field_event(sample_cfg_e  , UVM_DEFAULT)
       `uvm_field_event(sample_cntxt_e, UVM_DEFAULT)
@@ -61,7 +65,9 @@ function uvme_obi_st_cntxt_c::new(string name="uvme_obi_st_cntxt");
    slv_cntxt  = uvma_obi_cntxt_c::type_id::create("slv_cntxt" );
    slv_cntxt.memory.mem_default = UVML_MEM_DEFAULT_VAL_INCR;
    
-   sb_e2e_cntxt = uvml_sb_simplex_cntxt_c::type_id::create("sb_e2e_cntxt");
+   sb_e2e_cntxt  = uvml_sb_simplex_cntxt_c::type_id::create("sb_e2e_cntxt" );
+   sb_mstr_cntxt = uvml_sb_simplex_cntxt_c::type_id::create("sb_mstr_cntxt");
+   sb_slv_cntxt  = uvml_sb_simplex_cntxt_c::type_id::create("sb_slv_cntxt" );
    
    sample_cfg_e   = new("sample_cfg_e"  );
    sample_cntxt_e = new("sample_cntxt_e");

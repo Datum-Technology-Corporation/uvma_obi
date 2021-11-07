@@ -81,7 +81,7 @@ endtask : body
 
 task uvma_obi_mon_vseq_c::monitor_a();
    
-   uvma_obi_mstr_a_mon_trn_c  mstr_a_mon_trn;
+   uvma_obi_mstr_a_mon_trn_c  mstr_a_mon_trn, mstr_a_mon_trn_copy;
    uvma_obi_slv_a_mon_trn_c   slv_a_mon_trn ;
    
    forever begin
@@ -90,14 +90,19 @@ task uvma_obi_mon_vseq_c::monitor_a();
          get_slv_a_mon_trn (slv_a_mon_trn );
       end while ((mstr_a_mon_trn.req !== 1'b1) || (slv_a_mon_trn.gnt !== 1'b1));
       
+      cntxt.mon_outstanding_q.push_back(mstr_a_mon_trn);
+      if (cfg.is_active && (cfg.drv_mode == UVMA_OBI_DRV_MODE_SLV)) begin
+         mstr_a_mon_trn_copy = uvma_obi_mstr_a_mon_trn_c::type_id::create("mstr_a_mon_trn_copy");
+         mstr_a_mon_trn_copy.copy(mstr_a_mon_trn);
+         cntxt.drv_slv_outstanding_q.push_back(mstr_a_mon_trn);
+      end
+      
       do begin
          get_mstr_a_mon_trn(mstr_a_mon_trn);
          get_slv_a_mon_trn (slv_a_mon_trn );
       end while ((mstr_a_mon_trn.req === 1'b1) && (slv_a_mon_trn.gnt === 1'b1));
       
-      cntxt.mon_outstanding_q.push_back(mstr_a_mon_trn);
       if (cfg.is_active && (cfg.drv_mode == UVMA_OBI_DRV_MODE_SLV)) begin
-         cntxt.drv_slv_outstanding_q.push_back(mstr_a_mon_trn);
          cntxt.mstr_a_req_e.trigger();
       end
       `uvml_hrtbt_owner(p_sequencer)
@@ -122,11 +127,10 @@ task uvma_obi_mon_vseq_c::monitor_r();
       mstr_a_mon_trn = cntxt.mon_outstanding_q.pop_front();
       if (mstr_a_mon_trn != null) begin
          mon_trn = uvma_obi_mon_trn_c::type_id::create("mon_trn");
-         mon_trn.set_initiator(p_sequencer);
+         mon_trn.set_initiator(mstr_a_mon_trn.get_initiator());
          mon_trn.cfg         = cfg;
          mon_trn.set_timestamp_start(mstr_a_mon_trn.get_timestamp_start());
          mon_trn.set_timestamp_end  (slv_r_mon_trn .get_timestamp_end  ());
-         mon_trn.access_type = uvma_obi_access_type_enum'(mstr_a_mon_trn.we);
          mon_trn.address     = mstr_a_mon_trn.addr   ;
          mon_trn.be          = mstr_a_mon_trn.be     ;
          mon_trn.auser       = mstr_a_mon_trn.auser  ;
@@ -145,9 +149,11 @@ task uvma_obi_mon_vseq_c::monitor_r();
          
          if (mstr_a_mon_trn.we) begin
             mon_trn.data = mstr_a_mon_trn.wdata;
+            mon_trn.access_type = UVMA_OBI_ACCESS_WRITE;
          end
          else begin
             mon_trn.data = slv_r_mon_trn.rdata;
+            mon_trn.access_type = UVMA_OBI_ACCESS_READ;
          end
          // TODO Implement latency stats collection
       end

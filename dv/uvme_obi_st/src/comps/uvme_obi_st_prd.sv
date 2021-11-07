@@ -26,9 +26,15 @@ class uvme_obi_st_prd_c extends uvm_component;
    uvme_obi_st_cntxt_c  cntxt; ///< 
    
    // TLM
-   uvm_analysis_export  #(uvma_obi_mon_trn_c)  e2e_in_export ; ///< 
-   uvm_tlm_analysis_fifo#(uvma_obi_mon_trn_c)  e2e_in_fifo  ; ///< 
-   uvm_analysis_port    #(uvma_obi_mon_trn_c)  e2e_out_ap   ; ///< 
+   uvm_analysis_export  #(uvma_obi_mon_trn_c       )  e2e_in_export  ; ///< 
+   uvm_analysis_export  #(uvma_obi_seq_item_c      )  mstr_in_export ; ///< 
+   uvm_analysis_export  #(uvma_obi_slv_r_seq_item_c)  slv_in_export  ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_mon_trn_c       )  e2e_in_fifo    ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_seq_item_c      )  mstr_in_fifo   ; ///< 
+   uvm_tlm_analysis_fifo#(uvma_obi_slv_r_seq_item_c)  slv_in_fifo    ; ///< 
+   uvm_analysis_port    #(uvma_obi_mon_trn_c       )  e2e_out_ap     ; ///< 
+   uvm_analysis_port    #(uvma_obi_mon_trn_c       )  mstr_out_ap    ; ///< 
+   uvm_analysis_port    #(uvma_obi_mon_trn_c       )  slv_out_ap     ; ///< 
    
    
    `uvm_component_utils_begin(uvme_obi_st_prd_c)
@@ -82,9 +88,21 @@ function void uvme_obi_st_prd_c::build_phase(uvm_phase phase);
    end
    
    // Build TLM objects
-   e2e_in_export  = new("e2e_in_export", this);
-   e2e_in_fifo    = new("e2e_in_fifo"  , this);
-   e2e_out_ap     = new("e2e_out_ap"   , this);
+   if (cfg.sb_e2e_cfg.enabled) begin
+      e2e_in_export = new("e2e_in_export", this);
+      e2e_in_fifo   = new("e2e_in_fifo"  , this);
+      e2e_out_ap    = new("e2e_out_ap"   , this);
+   end
+   if (cfg.sb_mstr_cfg.enabled) begin
+      mstr_in_export = new("mstr_in_export", this);
+      mstr_in_fifo   = new("mstr_in_fifo"  , this);
+      mstr_out_ap    = new("mstr_out_ap"   , this);
+   end
+   if (cfg.sb_slv_cfg.enabled) begin
+      slv_in_export = new("slv_in_export", this);
+      slv_in_fifo   = new("slv_in_fifo"  , this);
+      slv_out_ap    = new("slv_out_ap"   , this);
+   end
    
 endfunction : build_phase
 
@@ -94,31 +112,96 @@ function void uvme_obi_st_prd_c::connect_phase(uvm_phase phase);
    super.connect_phase(phase);
    
    // Connect TLM objects
-   e2e_in_export.connect(e2e_in_fifo.analysis_export);
+   if (cfg.sb_e2e_cfg.enabled) begin
+      e2e_in_export.connect(e2e_in_fifo.analysis_export);
+   end
+   if (cfg.sb_mstr_cfg.enabled) begin
+      mstr_in_export.connect(mstr_in_fifo.analysis_export);
+   end
+   if (cfg.sb_slv_cfg.enabled) begin
+      slv_in_export.connect(slv_in_fifo.analysis_export);
+   end
    
 endfunction: connect_phase
 
 
 task uvme_obi_st_prd_c::run_phase(uvm_phase phase);
    
-   uvma_obi_mon_trn_c  in_trn, out_trn;
+   uvma_obi_seq_item_c        mstr_in_trn;
+   uvma_obi_slv_r_seq_item_c  slv_in_trn;
+   uvma_obi_mon_trn_c         e2e_in_trn, e2e_out_trn, mstr_out_trn, slv_out_trn;
    
    super.run_phase(phase);
    
    fork
       begin : e2e
-         forever begin
-            // Get next transaction and copy it
-            e2e_in_fifo.get(in_trn);
-            out_trn = uvma_obi_mon_trn_c::type_id::create("out_trn");
-            out_trn.copy(in_trn);
-            
-            if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
-               out_trn.set_may_drop(1);
+         if (cfg.sb_e2e_cfg.enabled) begin
+            forever begin
+               // Get next transaction and copy it
+               e2e_in_fifo.get(e2e_in_trn);
+               e2e_out_trn = uvma_obi_mon_trn_c::type_id::create("e2e_out_trn");//uvme_obi_st_e2e_mon_trn_c::type_id::create("e2e_out_trn");
+               e2e_out_trn.copy(e2e_in_trn);
+               
+               if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
+                  e2e_out_trn.set_may_drop(1);
+               end
+               
+               // Send transaction to analysis port
+               e2e_out_ap.write(e2e_out_trn);
             end
-            
-            // Send transaction to analysis port
-            e2e_out_ap.write(out_trn);
+         end
+      end
+      
+      begin : mstr
+         if (cfg.sb_mstr_cfg.enabled) begin
+            forever begin
+               // Get next transaction
+               mstr_in_fifo.get(mstr_in_trn);
+               mstr_out_trn = uvme_obi_st_mstr_mon_trn_c::type_id::create("mstr_out_trn");
+               mstr_out_trn.access_type = mstr_in_trn.access_type;
+               mstr_out_trn.address     = mstr_in_trn.address    ;
+               mstr_out_trn.data        = mstr_in_trn.data       ;
+               mstr_out_trn.be          = mstr_in_trn.be         ;
+               mstr_out_trn.auser       = mstr_in_trn.auser      ;
+               mstr_out_trn.wuser       = mstr_in_trn.wuser      ;
+               mstr_out_trn.ruser       = mstr_in_trn.ruser      ;
+               mstr_out_trn.aid         = mstr_in_trn.id         ;
+               mstr_out_trn.rid         = mstr_in_trn.id         ;
+               mstr_out_trn.atop        = mstr_in_trn.atop       ;
+               mstr_out_trn.memtype     = mstr_in_trn.memtype    ;
+               mstr_out_trn.prot        = mstr_in_trn.prot       ;
+               
+               if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
+                  mstr_out_trn.set_may_drop(1);
+               end
+               
+               // Send transaction to analysis port
+               mstr_out_ap.write(mstr_out_trn);
+            end
+         end
+      end
+      
+      begin : slv
+         if (cfg.sb_slv_cfg.enabled) begin
+            forever begin
+               // Get next transaction
+               slv_in_fifo.get(slv_in_trn);
+               slv_out_trn = uvme_obi_st_slv_mon_trn_c::type_id::create("slv_out_trn");
+               slv_out_trn.data    = slv_in_trn.rdata  ;
+               slv_out_trn.err     = slv_in_trn.err    ;
+               slv_out_trn.ruser   = slv_in_trn.ruser  ;
+               slv_out_trn.rid     = slv_in_trn.rid    ;
+               slv_out_trn.exokay  = slv_in_trn.exokay ;
+               slv_out_trn.rchk    = slv_in_trn.rchk   ;
+               
+               
+               if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
+                  slv_out_trn.set_may_drop(1);
+               end
+               
+               // Send transaction to analysis port
+               slv_out_ap.write(slv_out_trn);
+            end
          end
       end
    join_none

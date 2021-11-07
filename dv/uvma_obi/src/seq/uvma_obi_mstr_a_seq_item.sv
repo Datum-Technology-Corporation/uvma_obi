@@ -96,14 +96,14 @@ function void uvma_obi_mstr_a_seq_item_c::do_print(uvm_printer printer);
    if (cfg != null) begin
       printer.print_field("addr"  , addr , cfg.addr_width );
       printer.print_field("we"    , we   , $bits(we)      );
-      printer.print_field("be"    , we   , cfg.data_width );
+      printer.print_field("be"    , be   , cfg.data_width );
       printer.print_field("wdata" , wdata, cfg.data_width );
       
       if (cfg.auser_width > 0) begin
          printer.print_field("auser", auser, cfg.auser_width);
       end
       if (cfg.wuser_width > 0) begin
-         printer.print_field("wuser", auser, cfg.wuser_width);
+         printer.print_field("wuser", wuser, cfg.wuser_width);
       end
       if (cfg.id_width > 0) begin
          printer.print_field("aid", aid, cfg.id_width);
@@ -159,11 +159,12 @@ function uvml_metadata_t uvma_obi_mstr_a_seq_item_c::get_metadata();
       });
       field_count++;
       
+      be_str = be_str.substr(be_str.len() - (cfg.data_width/8), be_str.len()-1);
       get_metadata.push_back('{
          index     : field_count,
-         value     : wdata_str,
+         value     : be_str,
          col_name  : "be",
-         col_width : wdata_str.len(),
+         col_width : be_str.len(),
          col_align : UVML_TEXT_ALIGN_RIGHT,
          data_type : UVML_FIELD_ENUM
       });

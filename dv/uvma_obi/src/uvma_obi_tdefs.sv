@@ -67,9 +67,9 @@ typedef bit                                       uvma_obi_rready_b_t   ;
 typedef bit                                       uvma_obi_rreadypar_b_t;
 
 
-typedef enum {
-   UVMA_OBI_VERSION_1P1,
-   UVMA_OBI_VERSION_1P2
+typedef enum int unsigned {
+   UVMA_OBI_VERSION_1P0 = 0,
+   UVMA_OBI_VERSION_1P2 = 2
 } uvma_obi_version_enum;
 
 typedef enum {

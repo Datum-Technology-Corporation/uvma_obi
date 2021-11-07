@@ -184,7 +184,7 @@ function uvml_metadata_t uvma_obi_mon_trn_c::get_metadata();
       });
       field_count++;
       
-      be_str = be_str.substr(be_str.len() - cfg.data_width, be_str.len()-1);
+      be_str = be_str.substr(be_str.len() - cfg.data_width/8, be_str.len()-1);
       get_metadata.push_back('{
          index     : field_count,
          value     : be_str,

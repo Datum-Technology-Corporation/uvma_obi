@@ -65,33 +65,33 @@ task uvma_obi_slv_handler_mem_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_tr
    
    // TODO Add response latency cycles
    
+   `uvm_info("OBI_SLV_MEM_VSEQ", $sformatf("Responding to \n%s", trn.sprint()), UVM_MEDIUM)
    do begin
       `uvm_create_on(slv_r_seq_item, p_sequencer.slv_r_sequencer)
       
       if (trn.we === 1'b1) begin
-         mem_write(trn.addr, trn.wdata);
-         `uvm_rand_send_pri_with(slv_r_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI, {
-            rvalid == 1'b1;
-            err    == 1'b0;
-            ruser  == trn.auser;
-            rid    == trn.aid  ;
-            // TODO Implement exokay
-            // TODO Implement rchk
-         })
+         mem_write(trn.addr, trn.wdata, trn.be);
+         slv_r_seq_item.rvalid = 1'b1;
+         slv_r_seq_item.err    = 1'b0;
+         slv_r_seq_item.ruser  = trn.auser;
+         slv_r_seq_item.rid    = trn.aid;
+         // TODO Implement exokay
+         // TODO Implement rchk
       end
       else begin
-         readback_data = mem_read(trn.addr);
-         `uvm_rand_send_pri_with(slv_r_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI, {
-            rvalid == 1'b1;
-            rdata  == readback_data;
-            err    == 1'b0;
-            ruser  == trn.auser;
-            rid    == trn.aid  ;
-            // TODO Implement exokay
-            // TODO Implement rchk
-         })
+         readback_data = mem_read(trn.addr, trn.be);
+         slv_r_seq_item.rvalid = 1'b1;
+         slv_r_seq_item.rdata  = readback_data;
+         slv_r_seq_item.err    = 1'b0;
+         slv_r_seq_item.ruser  = trn.auser;
+         slv_r_seq_item.rid    = trn.aid;
+         // TODO Implement exokay
+         // TODO Implement rchk
       end
+      
+      `uvm_send_pri(slv_r_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI)
    end while (slv_r_seq_item.rready !== 1'b1);
+   `uvm_info("OBI_SLV_MEM_VSEQ", $sformatf("Responded to \n%s\nwith\n%s", trn.sprint(), slv_r_seq_item.sprint()), UVM_MEDIUM)
    
    handled = 1;
    

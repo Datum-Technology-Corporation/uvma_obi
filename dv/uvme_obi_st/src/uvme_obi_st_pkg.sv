@@ -50,6 +50,9 @@ package uvme_obi_st_pkg;
    // Objects
    `include "uvme_obi_st_cfg.sv"
    `include "uvme_obi_st_cntxt.sv"
+   `include "uvme_obi_st_e2e_mon_trn.sv"
+   `include "uvme_obi_st_mstr_mon_trn.sv"
+   `include "uvme_obi_st_slv_mon_trn.sv"
    
    // Environment components
    `include "uvme_obi_st_cov_model.sv"
