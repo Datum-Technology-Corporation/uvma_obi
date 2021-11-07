@@ -38,7 +38,6 @@ class uvma_obi_rand_access_vseq_c extends uvma_obi_base_vseq_c;
    
    
    constraint limits_cons {
-      num_access == 10;
       pct_reads + pct_writes == 100;
       num_access <= 100;
       min_gap <= max_gap;
