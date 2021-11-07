@@ -62,6 +62,7 @@ package uvmt_obi_st_pkg;
    `include "uvmt_obi_st_reads_test.sv"
    `include "uvmt_obi_st_writes_test.sv"
    `include "uvmt_obi_st_all_access_test.sv"
+   `include "uvmt_obi_st_print_test.sv"
    
 endpackage : uvmt_obi_st_pkg
 

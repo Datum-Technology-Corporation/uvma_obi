@@ -20,6 +20,7 @@
 `include "uvme_obi_st_reads_vseq.sv"
 `include "uvme_obi_st_writes_vseq.sv"
 `include "uvme_obi_st_all_access_vseq.sv"
+`include "uvme_obi_st_print_vseq.sv"
 
 
 /**
@@ -49,6 +50,7 @@ function uvme_obi_st_vseq_lib_c::new(string name="uvme_obi_st_vseq_lib");
    add_sequence(uvme_obi_st_reads_vseq_c     ::get_type());
    add_sequence(uvme_obi_st_writes_vseq_c    ::get_type());
    add_sequence(uvme_obi_st_all_access_vseq_c::get_type());
+   add_sequence(uvme_obi_st_print_vseq_c     ::get_type());
    
 endfunction : new
 

@@ -18,6 +18,7 @@
 
 `include "uvma_obi_slv_handler_base_vseq.sv"
 `include "uvma_obi_slv_handler_mem_vseq.sv"
+`include "uvma_obi_slv_handler_print_vseq.sv"
 
 
 /**
@@ -45,7 +46,8 @@ function uvma_obi_slv_handler_vseq_lib_c::new(string name="uvma_obi_slv_handler_
    super.new(name);
    init_sequence_library();
    
-   add_sequence(uvma_obi_slv_handler_mem_vseq_c::get_type());
+   add_sequence(uvma_obi_slv_handler_mem_vseq_c  ::get_type());
+   add_sequence(uvma_obi_slv_handler_print_vseq_c::get_type());
    
 endfunction : new
 
