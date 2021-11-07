@@ -65,7 +65,7 @@ task uvma_obi_slv_handler_mem_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_tr
    
    // TODO Add response latency cycles
    
-   `uvm_info("OBI_SLV_MEM_VSEQ", $sformatf("Responding to \n%s", trn.sprint()), UVM_MEDIUM)
+   `uvm_info("OBI_SLV_MEM_VSEQ", $sformatf("Responding to \n%s", trn.sprint()), UVM_DEBUG)
    do begin
       `uvm_create_on(slv_r_seq_item, p_sequencer.slv_r_sequencer)
       
@@ -91,7 +91,7 @@ task uvma_obi_slv_handler_mem_vseq_c::handle_mstr_req(ref uvma_obi_mstr_a_mon_tr
       
       `uvm_send_pri(slv_r_seq_item, `UVMA_OBI_SLV_DRV_SEQ_ITEM_PRI)
    end while (slv_r_seq_item.rready !== 1'b1);
-   `uvm_info("OBI_SLV_MEM_VSEQ", $sformatf("Responded to \n%s\nwith\n%s", trn.sprint(), slv_r_seq_item.sprint()), UVM_MEDIUM)
+   `uvm_info("OBI_SLV_MEM_VSEQ", $sformatf("Responded to \n%s\nwith\n%s", trn.sprint(), slv_r_seq_item.sprint()), UVM_DEBUG)
    
    handled = 1;
    

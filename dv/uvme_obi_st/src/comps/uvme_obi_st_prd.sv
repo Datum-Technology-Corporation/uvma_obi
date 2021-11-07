@@ -186,17 +186,19 @@ task uvme_obi_st_prd_c::run_phase(uvm_phase phase);
             forever begin
                // Get next transaction
                slv_in_fifo.get(slv_in_trn);
-               slv_out_trn = uvme_obi_st_slv_mon_trn_c::type_id::create("slv_out_trn");
-               slv_out_trn.data    = slv_in_trn.rdata  ;
-               slv_out_trn.err     = slv_in_trn.err    ;
-               slv_out_trn.ruser   = slv_in_trn.ruser  ;
-               slv_out_trn.rid     = slv_in_trn.rid    ;
-               slv_out_trn.exokay  = slv_in_trn.exokay ;
-               slv_out_trn.rchk    = slv_in_trn.rchk   ;
-               
-               
-               if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
-                  slv_out_trn.set_may_drop(1);
+               if ((slv_in_trn.rvalid == 1'b1) && (slv_in_trn.rready === 1'b1)) begin
+                  slv_out_trn = uvme_obi_st_slv_mon_trn_c::type_id::create("slv_out_trn");
+                  slv_out_trn.data    = slv_in_trn.rdata  ;
+                  slv_out_trn.err     = slv_in_trn.err    ;
+                  slv_out_trn.ruser   = slv_in_trn.ruser  ;
+                  slv_out_trn.rid     = slv_in_trn.rid    ;
+                  slv_out_trn.exokay  = slv_in_trn.exokay ;
+                  slv_out_trn.rchk    = slv_in_trn.rchk   ;
+                  
+                  
+                  if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
+                     slv_out_trn.set_may_drop(1);
+                  end
                end
                
                // Send transaction to analysis port
