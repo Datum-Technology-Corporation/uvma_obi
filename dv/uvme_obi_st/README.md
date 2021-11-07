@@ -19,4 +19,5 @@ It is dependent on the following packages:
 * [`uvm_pkg`](https://www.accellera.org/downloads/standards/uvm)
 * [`uvml_pkg`](https://datum-technology-corporation.github.io/uvml/)
 * [`uvml_logs_pkg`](https://datum-technology-corporation.github.io/uvml_logs/)
+* `uvml_mem_pkg`
 * `uvma_obi`
