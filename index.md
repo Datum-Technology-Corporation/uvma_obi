@@ -6,7 +6,7 @@
 ----------------
 
 ## About
-The [Moore.io](https://www.mooreio.com) UVM [Open Bus Interface (OBI)](https://github.com/openhwgroup/core-v-docs/tree/master/cores/obi) Agent is a pure-UVM, [sequence-based implementation](https://www.linkedin.com/pulse/advanced-uvm-brian-hunter/) of the open standard that can act as either an active `mstr`/`slv` or as a purely passive monitor. 
+The [Moore.io](https://www.mooreio.com) UVM [Open Bus Interface (OBI)](https://github.com/openhwgroup/core-v-docs/tree/master/cores/obi) Agent is a pure-UVM, [sequence-based implementation](https://www.linkedin.com/pulse/advanced-uvm-brian-hunter/) of the open standard that can act as either an active `mstr`/`slv` or as a purely passive Monitor. 
 
 > Sequences for programmable error injection and error detection extensions to the stock Monitor Virtual Sequences will soon be commercially available from [Datum](https://datumtc.ca/).
 
