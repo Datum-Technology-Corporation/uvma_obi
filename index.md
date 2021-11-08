@@ -6,7 +6,11 @@
 ----------------
 
 ## About
-The [Moore.io](https://www.mooreio.com) UVM [Open Bus Interface (OBI)](https://github.com/openhwgroup/core-v-docs/tree/master/cores/obi) Agent is a pure-UVM, [sequence-based implementation](https://www.linkedin.com/pulse/advanced-uvm-brian-hunter/) of the open standard that can act as either an active `mstr`/`slv` or as a purely passive monitor. These features, along with all bus widths are configurable in simulation via constrained-random `cfg` object handles. A sample library of `slv` 'Handler' Virtual Sequences are provided to demonstrate how the Moore.io UVM Open Bus Interface (OBI) Agent can easily operate as an 'Active `slv`' and reproduce just about any business logic.
+The [Moore.io](https://www.mooreio.com) UVM [Open Bus Interface (OBI)](https://github.com/openhwgroup/core-v-docs/tree/master/cores/obi) Agent is a pure-UVM, [sequence-based implementation](https://www.linkedin.com/pulse/advanced-uvm-brian-hunter/) of the open standard that can act as either an active `mstr`/`slv` or as a purely passive monitor. 
+
+These features, along with all bus widths, are configurable in simulation via constrained-random `cfg` object handles. A sample library of `slv` 'Handler' Virtual Sequences are provided to demonstrate how the Moore.io UVM OBI Agent can easily operate as an 'Active `slv`' and reproduce just about any business logic.
+
+In addition, it can operate in 'Transport' mode where the Virtual Sequencer receives sequence items from an upstream Sequencer. On the flip side, it an operate in `bypass` mode, where the Virtual Interface (`vif`) is ignored and the Agent can be used to drive another Agent in 'Transport' mode.
 
 This project consists of the agent (`uvma_obi_pkg`), the UVM Memory Model (`uvml_mem`), the self-testing UVM environment (`uvme_obi_st_pkg`) and the test bench (`uvmt_obi_st_pkg`) to verify the agent against itself.
 
