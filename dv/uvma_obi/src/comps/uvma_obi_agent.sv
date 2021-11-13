@@ -34,16 +34,17 @@ class uvma_obi_agent_c extends uvm_agent;
    uvma_obi_cov_model_c  cov_model ; ///< TODO Describe uvma_obi_agent_c::cov_model
    
    // TLM
-   uvm_analysis_port#(uvma_obi_seq_item_c       )  seq_item_ap  ; ///< TODO Describe uvma_obi_agent_c::seq_item_ap
-   uvm_analysis_port#(uvma_obi_mon_trn_c        )  mon_trn_ap   ; ///< TODO Describe uvma_obi_agent_c::mon_trn_ap
-   uvm_analysis_port#(uvma_obi_mstr_a_seq_item_c)  drv_mstr_a_ap; ///< TODO Describe uvma_obi_agent_c::drv_mstr_a_ap
-   uvm_analysis_port#(uvma_obi_mstr_r_seq_item_c)  drv_mstr_r_ap; ///< TODO Describe uvma_obi_agent_c::drv_mstr_r_ap
-   uvm_analysis_port#(uvma_obi_slv_a_seq_item_c )  drv_slv_a_ap ; ///< TODO Describe uvma_obi_agent_c::drv_slv_a_ap
-   uvm_analysis_port#(uvma_obi_slv_r_seq_item_c )  drv_slv_r_ap ; ///< TODO Describe uvma_obi_agent_c::drv_slv_r_ap
-   uvm_analysis_port#(uvma_obi_mstr_a_mon_trn_c )  mon_mstr_a_ap; ///< TODO Describe uvma_obi_agent_c::mon_mstr_a_ap
-   uvm_analysis_port#(uvma_obi_mstr_r_mon_trn_c )  mon_mstr_r_ap; ///< TODO Describe uvma_obi_agent_c::mon_mstr_r_ap
-   uvm_analysis_port#(uvma_obi_slv_a_mon_trn_c  )  mon_slv_a_ap ; ///< TODO Describe uvma_obi_agent_c::mon_slv_a_ap
-   uvm_analysis_port#(uvma_obi_slv_r_mon_trn_c  )  mon_slv_r_ap ; ///< TODO Describe uvma_obi_agent_c::mon_slv_r_ap
+   uvm_seq_item_pull_port #(uvm_sequence_item         )  upstream_sqr_port; ///< TODO Describe uvma_obi_vsqr_c::upstream_sqr_port
+   uvm_analysis_port      #(uvma_obi_seq_item_c       )  seq_item_ap      ; ///< TODO Describe uvma_obi_agent_c::seq_item_ap
+   uvm_analysis_port      #(uvma_obi_mon_trn_c        )  mon_trn_ap       ; ///< TODO Describe uvma_obi_agent_c::mon_trn_ap
+   uvm_analysis_port      #(uvma_obi_mstr_a_seq_item_c)  drv_mstr_a_ap    ; ///< TODO Describe uvma_obi_agent_c::drv_mstr_a_ap
+   uvm_analysis_port      #(uvma_obi_mstr_r_seq_item_c)  drv_mstr_r_ap    ; ///< TODO Describe uvma_obi_agent_c::drv_mstr_r_ap
+   uvm_analysis_port      #(uvma_obi_slv_a_seq_item_c )  drv_slv_a_ap     ; ///< TODO Describe uvma_obi_agent_c::drv_slv_a_ap
+   uvm_analysis_port      #(uvma_obi_slv_r_seq_item_c )  drv_slv_r_ap     ; ///< TODO Describe uvma_obi_agent_c::drv_slv_r_ap
+   uvm_analysis_port      #(uvma_obi_mstr_a_mon_trn_c )  mon_mstr_a_ap    ; ///< TODO Describe uvma_obi_agent_c::mon_mstr_a_ap
+   uvm_analysis_port      #(uvma_obi_mstr_r_mon_trn_c )  mon_mstr_r_ap    ; ///< TODO Describe uvma_obi_agent_c::mon_mstr_r_ap
+   uvm_analysis_port      #(uvma_obi_slv_a_mon_trn_c  )  mon_slv_a_ap     ; ///< TODO Describe uvma_obi_agent_c::mon_slv_a_ap
+   uvm_analysis_port      #(uvma_obi_slv_r_mon_trn_c  )  mon_slv_r_ap     ; ///< TODO Describe uvma_obi_agent_c::mon_slv_r_ap
    
    
    `uvm_component_utils_begin(uvma_obi_agent_c)
@@ -254,16 +255,17 @@ endfunction : create_components
 
 function void uvma_obi_agent_c::create_analysis_ports();
    
-   seq_item_ap    = new("seq_item_ap"  , this);
-   mon_trn_ap     = new("mon_trn_ap"   , this);
-   mon_mstr_a_ap  = new("mon_mstr_a_ap", this);
-   mon_mstr_r_ap  = new("mon_mstr_r_ap", this);
-   mon_slv_a_ap   = new("mon_slv_a_ap" , this);
-   mon_slv_r_ap   = new("mon_slv_r_ap" , this);
-   drv_mstr_a_ap  = new("drv_mstr_a_ap", this);
-   drv_mstr_r_ap  = new("drv_mstr_r_ap", this);
-   drv_slv_a_ap   = new("drv_slv_a_ap" , this);
-   drv_slv_r_ap   = new("drv_slv_r_ap" , this);
+   upstream_sqr_port = new("upstream_sqr_port", this);
+   seq_item_ap       = new("seq_item_ap"      , this);
+   mon_trn_ap        = new("mon_trn_ap"       , this);
+   mon_mstr_a_ap     = new("mon_mstr_a_ap"    , this);
+   mon_mstr_r_ap     = new("mon_mstr_r_ap"    , this);
+   mon_slv_a_ap      = new("mon_slv_a_ap"     , this);
+   mon_slv_r_ap      = new("mon_slv_r_ap"     , this);
+   drv_mstr_a_ap     = new("drv_mstr_a_ap"    , this);
+   drv_mstr_r_ap     = new("drv_mstr_r_ap"    , this);
+   drv_slv_a_ap      = new("drv_slv_a_ap"     , this);
+   drv_slv_r_ap      = new("drv_slv_r_ap"     , this);
    
 endfunction : create_analysis_ports
 
@@ -292,16 +294,17 @@ endfunction : connect_sequencer
 
 function void uvma_obi_agent_c::connect_analysis_ports();
    
-   mon_trn_ap    = vsequencer.mon_trn_ap  ;
-   seq_item_ap   = vsequencer.seq_item_ap ;
-   drv_mstr_a_ap = driver.mstr_a_driver.ap;
-   drv_mstr_r_ap = driver.mstr_r_driver.ap;
-   drv_slv_a_ap  = driver.slv_a_driver .ap;
-   drv_slv_r_ap  = driver.slv_r_driver .ap;
-   mon_mstr_a_ap = monitor.mstr_a_ap      ;
-   mon_mstr_r_ap = monitor.mstr_r_ap      ;
-   mon_slv_a_ap  = monitor.slv_a_ap       ;
-   mon_slv_r_ap  = monitor.slv_r_ap       ;
+   upstream_sqr_port = vsequencer.upstream_sqr_port;
+   mon_trn_ap        = vsequencer.mon_trn_ap       ;
+   seq_item_ap       = vsequencer.seq_item_ap      ;
+   drv_mstr_a_ap     = driver.mstr_a_driver.ap     ;
+   drv_mstr_r_ap     = driver.mstr_r_driver.ap     ;
+   drv_slv_a_ap      = driver.slv_a_driver .ap     ;
+   drv_slv_r_ap      = driver.slv_r_driver .ap     ;
+   mon_mstr_a_ap     = monitor.mstr_a_ap           ;
+   mon_mstr_r_ap     = monitor.mstr_r_ap           ;
+   mon_slv_a_ap      = monitor.slv_a_ap            ;
+   mon_slv_r_ap      = monitor.slv_r_ap            ;
    
 endfunction : connect_analysis_ports
 
