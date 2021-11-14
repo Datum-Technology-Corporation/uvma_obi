@@ -139,7 +139,7 @@ task uvme_obi_st_prd_c::run_phase(uvm_phase phase);
             forever begin
                // Get next transaction and copy it
                e2e_in_fifo.get(e2e_in_trn);
-               e2e_out_trn = uvma_obi_mon_trn_c::type_id::create("e2e_out_trn");//uvme_obi_st_e2e_mon_trn_c::type_id::create("e2e_out_trn");
+               e2e_out_trn = uvme_obi_st_e2e_mon_trn_c::type_id::create("e2e_out_trn");
                e2e_out_trn.copy(e2e_in_trn);
                
                if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
@@ -171,7 +171,7 @@ task uvme_obi_st_prd_c::run_phase(uvm_phase phase);
                mstr_out_trn.memtype     = mstr_in_trn.memtype    ;
                mstr_out_trn.prot        = mstr_in_trn.prot       ;
                
-               if (cntxt.slv_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
+               if (cntxt.mstr_cntxt.reset_state != UVML_RESET_STATE_POST_RESET) begin
                   mstr_out_trn.set_may_drop(1);
                end
                
@@ -207,7 +207,6 @@ task uvme_obi_st_prd_c::run_phase(uvm_phase phase);
          end
       end
    join_none
-   
    
 endtask: run_phase
 

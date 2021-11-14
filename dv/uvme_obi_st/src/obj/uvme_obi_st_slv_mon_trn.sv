@@ -49,6 +49,7 @@ function bit uvme_obi_st_slv_mon_trn_c::do_compare(uvm_object rhs, uvm_comparer 
       `uvm_fatal("UVME_OBI_ST_SLV_MON_TRN", $sformatf("Could not cast 'rhs' (%s) to 'rhs_' (%s)", $typename(rhs), $typename(rhs_)))
    end
    
+   do_compare = 1;
    if (rhs_.access_type == UVMA_OBI_ACCESS_READ) begin
       do_compare &= comparer.compare_field_int("data", data, rhs_.data, $bits(data));
    end

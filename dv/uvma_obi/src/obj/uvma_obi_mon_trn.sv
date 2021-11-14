@@ -49,21 +49,22 @@ class uvma_obi_mon_trn_c extends uvml_mon_trn_c;
    
    
    `uvm_object_utils_begin(uvma_obi_mon_trn_c)
-      `uvm_field_enum(uvma_obi_access_type_enum, access_type, UVM_DEFAULT              )
-      `uvm_field_int (                           address    , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           data       , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           be         , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           auser      , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           wuser      , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           ruser      , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           aid        , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           rid        , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           err        , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           atop       , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           memtype    , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           prot       , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           achk       , UVM_DEFAULT + UVM_NOPRINT)
-      `uvm_field_int (                           rchk       , UVM_DEFAULT + UVM_NOPRINT)
+      `uvm_field_enum(uvma_obi_access_type_enum, access_type, UVM_DEFAULT + UVM_NOCOMPARE              )
+      `uvm_field_int (                           address    , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           data       , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           be         , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           auser      , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           wuser      , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           ruser      , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           aid        , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           rid        , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           err        , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           exokay     , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           atop       , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           memtype    , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           prot       , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           achk       , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
+      `uvm_field_int (                           rchk       , UVM_DEFAULT + UVM_NOCOMPARE + UVM_NOPRINT)
    `uvm_object_utils_end
    
    
@@ -71,6 +72,11 @@ class uvma_obi_mon_trn_c extends uvml_mon_trn_c;
     * Default constructor.
     */
    extern function new(string name="uvma_obi_mon_trn");
+   
+   /**
+    * TODO Describe uvma_obi_mon_trn_c::do_compare()
+    */
+   extern function bit do_compare(uvm_object rhs, uvm_comparer comparer);
    
    /**
     * TODO Describe uvma_obi_mon_trn_c::do_print()
@@ -90,6 +96,35 @@ function uvma_obi_mon_trn_c::new(string name="uvma_obi_mon_trn");
    super.new(name);
    
 endfunction : new
+
+
+function bit uvma_obi_mon_trn_c::do_compare(uvm_object rhs, uvm_comparer comparer);
+   
+   uvma_obi_mon_trn_c  rhs_;
+   
+   if (!$cast(rhs_, rhs)) begin
+      `uvm_fatal("UVMA_OBI_MON_TRN", $sformatf("Could not cast 'rhs' (%s) to 'rhs_' (%s)", $typename(rhs), $typename(rhs_)))
+   end
+   
+   do_compare = 1;
+   do_compare &= comparer.compare_field_int("access_type", access_type, rhs_.access_type, $bits(access_type));
+   do_compare &= comparer.compare_field_int("address"    , address    , rhs_.address    , $bits(address    ));
+   do_compare &= comparer.compare_field_int("data"       , data       , rhs_.data       , $bits(data       ));
+   do_compare &= comparer.compare_field_int("be"         , be         , rhs_.be         , $bits(be         ));
+   do_compare &= comparer.compare_field_int("auser"      , auser      , rhs_.auser      , $bits(auser      ));
+   do_compare &= comparer.compare_field_int("wuser"      , wuser      , rhs_.wuser      , $bits(wuser      ));
+   do_compare &= comparer.compare_field_int("ruser"      , ruser      , rhs_.ruser      , $bits(ruser      ));
+   do_compare &= comparer.compare_field_int("aid"        , aid        , rhs_.aid        , $bits(aid        ));
+   do_compare &= comparer.compare_field_int("rid"        , rid        , rhs_.rid        , $bits(rid        ));
+   do_compare &= comparer.compare_field_int("err"        , err        , rhs_.err        , $bits(err        ));
+   do_compare &= comparer.compare_field_int("exokay"     , exokay     , rhs_.exokay     , $bits(exokay     ));
+   do_compare &= comparer.compare_field_int("atop"       , atop       , rhs_.atop       , $bits(atop       ));
+   do_compare &= comparer.compare_field_int("memtype"    , memtype    , rhs_.memtype    , $bits(memtype    ));
+   do_compare &= comparer.compare_field_int("prot"       , prot       , rhs_.prot       , $bits(prot       ));
+   do_compare &= comparer.compare_field_int("achk"       , achk       , rhs_.achk       , $bits(achk       ));
+   do_compare &= comparer.compare_field_int("rchk"       , rchk       , rhs_.rchk       , $bits(rchk       ));
+   
+endfunction : do_compare
 
 
 function void uvma_obi_mon_trn_c::do_print(uvm_printer printer);

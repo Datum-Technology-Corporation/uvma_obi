@@ -30,11 +30,11 @@ class uvme_obi_st_env_c extends uvm_env;
    uvma_obi_agent_c  slv_agent ; ///< 
    
    // Components
-   uvme_obi_st_prd_c                      predictor    ; ///< 
-   uvme_obi_st_sb_simplex_c               sb_e2e       ; ///< 
-   uvme_obi_st_sb_simplex_c               sb_mstr      ; ///< 
-   uvme_obi_st_sb_simplex_c               sb_slv       ; ///< 
-   uvme_obi_st_vsqr_c                     vsequencer   ; ///< 
+   uvme_obi_st_prd_c                   predictor ; ///< 
+   uvme_obi_st_sb_simplex_c            sb_e2e    ; ///< 
+   uvme_obi_st_sb_simplex_c            sb_mstr   ; ///< 
+   uvme_obi_st_sb_simplex_c            sb_slv    ; ///< 
+   uvme_obi_st_vsqr_c                  vsequencer; ///< 
    uvml_delay_c #(uvma_obi_mon_trn_c)  delay_e2e ; ///< 
    uvml_delay_c #(uvma_obi_mon_trn_c)  delay_mstr; ///< 
    uvml_delay_c #(uvma_obi_mon_trn_c)  delay_slv ; ///< 
