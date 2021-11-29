@@ -7,14 +7,10 @@
 
 ## About
 The [Moore.io](https://www.mooreio.com) UVM [Open Bus Interface (OBI)](https://github.com/openhwgroup/core-v-docs/tree/master/cores/obi) Agent is a pure-UVM, [sequence-based implementation](https://www.linkedin.com/pulse/advanced-uvm-brian-hunter/) of the open standard that can act as either an active `mstr`/`slv` or as a purely passive Monitor. 
-
-> Virtual Sequences for programmable error injection and error detection will soon be commercially available from [Datum](https://datumtc.ca/).
-
-These features, along with all bus widths, are configurable in simulation via constrained-random `cfg` object handles. A sample library of `slv` 'Handler' Virtual Sequences are provided to demonstrate how the Moore.io UVM OBI Agent can easily operate as an 'Active `slv`' and reproduce just about any business logic.
-
-In addition, it can operate in 'Transport' mode where the Virtual Sequencer receives Sequence Items from an upstream Sequencer. On the flip side, it can operate in `bypass` mode, where the Virtual Interface (`vif`) is ignored and the Agent can be used to drive another Agent which is in 'Transport' mode.
-
+![Block Diagram](assets/img/agent_block_diagram.svg)
 This project consists of the agent (`uvma_obi_pkg`), the UVM Memory Model (`uvml_mem`), the self-testing UVM environment (`uvme_obi_st_pkg`) and the test bench (`uvmt_obi_st_pkg`) to verify the agent against itself.
+
+[About the IP](about.md)
 
 
 ## Management
@@ -30,7 +26,7 @@ This project consists of the agent (`uvma_obi_pkg`), the UVM Memory Model (`uvml
 | [Source Code](https://mooreio.com/packages/uvma_obi.tgz) | Source Code (Coming Soon) | Source Code (Coming Soon) |
 | [Documentation](https://mooreio.com/packages/uvma_obi/dox_out/) | Documentation (Coming Soon) | Documentation (Coming Soon) |
 
-> **View All Releases (Coming Soon)**
+> **View All Releases(releases.md)**
 
 
 
