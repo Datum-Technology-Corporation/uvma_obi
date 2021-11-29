@@ -4,7 +4,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
 		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="8.50601in" height="8.47236in"
 		viewBox="0 0 612.433 610.01" xml:space="preserve" color-interpolation-filters="sRGB" class="st32">
-	<title>uvma_${name}_agent_c</title>
+	<title>uvma_obi_agent_c</title>
 	<v:documentProperties v:langID="4105" v:metric="true" v:viewMarkup="false">
 		<v:userDefs>
 			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
