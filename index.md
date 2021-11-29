@@ -24,7 +24,7 @@ This project consists of the agent (`uvma_obi_pkg`), the UVM Memory Model (`uvml
 | [Source Code](https://mooreio.com/packages/uvma_obi.tgz) | Source Code (Coming Soon) | Source Code (Coming Soon) |
 | [Documentation](https://mooreio.com/packages/uvma_obi/dox_out/) | Documentation (Coming Soon) | Documentation (Coming Soon) |
 
-> **View All Releases(releases.md)**
+> **[View All Releases](releases.md)**
 
 
 
