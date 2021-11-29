@@ -5,12 +5,10 @@
 
 ----------------
 
-## About
+## [About](about.md)
 The [Moore.io](https://www.mooreio.com) UVM [Open Bus Interface (OBI)](https://github.com/openhwgroup/core-v-docs/tree/master/cores/obi) Agent is a pure-UVM, [sequence-based implementation](https://www.linkedin.com/pulse/advanced-uvm-brian-hunter/) of the open standard that can act as either an active `mstr`/`slv` or as a purely passive Monitor. 
-![Block Diagram](assets/img/agent_block_diagram.svg)
+[![Block Diagram](assets/img/agent_block_diagram.svg)](assets/img/agent_block_diagram.svg)
 This project consists of the agent (`uvma_obi_pkg`), the UVM Memory Model (`uvml_mem`), the self-testing UVM environment (`uvme_obi_st_pkg`) and the test bench (`uvmt_obi_st_pkg`) to verify the agent against itself.
-
-[About the IP](about.md)
 
 
 ## Management
