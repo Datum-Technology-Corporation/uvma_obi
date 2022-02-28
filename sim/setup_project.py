@@ -45,6 +45,7 @@ def main():
     clone_mio_cli()
     clone_repo_dv_to_imports   ("https://github.com/Datum-Technology-Corporation/uvm.git"      , "main", "uvm"      )
     clone_repo_dv_to_imports   ("https://github.com/Datum-Technology-Corporation/uvml.git"     , "main", "uvml"     )
+    clone_repo_dv_to_imports   ("https://github.com/Datum-Technology-Corporation/uvml_mem.git" , "main", "uvml_mem" )
     clone_repo_dv_to_imports   ("https://github.com/Datum-Technology-Corporation/uvml_ral.git" , "main", "uvml_ral" )
     clone_repo_dv_to_imports   ("https://github.com/Datum-Technology-Corporation/uvml_logs.git", "main", "uvml_logs")
     clone_repo_dv_to_imports   ("https://github.com/Datum-Technology-Corporation/uvml_sb.git"  , "main", "uvml_sb"  )

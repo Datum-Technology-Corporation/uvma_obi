@@ -86,6 +86,9 @@ package uvma_obi_pkg;
    `include "uvma_obi_vseq_lib.sv"
    `include "uvma_obi_slv_handler_vseq_lib.sv"
    
+   // Register-related
+   `include "uvma_obi_reg_adapter.sv"
+   
 endpackage : uvma_obi_pkg
 
 
