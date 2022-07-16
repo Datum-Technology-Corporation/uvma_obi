@@ -11,7 +11,7 @@
 `include "uvm_macros.svh"
 `include "uvml_macros.svh"
 `include "uvml_logs_macros.svh"
-`include "uvml_mem_macros.svh"
+`include "uvml_ral_macros.svh"
 `include "uvma_obi_macros.svh"
 
 // Interface(s)
@@ -26,7 +26,7 @@ package uvma_obi_pkg;
    import uvm_pkg      ::*;
    import uvml_pkg     ::*;
    import uvml_logs_pkg::*;
-   import uvml_mem_pkg ::*;
+   import uvml_ral_pkg ::*;
 
    // Constants / Structs / Enums
    `include "uvma_obi_tdefs.sv"

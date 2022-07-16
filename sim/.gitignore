@@ -1,10 +1,12 @@
-/*.log
-/*.pb
+*.log
+*.pb
 xsim.dir
 *.jou
-/*.wdb
-/out/
+*.wdb
+out
 results
 history.yaml
 results.html
 results.xml
+.Xil
+cov

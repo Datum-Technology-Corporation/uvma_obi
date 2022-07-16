@@ -11,7 +11,7 @@
 `include "uvm_macros.svh"
 `include "uvml_macros.svh"
 `include "uvml_logs_macros.svh"
-`include "uvml_mem_macros.svh"
+`include "uvml_ral_macros.svh"
 `include "uvml_sb_macros.svh"
 `include "uvma_obi_macros.svh"
 `include "uvme_obi_st_macros.svh"
@@ -33,7 +33,7 @@ package uvmt_obi_st_pkg;
    import uvm_pkg        ::*;
    import uvml_pkg       ::*;
    import uvml_logs_pkg  ::*;
-   import uvml_mem_pkg   ::*;
+   import uvml_ral_pkg   ::*;
    import uvml_sb_pkg    ::*;
    import uvma_obi_pkg   ::*;
    import uvme_obi_st_pkg::*;

@@ -4,11 +4,11 @@
 
 
 // Directories
--i ${DV_UVMA_OBI_SRC_PATH}
--i ${DV_UVMA_OBI_SRC_PATH}/comps
--i ${DV_UVMA_OBI_SRC_PATH}/obj
--i ${DV_UVMA_OBI_SRC_PATH}/reg
--i ${DV_UVMA_OBI_SRC_PATH}/seq
+-i ${UVMA_OBI_SRC_PATH}
+-i ${UVMA_OBI_SRC_PATH}/comps
+-i ${UVMA_OBI_SRC_PATH}/obj
+-i ${UVMA_OBI_SRC_PATH}/reg
+-i ${UVMA_OBI_SRC_PATH}/seq
 
 // Files
-${DV_UVMA_OBI_SRC_PATH}/uvma_obi_pkg.sv
+${UVMA_OBI_SRC_PATH}/uvma_obi_pkg.sv

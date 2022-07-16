@@ -4,23 +4,23 @@
 
 
 // Libraries
--f ${DV_UVM_SRC_PATH}/uvm_pkg.flist
--f ${DV_UVML_SRC_PATH}/uvml_pkg.flist
--f ${DV_UVML_LOGS_SRC_PATH}/uvml_logs_pkg.flist
--f ${DV_UVML_MEM_SRC_PATH}/uvml_mem_pkg.flist
--f ${DV_UVML_SB_SRC_PATH}/uvml_sb_pkg.flist
+-f ${UVM_SRC_PATH}/uvm_pkg.flist
+-f ${UVML_SRC_PATH}/uvml_pkg.flist
+-f ${UVML_LOGS_SRC_PATH}/uvml_logs_pkg.flist
+-f ${UVML_RAL_SRC_PATH}/uvml_ral_pkg.flist
+-f ${UVML_SB_SRC_PATH}/uvml_sb_pkg.flist
 
 // Agents
--f ${DV_UVMA_OBI_SRC_PATH}/uvma_obi_pkg.flist
+-f ${UVMA_OBI_SRC_PATH}/uvma_obi_pkg.flist
 
 // Environments
--f ${DV_UVME_OBI_ST_SRC_PATH}/uvme_obi_st_pkg.flist
+-f ${UVME_OBI_ST_SRC_PATH}/uvme_obi_st_pkg.flist
 
 // Open Bus Interface test bench directories
-+incdir+${DV_UVMT_OBI_ST_SRC_PATH}
-+incdir+${DV_UVMT_OBI_ST_SRC_PATH}/seq
-+incdir+${DV_UVMT_OBI_ST_SRC_PATH}/tb
-+incdir+${DV_UVMT_OBI_ST_SRC_PATH}/tests
++incdir+${UVMT_OBI_ST_SRC_PATH}
++incdir+${UVMT_OBI_ST_SRC_PATH}/seq
++incdir+${UVMT_OBI_ST_SRC_PATH}/tb
++incdir+${UVMT_OBI_ST_SRC_PATH}/tests
 
 // Open Bus Interface test bench files
-${DV_UVMT_OBI_ST_SRC_PATH}/uvmt_obi_st_pkg.sv
+${UVMT_OBI_ST_SRC_PATH}/uvmt_obi_st_pkg.sv
